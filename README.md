@@ -1,6 +1,4 @@
-# dnk
-
-> dnk
+# ДНК ЕИ КФУ
 
 ## Build Setup
 
