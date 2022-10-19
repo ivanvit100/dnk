@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <div id="authorised" v-if="login">
-      <headerVue @swap="swap"></headerVue>
-      <main>
-        <home v-if="mode == 'home'"></home>
-        <courses v-else-if="mode == 'courses'"></courses>
-        <contats v-else-if="mode == 'contacts'"></contats>
-      </main>
-      <footerVue></footerVue>
-    </div>
-    <registration v-else></registration>
+    <headerVue @swap="swap" :mode="mode" :login="login"></headerVue>
+    <main>
+      <home v-if="mode == 'home'"></home>
+      <courses v-else-if="mode == 'courses'"></courses>
+      <contats v-else-if="mode == 'contacts'"></contats>
+    </main>
+    <footerVue></footerVue>
   </div>
 </template>
 
 <style>
+body, html{
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  background-color: #e5e5e5;
+}
 </style>
 
 <script>
@@ -28,7 +31,7 @@ export default{
   components: {headerVue, registration, footerVue, home, courses, contats},
   data(){
     return{
-      login: true, //Авторизован ли пользователь
+      login: false,
       mode: 'home', //Открытая страница
     }
   },

@@ -25,6 +25,40 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <style>
+*::selection{
+  background: rgba(90, 126, 201, 0.6);
+}
+*::-moz-selection{
+  background: rgba(90, 126, 201, 0.6);
+}
+*{
+  scrollbar-width: thin;
+  scrollbar-color: rgb(1, 42, 119) #eee;
+}
+*::-webkit-scrollbar{
+  width: 12px;
+}
+*::-webkit-scrollbar-track{
+  background: #eee;
+}
+*::-webkit-scrollbar-thumb{
+  background-color: rgb(1, 42, 119);
+  border-radius: 20px;
+  border: 3px solid #eee;
+}
+body::-webkit-scrollbar{
+  width: 12px;
+}
+body::-webkit-scrollbar-track{
+  background: #eee;
+}
+body::-webkit-scrollbar-thumb{
+  background-color: rgb(1, 42, 119);
+  border-radius: 20px;
+  border: 3px solid #eee;
+}
+    </style>
   </head>
   <body>
     <noscript>
