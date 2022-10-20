@@ -3,10 +3,10 @@
 		<div id="main_header">
 			<img src="@/assets/logo.png" alt="logo" id="logo">
 			<div id="login" v-if="!login">
-				<button class="button">Войти</button>
+				<button class="button" @click="loginClick">Войти</button>
 			</div>
 			<div id="cabinet" v-else>
-				<div id="avatar">Вы вошли</div>
+				<img src="@/assets/account.png" alt="avatar" id="avatar">
 			</div>
 		</div>
 		<div id="navbar">
@@ -25,14 +25,14 @@
 <style>
 #headerVue{
 	display: grid;
-	grid-template-rows: 50px 300px;
+	grid-template-rows: 50px;
 	grid-template-columns: 100%;
 }
 #navbar{
 	position: absolute;
 	opacity: 0.8;
 	z-index: 9;
-	width: 100vw;
+	width: 100%;
 	height: 30px;
 	top: 50px;
 	display: grid;
@@ -45,15 +45,14 @@
 	display: inline-block;
 	line-height: 30px
 }
+.header_button:hover, .header_button:focus, .header_button:active{
+	font-size: 18px;
+}
 #main_header{
 	background-color: #012a77;
 	color: white;
 	display: grid;
-	grid-template-columns: 10% 90%;
-}
-img{
-	max-width: 100%;
-	max-height: 100%;
+	grid-template-columns: 20% 80%;
 }
 .example-slide{
 	align-items: center;
@@ -62,10 +61,13 @@ img{
   	display: flex;
   	font-size: 1.5rem;
   	justify-content: center;
-  	height: 300px;
+  	min-height: 250px;
+  	width: 100%;
 }
 #logo{
 	filter: grayscale(100%) invert(100%) brightness(100);
+	margin-left: 12px;
+	height: 100%;
 }
 .button{
 	display: inline-block;
@@ -74,15 +76,14 @@ img{
 	position: relative;
 	padding: 0.8em 1.4em;
 	padding-right: 4.7em;
-	background: #6a737b;
+	background: #5a7ec9;
  	border: none;
 	color: white;
 	transition: 0.2s;
 	width: 12em;
-	float: right;
-	margin-right: 20px;
 	height: 30px;
 	margin-top: 10px;
+	border-radius: 10px;
 }
 .button:before, .button:after{
 	position: absolute;
@@ -99,11 +100,8 @@ img{
 	transform-origin: 50% 60%;
 	background: rgba(0, 0, 0, 0.1);
 }
-.button:hover{
-	background: #0079a5;
-}
-.button:active, .button:focus{
-	background: #008196;
+.button:hover, .button:active, .button:focus{
+	background: #0f6cbf;
 	outline: none;
 }
 .button:after{
@@ -114,6 +112,10 @@ img{
 	-webkit-transform: scale(1.4);
 	animation: none;
 	transform: scale(1.4);
+}
+#avatar, .button{
+	float: right;
+	margin-right: 25px;
 }
 </style>
 
@@ -133,20 +135,21 @@ export default{
 	},
 	methods:{
 		swap: function(m){
-			console.log(this.ban1);
 			//Переключение отображения страниц
 			this.$emit('swap', {
 				mode: m,
 			});
+		},
+		loginClick: function(){
+			this.login = !this.login;
 		}
 	},
 	mounted(){
 		this.$nextTick(function(){
-			console.log(this.login);
 			this.data = [
-        		'<img src=".' + require(`../assets/ban1.jpg`) + '" alt="baner" class="example-slide">',
         		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
-        		'<img src=".' + require(`../assets/ban3.jpg`) + '" alt="baner" class="example-slide">',
+        		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
+        		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
 			];
 		})
 	}

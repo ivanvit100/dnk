@@ -1,5 +1,5 @@
 <template>
-	<div id="contacts">Test message from contacts</div>
+	<div id="contactsVue">Test message from contacts</div>
 </template>
 
 <style>

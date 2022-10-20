@@ -17,6 +17,9 @@ body, html{
   width: 100%;
   background-color: #e5e5e5;
 }
+#home, #contactsVue, #courses{
+  min-height: 250px;
+}
 </style>
 
 <script>
@@ -31,8 +34,9 @@ export default{
   components: {headerVue, registration, footerVue, home, courses, contats},
   data(){
     return{
-      login: false,
+      login: false, //
       mode: 'home', //Открытая страница
+      width: 800, //
     }
   },
   methods:{
@@ -40,9 +44,20 @@ export default{
       //Переключение отображения страниц
       this.mode = data.mode;
     },
+    resize: function(){
+      try{
+        this.width = document.querySelector("#app").clientWidth;
+      }catch(e){
+        console.warn("[resize]: Ошибка!")
+      }  
+    },
   },
   mounted(){
     //Проверка кэша, включение/выключение окна регистрации
+    this.$nextTick(function(){
+      window.addEventListener('resize', this.resize);
+      this.width = document.querySelector("#app").clientWidth;
+    });
   }
 }
 </script>
