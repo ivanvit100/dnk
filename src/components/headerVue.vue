@@ -67,7 +67,7 @@
 #logo{
 	filter: grayscale(100%) invert(100%) brightness(100);
 	margin-left: 12px;
-	height: 100%;
+	height: 50px;
 }
 .button{
 	display: inline-block;
@@ -116,6 +116,9 @@
 #avatar, .button{
 	float: right;
 	margin-right: 25px;
+}
+#avatar{
+	height: 50px;
 }
 </style>
 

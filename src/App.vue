@@ -37,6 +37,7 @@ export default{
       login: false, //
       mode: 'home', //Открытая страница
       width: 800, //
+      slHeight: 250, //
     }
   },
   methods:{
@@ -47,6 +48,9 @@ export default{
     resize: function(){
       try{
         this.width = document.querySelector("#app").clientWidth;
+        document.querySelector("#images").style.height = "auto";
+        this.slHeight = document.querySelector(".example-slide").height;
+        document.querySelector("#images").style.height = this.slHeight + "px";
       }catch(e){
         console.warn("[resize]: Ошибка!")
       }  
@@ -57,6 +61,8 @@ export default{
     this.$nextTick(function(){
       window.addEventListener('resize', this.resize);
       this.width = document.querySelector("#app").clientWidth;
+      this.slHeight = document.querySelector(".example-slide").height;
+      document.querySelector("#images").style.height = this.slHeight + "px";
     });
   }
 }
