@@ -28,13 +28,18 @@ iframe{
 	grid-template-columns: 5% 18% 18% 18% 18% 18% 5%;
 }
 #sponsorsH{
-	height: 40px;
+	height: 32px;
 	width: 100%;
 	background-color: #5a7ec9;
 	color: white;
 }
 .sponsor{
 	height: 90px;
+}
+@media(max-width: 600px){
+	.sponsor{
+		height: 50px;
+	}
 }
 </style>
 

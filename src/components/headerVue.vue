@@ -66,7 +66,7 @@
 }
 #logo{
 	filter: grayscale(100%) invert(100%) brightness(100);
-	margin-left: 12px;
+	margin-left: 20px;
 	height: 50px;
 }
 .button{
@@ -120,6 +120,9 @@
 #avatar{
 	height: 50px;
 }
+#images{
+	margin-bottom: 20px;
+}
 </style>
 
 <script>
@@ -154,6 +157,10 @@ export default{
         		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
         		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
 			];
+			let width = document.querySelector("#app").clientWidth;
+			let slHeight = width / 2.88;
+			document.querySelector("#images").style.height = slHeight + "px";
+			document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (slHeight > 250 ? slHeight : 250) + "px";
 		})
 	}
 }

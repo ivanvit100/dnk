@@ -48,9 +48,9 @@ export default{
     resize: function(){
       try{
         this.width = document.querySelector("#app").clientWidth;
-        document.querySelector("#images").style.height = "auto";
-        this.slHeight = document.querySelector(".example-slide").height;
+        this.slHeight = this.width / 2.88;
         document.querySelector("#images").style.height = this.slHeight + "px";
+        document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (this.slHeight > 250 ? this.slHeight : 250) + "px";
       }catch(e){
         console.warn("[resize]: Ошибка!")
       }  
@@ -60,9 +60,6 @@ export default{
     //Проверка кэша, включение/выключение окна регистрации
     this.$nextTick(function(){
       window.addEventListener('resize', this.resize);
-      this.width = document.querySelector("#app").clientWidth;
-      this.slHeight = document.querySelector(".example-slide").height;
-      document.querySelector("#images").style.height = this.slHeight + "px";
     });
   }
 }
