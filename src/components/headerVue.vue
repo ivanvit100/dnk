@@ -19,10 +19,71 @@
   				<carousel :data="data"></carousel>
 			</template>
 		</div>
+		<template>
+			<Transition name="modal">
+				<div v-if="show" class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-container" v-if="!sign">
+							<button @click="show=!show">x</button>
+							<h2>Авторизация</h2>
+							<form>
+								<input type="text" id="email">
+								<input type="password" id="password">
+								<button @click="goClick" id="go" formmethod="post">Войти</button>
+							</form>
+							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
+						</div>
+						<div class="modal-container" v-else>
+							<button @click="show=!show">x</button>
+							<h2>Регистрация</h2>
+							<form>
+								<input type="text" id="name">
+								<input type="text" id="lastname">
+								<input type="text" id="email">
+								<input type="password" id="password">
+								<button @click="goClick" id="go" formmethod="post">Зарегистрироваться</button>
+							</form>
+							<span @click="sign=!sign" id="reg">Войти со своим аккаунтом</span>
+						</div>
+					</div>
+				</div>
+			</Transition>
+		</template>
 	</div>
 </template>
 
 <style>
+.modal-mask{
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+.modal-wrapper{
+	display: table-cell;
+	vertical-align: middle;
+}
+.modal-container{
+	width: 300px;
+	margin: 0px auto;
+	padding: 20px 30px;
+	background-color: #fff;
+	border-radius: 2px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+	transition: all 0.3s ease;
+}
+.modal-enter-from, .modal-leave-to{
+  opacity: 0;
+}
+.modal-enter-from .modal-container, .modal-leave-to .modal-container{
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
 #headerVue{
 	display: grid;
 	grid-template-rows: 50px;
@@ -53,6 +114,8 @@
 	color: white;
 	display: grid;
 	grid-template-columns: 20% 80%;
+	z-index: 18;
+	box-shadow: 0px 5px 5px 2px rgba(6, 22, 34, 0.35);
 }
 .example-slide{
 	align-items: center;
@@ -84,6 +147,7 @@
 	height: 30px;
 	margin-top: 10px;
 	border-radius: 10px;
+	box-shadow: 7px 8px 10px -6px rgba(6, 22, 34, 0.75);
 }
 .button:before, .button:after{
 	position: absolute;
@@ -137,6 +201,8 @@ export default{
 	data(){
 		return{
 			data: [],
+			show: false,
+			sign: false,
 		}
 	},
 	methods:{
@@ -147,7 +213,30 @@ export default{
 			});
 		},
 		loginClick: function(){
-			this.login = !this.login;
+			this.show = true;
+		},
+		goClick: function(){
+			const form = document.querySelector('form');
+			form.addEventListener('submit', evt => {
+				evt.preventDefault();
+
+				let user = {
+					login: "aboba",
+					password: "aboba"
+				};
+
+				fetch('./php/save_user.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then(function(response){
+					console.log(response)
+				}).then((data) => {
+					console.log(data);
+				}).catch(function(error){
+					console.log(error);
+				});
+			});
+			document.querySelector("#go").click();
 		}
 	},
 	mounted(){
