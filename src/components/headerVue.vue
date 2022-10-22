@@ -29,7 +29,7 @@
 							<form>
 								<input type="text" id="email">
 								<input type="password" id="password">
-								<button @click="goClick" id="go" formmethod="post">Войти</button>
+								<button @click="goClick(true)" id="go" formmethod="post">Войти</button>
 							</form>
 							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
 						</div>
@@ -41,7 +41,7 @@
 								<input type="text" id="lastname">
 								<input type="text" id="email">
 								<input type="password" id="password">
-								<button @click="goClick" id="go" formmethod="post">Зарегистрироваться</button>
+								<button @click="goClick(false)" id="go" formmethod="post">Зарегистрироваться</button>
 							</form>
 							<span @click="sign=!sign" id="reg">Войти со своим аккаунтом</span>
 						</div>
@@ -215,25 +215,33 @@ export default{
 		loginClick: function(){
 			this.show = true;
 		},
-		goClick: function(){
+		goClick: function(f){
 			const form = document.querySelector('form');
 			form.addEventListener('submit', evt => {
 				evt.preventDefault();
-
-				let user = {
-					login: "aboba",
-					password: "aboba"
-				};
-
-				fetch('./php/save_user.php', {
+				let user;
+				if(f){
+					user = {
+						login: document.querySelector("#email").value,
+						password: document.querySelector("#password").value,
+					}
+				}else{
+					user = {
+						name: document.querySelector("#name").value,
+						lastname: document.querySelector("#lastname").value,
+						login: document.querySelector("#email").value,
+						password: document.querySelector("#password").value,
+					}
+				}
+				fetch('./php/' + (f ? 'testreg' : 'save_user') + '.php', {
 					method: 'POST',
 					body: JSON.stringify(user)
-				}).then(function(response){
-					console.log(response)
+				}).then((response) => {
+					return response.json()
 				}).then((data) => {
 					console.log(data);
-				}).catch(function(error){
-					console.log(error);
+				}).catch((error) => {
+					console.warn(error);
 				});
 			});
 			document.querySelector("#go").click();
