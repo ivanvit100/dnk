@@ -1,6 +1,6 @@
 <template>
 	<div id="courses">
-		<h2>Курсы</h2>
+		<h2 id="courseTitle">Курсы</h2>
 		<div class="table_center_by_css" v-for="item in coursesData"> 
 			<h3 class="th_css">{{item.title}}</h3>
 			<div class="courseCont">
@@ -13,6 +13,13 @@
 </template>
 
 <style>
+#courseTitle{
+	height: 32px;
+	width: 100%;
+	background-color: #5a7ec9;
+	color: white;
+	margin-top: 30px;
+}
 #courses{
 	text-align: center;
 }

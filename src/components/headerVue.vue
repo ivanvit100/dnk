@@ -24,26 +24,26 @@
 				<div v-if="show" class="modal-mask">
 					<div class="modal-wrapper">
 						<div class="modal-container" v-if="!sign">
-							<button @click="show=!show">x</button>
-							<h2>Авторизация</h2>
+							<button @click="show=!show" id="close">x</button>
+							<h2 id="popupTitle">Авторизация</h2>
 							<form>
-								<input type="text" id="email">
-								<input type="password" id="password">
+								<input type="email" id="email" placeholder="Почта" required>
+								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
+								<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
 								<button @click="goClick(true)" id="go" formmethod="post">Войти</button>
 							</form>
-							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
 						</div>
 						<div class="modal-container" v-else>
-							<button @click="show=!show">x</button>
-							<h2>Регистрация</h2>
+							<button @click="show=!show" id="close">x</button>
+							<h2 id="popupTitle">Регистрация</h2>
 							<form>
-								<input type="text" id="name">
-								<input type="text" id="lastname">
-								<input type="text" id="email">
-								<input type="password" id="password">
+								<input type="text" id="name" placeholder="Имя" minlength="2" required>
+								<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
+								<input type="email" id="email" placeholder="Почта" required>
+								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
+								<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
 								<button @click="goClick(false)" id="go" formmethod="post">Зарегистрироваться</button>
 							</form>
-							<span @click="sign=!sign" id="reg">Войти со своим аккаунтом</span>
 						</div>
 					</div>
 				</div>
@@ -53,6 +53,28 @@
 </template>
 
 <style>
+#go{
+	float: right;
+	padding: 8px 12px;
+	margin-top: 15px;
+	background: #012a77;
+	border: none;
+	color: #fff;
+	border-radius: 1px;
+	cursor: pointer;
+}
+#go:hover, #go:active, #go:focus{
+	background-color: #0f6cbf;
+}
+#reg{
+	font-size: 13px;
+	margin-top: 20px;
+}
+#popupTitle{
+	margin-top: 0;
+	color: white;
+	transform: translate(0%, -25%);
+}
 .modal-mask{
 	position: fixed;
 	z-index: 9998;
@@ -72,10 +94,12 @@
 	width: 300px;
 	margin: 0px auto;
 	padding: 20px 30px;
-	background-color: #fff;
+	background-color: #eee;
 	border-radius: 2px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
+	background: linear-gradient(180deg, rgba(1,42,119,1) 0%, rgba(1,42,119,1) 23%, rgba(238,238,238,1) 24%, rgba(238,238,238,1) 100%);
+	border-bottom: 5px solid #012a77;
 }
 .modal-enter-from, .modal-leave-to{
   opacity: 0;
@@ -187,6 +211,33 @@
 #images{
 	margin-bottom: 20px;
 }
+#close{
+	height: 30px;
+	width: 30px;
+	position: absolute;
+	right: calc(50% - 160px);
+	background-color: rgba(0, 0, 0, 0);
+	border: 0;
+	font-size: 20px;
+	color: white;
+	transform: translate(0%, -30%);
+	z-index: 9999;
+}
+input:focus{
+	outline: 0;
+}
+input{
+	width: 275px;
+	padding: 10px;
+	border: none;
+	border-radius: 1px;
+}
+#reg, #go{
+	display: inline-block;
+}
+input:invalid, input:reqired{
+	border: 2px dashed red;
+}
 </style>
 
 <script>
@@ -250,9 +301,9 @@ export default{
 	mounted(){
 		this.$nextTick(function(){
 			this.data = [
-        		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
-        		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
-        		'<img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide">',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
 			];
 			let width = document.querySelector("#app").clientWidth;
 			let slHeight = width / 2.88;
