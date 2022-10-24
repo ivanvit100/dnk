@@ -14,8 +14,7 @@
 		<hr>
 		<center>
 			<h2 id="sponsorsH">Спонсоры</h2>
-			<div id="sponsors">
-				<div></div>
+			<div id="sponsors">				
 				<img src="@/assets/logo.png" alt="sponsor" class="sponsor">
 				<img src="@/assets/account.png" alt="sponsor" class="sponsor">
 				<img src="@/assets/account.png" alt="sponsor" class="sponsor">
@@ -35,7 +34,8 @@ iframe{
 #sponsors{
 	width: 100%;
 	display: grid;
-	grid-template-columns: 5% 18% 18% 18% 18% 18% 5%;
+	grid-template-columns: 90px 90px 90px 90px 90px; 
+	justify-content: space-around;
 }
 #sponsorsH{
 	height: 32px;
@@ -62,6 +62,9 @@ hr{
 	width: 85%
 }
 @media(max-width: 600px){
+	#sponsors{
+		grid-template-columns: 50px 50px 50px 50px 50px;
+	}
 	.sponsor{
 		height: 50px;
 	}

@@ -29,9 +29,10 @@
 							<form>
 								<input type="email" id="email" placeholder="Почта" required>
 								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
-								<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
-								<button @click="goClick(true)" id="go" formmethod="post">Войти</button>
+								<button id="goReady" formmethod="post"></button>
 							</form>
+							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
+							<button @click="goClick(true)" id="go">Войти</button>
 						</div>
 						<div class="modal-container" v-else>
 							<button @click="show=!show" id="close">x</button>
@@ -41,9 +42,10 @@
 								<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
 								<input type="email" id="email" placeholder="Почта" required>
 								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
-								<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
-								<button @click="goClick(false)" id="go" formmethod="post">Зарегистрироваться</button>
+								<button id="goReady" formmethod="post"></button>
 							</form>
+							<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
+							<button @click="goClick(false)" id="go">Зарегистрироваться</button>
 						</div>
 					</div>
 				</div>
@@ -53,6 +55,12 @@
 </template>
 
 <style>
+#goReady{
+	opacity: 0;
+	position: absolute;
+	top: -1000px;
+	left: -1000px;
+}
 #go{
 	float: right;
 	padding: 8px 12px;
@@ -98,7 +106,7 @@
 	border-radius: 2px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
-	background: linear-gradient(180deg, rgba(1,42,119,1) 0%, rgba(1,42,119,1) 23%, rgba(238,238,238,1) 24%, rgba(238,238,238,1) 100%);
+	background: linear-gradient(180deg, rgba(1,42,119,1) 0%, rgba(1,42,119,1) 50px, rgba(238,238,238,1) 51px, rgba(238,238,238,1) 100%);
 	border-bottom: 5px solid #012a77;
 }
 .modal-enter-from, .modal-leave-to{
@@ -142,14 +150,12 @@
 	box-shadow: 0px 5px 5px 2px rgba(6, 22, 34, 0.35);
 }
 .example-slide{
-	align-items: center;
  	background-color: #666;
   	color: #999;
   	display: flex;
-  	font-size: 1.5rem;
-  	justify-content: center;
   	min-height: 250px;
   	width: 100%;
+  	opacity: 0.9;
 }
 #logo{
 	filter: grayscale(100%) invert(100%) brightness(100);
@@ -231,12 +237,23 @@ input{
 	padding: 10px;
 	border: none;
 	border-radius: 1px;
+	margin-bottom: 15px;
 }
 #reg, #go{
 	display: inline-block;
 }
 input:invalid, input:reqired{
 	border: 2px dashed red;
+}
+.imgContainer{
+	width: 100%;
+	height: 100%;
+	box-shadow: 0px -10px 8px rgba(0, 0, 0, 1) inset;
+}
+@media(max-width: 600px){
+	.button, .button:before, .button:after{
+		font-size: 10px;
+	}	
 }
 </style>
 
@@ -290,25 +307,30 @@ export default{
 				}).then((response) => {
 					return response.json()
 				}).then((data) => {
-					console.log(data);
+					this.login = data['answer'];
+					if(!this.login){
+						console.warn(data['reason']);
+					}else{
+						document.querySelector("#close").click();
+					}
 				}).catch((error) => {
 					console.warn(error);
 				});
 			});
-			document.querySelector("#go").click();
+			document.querySelector("#goReady").click();
 		}
 	},
 	mounted(){
 		this.$nextTick(function(){
 			this.data = [
+        		'<div class="imgContainer"><img src=".' + require(`../assets/ban1.png`) + '" alt="baner" class="example-slide"></div>',
         		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/ban3.jpg`) + '" alt="baner" class="example-slide"></div>',
 			];
 			let width = document.querySelector("#app").clientWidth;
-			let slHeight = width / 2.88;
-			document.querySelector("#images").style.height = slHeight + "px";
-			document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (slHeight > 250 ? slHeight : 250) + "px";
+       		let slHeight = width / 2.88;
+        	document.querySelector("#images").style.height = slHeight + "px";
+        	document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (slHeight > 250 ? slHeight : 250) + "px";
 		})
 	}
 }

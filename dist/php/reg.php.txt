@@ -1,0 +1,28 @@
+<html>
+    <head>
+    <title>Регистрация</title>
+    </head>
+    <body>
+    <h2>Регистрация</h2>
+    <form action="save_user.php" method="post">
+<p>
+    <label>Имя:<br></label>
+    <input name="Name" type="text" size="15" maxlength="15">
+    </p>
+    <p>
+    <label>Фамилия:<br></label>
+    <input name="Surname" type="text" size="15" maxlength="15">
+    </p>
+    <p>
+    <label>Почта:<br></label>
+    <input name="Email" type="text" size="15" maxlength="15">
+    </p>
+<p>
+    <label>Пароль:<br></label>
+    <input name="Password" type="password" size="15" maxlength="15">
+    </p>
+<p>
+    <input type="submit" name="submit" value="Зарегистрироваться">
+</p></form>
+    </body>
+    </html>
