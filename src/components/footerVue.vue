@@ -16,7 +16,7 @@
 
 <style>
 #footerVue{
-	background-color: #012a77;
+	background-color: orange;
 	display: grid;
 	grid-template-columns: 35% 50%;
 	grid-template-rows: 40px 200px 40px;
@@ -36,6 +36,7 @@ a{
 	width: auto;
 	float: right;
 	margin-right: 30px;
+	filter: grayscale(100) invert(100) brightness(100);
 }
 #contacts, #img_container{
 	grid-row: 2;

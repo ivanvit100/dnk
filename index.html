@@ -31,7 +31,7 @@
 }
 *{
   scrollbar-width: thin;
-  scrollbar-color: rgb(1, 42, 119) #eee;
+  scrollbar-color: #f77d24 #eee;
 }
 *::-webkit-scrollbar{
   width: 12px;
@@ -40,7 +40,7 @@
   background: #eee;
 }
 *::-webkit-scrollbar-thumb{
-  background-color: rgb(1, 42, 119);
+  background-color: #f77d24;
   border-radius: 20px;
   border: 3px solid #eee;
 }
@@ -51,7 +51,7 @@ body::-webkit-scrollbar-track{
   background: #eee;
 }
 body::-webkit-scrollbar-thumb{
-  background-color: rgb(1, 42, 119);
+  background-color: #f77d24;
   border-radius: 20px;
   border: 3px solid #eee;
 }
@@ -82,6 +82,16 @@ html{
     <!-- Todo: only include in production -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
     <!-- built files will be auto injected -->
+    <script>
+      document.addEventListener('keydown', function(event){
+        if(event.code == 'Enter'){
+          event.preventDefault();
+          try{
+            document.querySelector("#go").click();
+          }catch(e){}
+        }
+      });
+    </script> 
     <script data-cfasync="true" src="./static/coursesData.json"></script>
   </body>
 </html>

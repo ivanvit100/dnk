@@ -1,11 +1,11 @@
 <template>
 	<div id="headerVue">
 		<div id="main_header">
-			<img src="@/assets/logo.png" alt="logo" id="logo">
+			<img src="@/assets/logo2.png" alt="logo" id="logo">
 			<div id="login" v-if="!login">
-				<button class="button" @click="loginClick">Войти</button>
+				<a @click="loginClick" class="orange-btn">Войти<i class="fa fa-arrow-right"></i></a>
 			</div>
-			<div id="cabinet" v-else>
+			<div id="cabinet" v-else @click="cabinetMenu">
 				<img src="@/assets/account.png" alt="avatar" id="avatar">
 			</div>
 		</div>
@@ -14,11 +14,13 @@
 			<div class="header_button" @click="swap('courses')">Курсы</div>
 			<div class="header_button" @click="swap('contacts')">Контакты</div>
 		</div>
+		<center>
 		<div id="images">
 			<template>
   				<carousel :data="data"></carousel>
 			</template>
 		</div>
+		</center>
 		<template>
 			<Transition name="modal">
 				<div v-if="show" class="modal-mask">
@@ -67,14 +69,14 @@
 	float: right;
 	padding: 8px 12px;
 	margin-top: 15px;
-	background: #012a77;
+	background: #f77d24;
 	border: none;
 	color: #fff;
 	border-radius: 1px;
 	cursor: pointer;
 }
 #go:hover, #go:active, #go:focus{
-	background-color: #0f6cbf;
+	background-color: orange;
 }
 #reg{
 	font-size: 13px;
@@ -108,8 +110,8 @@
 	border-radius: 2px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
-	background: linear-gradient(180deg, rgba(1,42,119,1) 0%, rgba(1,42,119,1) 50px, rgba(238,238,238,1) 51px, rgba(238,238,238,1) 100%);
-	border-bottom: 5px solid #012a77;
+	background: linear-gradient(180deg, #f77d24 0%, #f77d24 50px, rgba(238,238,238,1) 51px, rgba(238,238,238,1) 100%);
+	border-bottom: 5px solid #f77d24;
 }
 .modal-enter-from, .modal-leave-to{
   opacity: 0;
@@ -132,7 +134,7 @@
 	top: 50px;
 	display: grid;
 	grid-template-columns: 33% 33% 33%;
-	background-color: #999;
+	background-color: rgba(255, 255, 255, 0.95);
 }
 .header_button{
 	text-align: center;
@@ -144,7 +146,6 @@
 	font-size: 18px;
 }
 #main_header{
-	background-color: #012a77;
 	color: white;
 	display: grid;
 	grid-template-columns: 20% 80%;
@@ -157,57 +158,28 @@
   	display: flex;
   	min-height: 250px;
   	width: 100%;
-  	opacity: 0.9;
+  	opacity: 0.8;
 }
 #logo{
-	filter: grayscale(100%) invert(100%) brightness(100);
-	margin-left: 20px;
 	height: 50px;
 }
-.button{
-	display: inline-block;
-	font-family: "Montserrat", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	position: relative;
-	padding: 0.8em 1.4em;
-	padding-right: 4.7em;
-	background: #5a7ec9;
- 	border: none;
-	color: white;
-	transition: 0.2s;
-	width: 12em;
-	height: 30px;
-	margin-top: 10px;
-	border-radius: 10px;
-	box-shadow: 7px 8px 10px -6px rgba(6, 22, 34, 0.75);
+.orange-btn{
+  background: #f77d24;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Sans-serif;
+  font-size: 18px;
+  padding-left: 15px;
+  height: 50px;
+  float: right;
 }
-.button:before, .button:after{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	padding-top: inherit;
-	padding-bottom: inherit;
-	width: 2.8em;
-	font-family: 'FontAwesome', sans-serif;
-	font-size: 1.2em;
-	text-align: center;
-	transition: 0.2s;
-	transform-origin: 50% 60%;
-	background: rgba(0, 0, 0, 0.1);
-}
-.button:hover, .button:active, .button:focus{
-	background: #0f6cbf;
-	outline: none;
-}
-.button:after{
-	content: '\232A';
-}
-.button:hover:after{
-	-webkit-animation: none;
-	-webkit-transform: scale(1.4);
-	animation: none;
-	transform: scale(1.4);
+.orange-btn i{
+  display: inline-block;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 15px;
+  margin-left: 15px;
 }
 #avatar, .button{
 	float: right;
@@ -253,6 +225,10 @@ input{
 	height: 100%;
 	box-shadow: 0px -10px 8px rgba(0, 0, 0, 1) inset;
 }
+.example-slide, #images{
+	max-height: 600px;
+	max-width: 800px;
+}
 @media(max-width: 600px){
 	.button, .button:before, .button:after{
 		font-size: 10px;
@@ -268,12 +244,14 @@ Vue.use(VueCarousel);
 
 export default{
 	name: 'headerVue',
-	props: ['mode', 'login'],
+	props: ['mode'],
 	data(){
 		return{
 			data: [],
 			show: false,
 			sign: false,
+			login: localStorage.getItem('login'),
+			wait: false,
 		}
 	},
 	watch:{
@@ -311,40 +289,50 @@ export default{
 						password: document.querySelector("#password").value,
 					}
 				}
-				fetch('./php/' + (f ? 'testreg' : 'save_user') + '.php', {
-					method: 'POST',
-					body: JSON.stringify(user)
-				}).then((response) => {
-					return response.json()
-				}).then((data) => {
-					this.login = data['answer'];
-					if(!this.login){
-						if(!this.sign){
-							document.querySelector("#email").style.border = "1px dashed red";
-							document.querySelector("#password").style.border = "1px dashed red";
+				if(!this.wait){
+					this.wait = true;
+					fetch('./php/' + (f ? 'testreg' : 'save_user') + '.php', {
+						method: 'POST',
+						body: JSON.stringify(user)
+					}).then((response) => {
+						return response.json()
+					}).then((data) => {
+						this.login = data['answer'];
+						this.wait = false;
+						if(!this.login){
+							if(!this.sign){
+								document.querySelector("#email").style.border = "1px dashed red";
+								document.querySelector("#password").style.border = "1px dashed red";
+							}
+							document.querySelector("#status").innerHTML = data['reason'];
+						}else{
+							localStorage.setItem('login', true);
+							document.querySelector("#close").click();
+							this.login = true;
 						}
-						document.querySelector("#status").innerHTML = data['reason'];
-					}else{
-						document.querySelector("#close").click();
-					}
-				}).catch((error) => {
-					console.warn(error);
-				});
+					}).catch((error) => {
+						console.warn(error);
+					});
+				}
 			});
 			document.querySelector("#goReady").click();
+		},
+		cabinetMenu: function(){
+			localStorage.clear();
+			this.login = false;
 		}
 	},
 	mounted(){
 		this.$nextTick(function(){
 			this.data = [
-        		'<div class="imgContainer"><img src=".' + require(`../assets/ban1.png`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/ban2.png`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/ban3.jpg`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
 			];
 			let width = document.querySelector("#app").clientWidth;
-       		let slHeight = width / 2.88;
+       		let slHeight = (width * 9 / 16) <= 450 ? width * 9 / 16 : 450;
         	document.querySelector("#images").style.height = slHeight + "px";
-        	document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (slHeight > 250 ? slHeight : 250) + "px";
+        	document.querySelector("#headerVue").style.gridTemplateRows = "50px " + slHeight + "px";
 		})
 	}
 }

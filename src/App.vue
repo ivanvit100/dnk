@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <headerVue @swap="swap" :mode="mode" :login="login"></headerVue>
+    <headerVue @swap="swap" :mode="mode"></headerVue>
     <main>
       <home @coursesGo="coursesGo" v-if="mode == 'home'"></home>
       <courses v-else-if="mode == 'courses'"></courses>
@@ -52,10 +52,12 @@ export default{
   components: {headerVue, registration, footerVue, home, courses, contats},
   data(){
     return{
-      login: false, //
       mode: 'home', //Открытая страница
       width: 800, //
       slHeight: 250, //
+      name: '',
+      surname: '',
+      id: '',
     }
   },
   methods:{
@@ -69,9 +71,9 @@ export default{
     resize: function(){
       try{
         this.width = document.querySelector("#app").clientWidth;
-        this.slHeight = this.width / 2.88;
+        this.slHeight = (this.width * 9 / 16) <= 450 ? this.width * 9 / 16 : 450;
         document.querySelector("#images").style.height = this.slHeight + "px";
-        document.querySelector("#headerVue").style.gridTemplateRows = "50px " + (this.slHeight > 250 ? this.slHeight : 250) + "px";
+        document.querySelector("#headerVue").style.gridTemplateRows = "50px " + this.slHeight + "px";
       }catch(e){
         console.warn("[resize]: Ошибка!")
       }  

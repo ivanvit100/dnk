@@ -16,7 +16,7 @@
 #courseTitle{
 	height: 32px;
 	width: 100%;
-	background-color: #5a7ec9;
+	background-color: orange;
 	color: white;
 	margin-top: 30px;
 }
