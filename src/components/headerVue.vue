@@ -31,6 +31,7 @@
 								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
 								<button id="goReady" formmethod="post"></button>
 							</form>
+							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
 							<button @click="goClick(true)" id="go">Войти</button>
 						</div>
@@ -44,6 +45,7 @@
 								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
 								<button id="goReady" formmethod="post"></button>
 							</form>
+							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
 							<button @click="goClick(false)" id="go">Зарегистрироваться</button>
 						</div>
@@ -242,8 +244,9 @@ input{
 #reg, #go{
 	display: inline-block;
 }
-input:invalid, input:reqired{
-	border: 2px dashed red;
+#status{
+	font-size: 13px;
+	color: red;
 }
 .imgContainer{
 	width: 100%;
@@ -272,6 +275,13 @@ export default{
 			show: false,
 			sign: false,
 		}
+	},
+	watch:{
+		sign(newVal, oldVal){
+			document.querySelector("#email").style.border = "none";
+			document.querySelector("#password").style.border = "none";
+			document.querySelector("#status").innerHTML = "";
+		},
 	},
 	methods:{
 		swap: function(m){
@@ -309,7 +319,11 @@ export default{
 				}).then((data) => {
 					this.login = data['answer'];
 					if(!this.login){
-						console.warn(data['reason']);
+						if(!this.sign){
+							document.querySelector("#email").style.border = "1px dashed red";
+							document.querySelector("#password").style.border = "1px dashed red";
+						}
+						document.querySelector("#status").innerHTML = data['reason'];
 					}else{
 						document.querySelector("#close").click();
 					}

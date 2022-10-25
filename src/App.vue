@@ -2,7 +2,7 @@
   <div id="app">
     <headerVue @swap="swap" :mode="mode" :login="login"></headerVue>
     <main>
-      <home v-if="mode == 'home'"></home>
+      <home @coursesGo="coursesGo" v-if="mode == 'home'"></home>
       <courses v-else-if="mode == 'courses'"></courses>
       <contats v-else-if="mode == 'contacts'"></contats>
     </main>
@@ -19,6 +19,24 @@ body, html{
 }
 #home, #contactsVue, #courses{
   min-height: 250px;
+}
+#more, .button_css, .miniBut{
+  font-size: 20px;
+  background: #FF7800;
+  color: #ffffff;
+  border-color: #FF7800;
+  border-size: 1px;
+}
+#more:hover, .button_css:hover, .miniBut:hover{
+  background-color: #ba5800;
+  border-color: #b35400;
+}
+.table_center_by_css, .miniCourse{
+  border: 2px solid gray;
+  border-radius: 10px;
+  background: #ffffff;
+  border-collapse: separate;
+  border-spacing: 20px 10px;
 }
 </style>
 
@@ -44,6 +62,9 @@ export default{
     swap: function(data){
       //Переключение отображения страниц
       this.mode = data.mode;
+    },
+    coursesGo: function(){
+      this.mode = "courses";
     },
     resize: function(){
       try{

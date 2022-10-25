@@ -5,7 +5,7 @@
 			<h3 class="th_css">{{item.title}}</h3>
 			<div class="courseCont">
 				<div class="td_css_3"><img class="courseImg" :src="item.img" alt="courseImg"></div>
-				<div class="td_css" valign="top">{{item.text}}</div>
+				<div class="td_css">{{item.text}}</div>
 				<div class="td_css_2"><button @click="" class="button_css">Перейти</button></div>
 			</div>
 		</div>
@@ -24,11 +24,6 @@
 	text-align: center;
 }
 .table_center_by_css{
-	border: 2px solid gray;
-	border-radius: 10px;
-	background: #ffffff;
-	border-collapse: separate;
-	border-spacing: 20px 10px;
 	text-align: center;
 	margin: 30px 0;
 }
@@ -47,18 +42,9 @@
 	text-align: initial;
 }
 .button_css{
-	font-size: 20px;
-	background: #FF7800;
-	color: #ffffff;
-	border-color: #FF7800;
-	border-size: 1px;
 	padding: 5px;
 	position: absolute;
 	right: 25px;
-}
-.button_css:hover{
-	background-color: #ba5800;
-	border-color: #b35400;
 }
 .td_css_2{
 	padding: 20px;

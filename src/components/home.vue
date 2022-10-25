@@ -9,8 +9,20 @@
 		</div>
 		<br>
 		<hr>
-		<h2>Курсы</h2>
-		<br>
+		<div id="miniCoursesContainer">
+			<h2>Курсы</h2>
+			<div id="miniCourses">
+				<div class="miniCourse" v-for="item in shortList"> 
+					<h3 class="miniTitle">{{item.shortTitle}}</h3>
+					<div class="miniCourseCont">
+						<div class="miniImgCont"><img class="miniImg" :src="item.img" alt="courseImg"></div>
+						<div class="miniText">{{item.shortText}}</div>
+						<div class="miniButCont"><button @click="" class="miniBut">Перейти</button></div>
+					</div>
+				</div>
+			</div>
+			<button @click="coursesGo" id="more">Ещё</button>
+		</div>
 		<hr>
 		<center>
 			<h2 id="sponsorsH">Спонсоры</h2>
@@ -27,6 +39,35 @@
 </template>
 
 <style>
+#miniCourses{
+	display: grid;
+	grid-template-columns: 30% 30% 30%;
+	justify-content: space-around;
+}
+.miniImg{
+	width: 100%;
+}
+.miniImgCont{
+	margin-bottom: 15px;
+}
+.miniBut{
+	font-size: 16px;
+	margin: 15px;
+}
+.miniText{
+	display: block;
+	text-align: justify;
+}
+.miniCourse{
+	padding: 0 8%;
+}
+#more{
+	margin-top: 20px;
+}
+#miniCoursesContainer{
+	text-align: center;
+	margin: 20px;
+}
 iframe{
 	width: 100% !important;
 	margin-top: 50px;
@@ -62,6 +103,12 @@ hr{
 	width: 85%
 }
 @media(max-width: 600px){
+	#miniCourses{
+		grid-template-columns: 90%;
+	}
+	.miniCourse{
+		margin-bottom: 20px;
+	}
 	#sponsors{
 		grid-template-columns: 50px 50px 50px 50px 50px;
 	}
@@ -83,5 +130,15 @@ export default{
 		return{
 		}
 	},
+	computed:{
+		shortList: function(){
+			return curData.slice(0, 3)
+		}
+	},
+	methods:{
+		coursesGo: function(){
+			this.$emit('coursesGo', {});
+		},
+	}
 }
 </script>
