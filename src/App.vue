@@ -58,6 +58,7 @@ export default{
       name: '',
       surname: '',
       id: '',
+      login: '',
     }
   },
   methods:{

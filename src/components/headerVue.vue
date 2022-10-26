@@ -43,6 +43,7 @@
 							<form>
 								<input type="text" id="name" placeholder="Имя" minlength="2" required>
 								<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
+								<input type="tel" id="phone" placeholder="Телефон" minlength="11" maxlength="12" required>
 								<input type="email" id="email" placeholder="Почта" required>
 								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
 								<button id="goReady" formmethod="post"></button>
@@ -284,7 +285,8 @@ export default{
 				}else{
 					user = {
 						name: document.querySelector("#name").value,
-						lastname: document.querySelector("#lastname").value,
+						surname: document.querySelector("#lastname").value,
+						phone: document.querySelector("#phone").value,
 						login: document.querySelector("#email").value,
 						password: document.querySelector("#password").value,
 					}
@@ -307,6 +309,10 @@ export default{
 							document.querySelector("#status").innerHTML = data['reason'];
 						}else{
 							localStorage.setItem('login', true);
+							localStorage.setItem('name', f ? data['name'] : user.name);
+							localStorage.setItem('surname', f ? data['surname'] : user.surname);
+							localStorage.setItem('email', f ? data['email'] : user.login);
+							localStorage.setItem('id', data['id']);
 							document.querySelector("#close").click();
 							this.login = true;
 						}
