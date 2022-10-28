@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-carousel": "^1.0.6",
+    "fs": "^0.0.1-security",
     "vue": "^2.7.13",
     "vue-router": "^3.0.1"
   },

@@ -2,9 +2,7 @@
   <div id="app">
     <headerVue @swap="swap" :mode="mode"></headerVue>
     <main>
-      <home @coursesGo="coursesGo" v-if="mode == 'home'"></home>
-      <courses v-else-if="mode == 'courses'"></courses>
-      <contats v-else-if="mode == 'contacts'"></contats>
+      <router-view></router-view>
     </main>
     <footerVue></footerVue>
   </div>

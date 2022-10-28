@@ -6,7 +6,7 @@
 			<div class="courseCont">
 				<div class="td_css_3"><img class="courseImg" :src="item.img" alt="courseImg"></div>
 				<div class="td_css">{{item.text}}</div>
-				<div class="td_css_2"><button @click="" class="button_css">Перейти</button></div>
+				<div class="td_css_2"><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
 			</div>
 		</div>
 	</div>
@@ -79,6 +79,14 @@ export default{
 		coursesData: function(){
     		return curData
     	}
+	},
+	methods:{
+		courseMore: function(id){
+			this.$router.push({name: 'course', params: {courseId: id}})
+		}
+	},
+	mounted(){
+		document.querySelector("#headerVue").classList.remove("courseHide");
 	}
 }
 </script>

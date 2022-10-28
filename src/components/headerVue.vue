@@ -10,9 +10,9 @@
 			</div>
 		</div>
 		<div id="navbar">
-			<div class="header_button" @click="swap('home')">Главная</div>
-			<div class="header_button" @click="swap('courses')">Курсы</div>
-			<div class="header_button" @click="swap('contacts')">Контакты</div>
+			<div class="header_button" @click="move('home')">Главная</div>
+			<div class="header_button" @click="move('courses')">Курсы</div>
+			<div class="header_button" @click="move('contacts')">Контакты</div>
 		</div>
 		<center>
 		<div id="images">
@@ -230,6 +230,15 @@ input{
 	max-height: 600px;
 	max-width: 800px;
 }
+.courseHide{
+	grid-template-rows: 80px !important;
+}
+.courseHide > center > #images{
+	display: none !important;
+}
+.courseHide > #navbar{
+	z-index: 9999;
+}
 @media(max-width: 600px){
 	.button, .button:before, .button:after{
 		font-size: 10px;
@@ -263,11 +272,8 @@ export default{
 		},
 	},
 	methods:{
-		swap: function(m){
-			//Переключение отображения страниц
-			this.$emit('swap', {
-				mode: m,
-			});
+		move: function(way){
+			this.$router.push({name: way})
 		},
 		loginClick: function(){
 			this.show = true;
@@ -331,9 +337,9 @@ export default{
 	mounted(){
 		this.$nextTick(function(){
 			this.data = [
-        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src=".' + require(`../assets/white.jpg`) + '" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
+        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
 			];
 			let width = document.querySelector("#app").clientWidth;
        		let slHeight = (width * 9 / 16) <= 450 ? width * 9 / 16 : 450;

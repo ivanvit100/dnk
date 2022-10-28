@@ -1,12 +1,38 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import courseId from '../components/courseId'
+import home from '../components/home'
+import courses from '../components/courses'
+import contacts from '../components/contacts'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
+	mode: 'history',
+	routes: [
     {
-      path: '/',
+    	path: '/',
+    	name: 'home',
+    	component: home,
+    	props: true
+    },
+    {
+    	path: '/courses',
+    	name: 'courses',
+    	component: courses,
+    	props: true
+    },
+    {
+    	path: '/contacts',
+    	name: 'contacts',
+    	component: contacts,
+    	props: true
+    },
+    {
+    	path: '/course/:courseId',
+    	name: 'course',
+    	component: courseId,
+    	props: true
     },
     {
 		path: '*',

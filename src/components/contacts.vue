@@ -65,5 +65,8 @@ export default{
 		return{
 		}
 	},
+	mounted(){
+		document.querySelector("#headerVue").classList.remove("courseHide");
+	}
 }
 </script>

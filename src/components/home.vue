@@ -12,14 +12,14 @@
 		<div id="miniCoursesContainer">
 			<h2>Курсы</h2>
 			<div id="miniCourses">
-				<div class="miniCourse" v-for="item in shortList"> 
+				<!--<div class="miniCourse" v-for="item in 3"> 
 					<h3 class="miniTitle">{{item.shortTitle}}</h3>
 					<div class="miniCourseCont">
 						<div class="miniImgCont"><img class="miniImg" :src="item.img" alt="courseImg"></div>
 						<div class="miniText">{{item.shortText}}</div>
-						<div class="miniButCont"><button @click="" class="miniBut">Перейти</button></div>
+						<div class="miniButCont"><button @click="courseMore(item.courseId)" class="miniBut">Перейти</button></div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 			<button @click="coursesGo" id="more">Ещё</button>
 		</div>
@@ -119,15 +119,16 @@ export default{
 		return{
 		}
 	},
-	computed:{
-		shortList: function(){
-			return curData.slice(0, 3)
-		}
-	},
 	methods:{
 		coursesGo: function(){
-			this.$emit('coursesGo', {});
+			this.$router.push({name: 'courses'})
 		},
+		courseMore: function(id){
+			this.$router.push({name: 'course', params: {courseId: id}})
+		}
+	},
+	mounted(){
+		document.querySelector("#headerVue").classList.remove("courseHide");
 	}
 }
 </script>
