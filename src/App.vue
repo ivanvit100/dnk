@@ -9,6 +9,10 @@
 </template>
 
 <style>
+h2{
+  background-color: rgba(0,0,0,0) !important;
+  margin-top: 10px;
+}
 body, html{
   padding: 0 !important;
   margin: 0 !important;
@@ -44,10 +48,11 @@ import registration from './components/registration';
 import footerVue from './components/footerVue';
 import home from './components/home';
 import courses from './components/courses';
-import contats from './components/contacts';
+import contacts from './components/contacts';
+import cabinet from './components/cabinet';
 export default{
   name: 'app',
-  components: {headerVue, registration, footerVue, home, courses, contats},
+  components: {headerVue, registration, footerVue, home, courses, contacts, cabinet},
   data(){
     return{
       mode: 'home', //Открытая страница

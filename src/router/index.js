@@ -4,6 +4,7 @@ import courseId from '../components/courseId'
 import home from '../components/home'
 import courses from '../components/courses'
 import contacts from '../components/contacts'
+import cabinet from '../components/cabinet'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
     	name: 'course',
     	component: courseId,
     	props: true
+    },
+    {
+        path: '/cabinet',
+        name: 'cabinet',
+        component: cabinet
     },
     {
 		path: '*',

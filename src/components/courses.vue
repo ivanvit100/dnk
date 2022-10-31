@@ -1,11 +1,14 @@
 <template>
 	<div id="courses">
-		<h2 id="courseTitle">Курсы</h2>
+		<div class="hBackCenter">
+			<h2 id="courseTitle">Курсы</h2>
+		</div>
 		<div class="table_center_by_css" v-for="item in coursesData"> 
 			<h3 class="th_css">{{item.title}}</h3>
 			<div class="courseCont">
 				<div class="td_css_3"><img class="courseImg" :src="item.img" alt="courseImg"></div>
 				<div class="td_css">{{item.text}}</div>
+				<b>Возраст: {{item.age}} класс</b>
 				<div class="td_css_2"><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
 			</div>
 		</div>
@@ -37,7 +40,7 @@
 	font-size: 20px;
 }
 .td_css{
-	padding:20px;
+	padding: 20px;
  	vertical-align: top;
 	text-align: initial;
 }
@@ -48,7 +51,7 @@
 }
 .td_css_2{
 	padding: 20px;
- 	margin-right:20px;
+ 	margin-right: 20px;
 }
 .td_css_3{
 	padding: 20px;

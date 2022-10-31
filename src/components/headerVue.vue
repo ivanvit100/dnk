@@ -6,7 +6,7 @@
 				<a @click="loginClick" class="orange-btn">Войти<i class="fa fa-arrow-right"></i></a>
 			</div>
 			<div id="cabinet" v-else @click="cabinetMenu">
-				<img src="@/assets/account.png" alt="avatar" id="avatar">
+				<img src="/static/img/account.png" alt="avatar" id="avatar">
 			</div>
 		</div>
 		<div id="navbar">
@@ -187,7 +187,8 @@
 	margin-right: 25px;
 }
 #avatar{
-	height: 50px;
+	height: 40px;
+	margin-top: 5px;
 }
 #images{
 	margin-bottom: 20px;
@@ -237,7 +238,7 @@ input{
 	display: none !important;
 }
 .courseHide > #navbar{
-	z-index: 9999;
+	z-index: 9998;
 }
 @media(max-width: 600px){
 	.button, .button:before, .button:after{
@@ -299,7 +300,7 @@ export default{
 				}
 				if(!this.wait){
 					this.wait = true;
-					fetch('./php/' + (f ? 'testreg' : 'save_user') + '.php', {
+					fetch('http://dnk.ivanvit.ru/php/' + (f ? 'testreg' : 'save_user') + '.php', {
 						method: 'POST',
 						body: JSON.stringify(user)
 					}).then((response) => {
@@ -330,8 +331,7 @@ export default{
 			document.querySelector("#goReady").click();
 		},
 		cabinetMenu: function(){
-			localStorage.clear();
-			this.login = false;
+			this.$router.push({name: 'cabinet'})
 		}
 	},
 	mounted(){
