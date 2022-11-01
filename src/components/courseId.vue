@@ -3,31 +3,34 @@
 		<div class="hBackCenter">
 			<h2 id="courseTitle"></h2>
 		</div>
-		<img src="" alt="course" id="courseImg">
-		<p id="courseText"></p>
-		<p id="places"></p>
-		<b id="ages"></b>
-		<hr>
-		<div id="courseWrite" v-if="!write">
-			<h3>Записаться на курс</h3>
-			<form>
-				<h4>Данные ребёнка</h4>
-				<input type="text" id="name" placeholder="Имя" minlength="2" required>
-				<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
-				<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
-				<input type="date" id="date" placeholder="Дата рождения" minlength="2" required>
-				<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
-				<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
-				<h4>Данные родителей</h4>
-				<input type="text" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
-				<input type="text" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
-				<input type="text" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
-				<input type="text" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
-				<input type="text" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
-				<input type="text" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
-				<button @click="courseWrite" id="goReady" formmethod="post"></button>
-			</form>
-			<p id="status"></p>
+		<div class="table_center_by_css">
+			<center><img src="" alt="course" id="courseImg"></center>
+			<p id="courseText"></p>
+			<p id="places"></p>
+			<b id="ages"></b>
+			<hr>
+			<div id="courseWrite" v-if="!write">
+				<h3>Записаться на курс</h3>
+				<form>
+					<h4>Данные ребёнка</h4>
+					<input type="text" id="name" placeholder="Имя" minlength="2" required>
+					<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
+					<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
+					<input type="date" id="date" placeholder="Дата рождения" minlength="2" required>
+					<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
+					<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
+					<h4>Данные родителей</h4>
+					<input type="text" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
+					<input type="text" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
+					<input type="text" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
+					<input type="text" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
+					<input type="text" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
+					<input type="text" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
+					<button @click="courseWrite" id="goReady" formmethod="post"></button>
+				</form>
+				<p id="status"></p>
+			</div>
+			<p class="noReg" v-else>Зарегистрируйтесь, чтобы записать ребёнка на этот курс.</p>
 		</div>
 	</div>
 </template>
@@ -53,6 +56,38 @@
 }
 #courseImg{
 	max-width: 100%;
+}
+.noReg{
+	color: red;
+}
+</style>
+
+<style scoped>
+input{
+	border: 1px solid grey;
+}
+.table_center_by_css{
+	margin: 10px;
+	padding: 30px 20px;
+	text-align: initial;
+}
+@media(min-width: 620px){
+	form{
+		display: grid;
+		grid-template-columns: 50% 50%;
+	}
+	h4{
+		grid-column: 1/3;
+	}
+}
+@media(min-width: 880px){
+	form{
+		display: grid;
+		grid-template-columns: 33% 33% 33%;
+	}
+	h4{
+		grid-column: 1/4;
+	}
 }
 </style>
 
