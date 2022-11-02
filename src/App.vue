@@ -11,7 +11,10 @@
 <style>
 h2{
   background-color: rgba(0,0,0,0) !important;
-  margin-top: 10px;
+  margin-top: 3px;
+}
+h3{
+  font-size: 20px;
 }
 body, html{
   padding: 0 !important;

@@ -104,7 +104,7 @@
 	vertical-align: middle;
 }
 .modal-container{
-	width: 300px;
+	width: 335px;
 	margin: 0px auto;
 	padding: 20px 30px;
 	background-color: #eee;
@@ -214,6 +214,7 @@ input{
 	border: none;
 	border-radius: 1px;
 	margin-bottom: 15px;
+	background-color: white;
 }
 #reg, #go{
 	display: inline-block;

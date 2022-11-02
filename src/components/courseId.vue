@@ -1,22 +1,28 @@
 <template>
 	<div id="courseId">
-		<div class="hBackCenter">
-			<h2 id="courseTitle"></h2>
-		</div>
+		<h2 id="courseTitle"></h2>
 		<div class="table_center_by_css">
 			<center><img src="" alt="course" id="courseImg"></center>
 			<p id="courseText"></p>
-			<p id="places"></p>
 			<b id="ages"></b>
 			<hr>
 			<div id="courseWrite" v-if="!write">
 				<h3>Записаться на курс</h3>
+				<h4>Выберите возрастную группу:</h4>
+				<div class="select">
+					<select v-model="selectedGroup">
+						<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
+					</select>
+				</div>
 				<form>
 					<h4>Данные ребёнка</h4>
 					<input type="text" id="name" placeholder="Имя" minlength="2" required>
 					<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
 					<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
-					<input type="date" id="date" placeholder="Дата рождения" minlength="2" required>
+					<input type="text" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" required>
+					<!--<div class="select">
+						<input type="text" onfocus="(this.type='date')" id="date" placeholder="Дата рождения" minlength="2" required>
+					</div>-->
 					<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
 					<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
 					<h4>Данные родителей</h4>
@@ -36,6 +42,9 @@
 </template>
 
 <style>
+.calendar-content .today{
+	background-color: rgba(230, 96, 46, .7) !important;
+}
 .hBackCenter{
 	background-image: url("http://dnk.ivanvit.ru/static/img/linecenter.png");
 	background-size: contain;
@@ -48,11 +57,8 @@
 	position: relative;
 	color: white;
 }
-#courseTitle{
-	height: 32px;
-	position: relative;
-	margin-top: 10px;
-	background-color: none !important;
+#courseId{
+	text-align: center;
 }
 #courseImg{
 	max-width: 100%;
@@ -60,16 +66,65 @@
 .noReg{
 	color: red;
 }
+.select, input, .input{
+	width: 275px !important;
+	margin-bottom: 15px !important;
+}
 </style>
 
 <style scoped>
+#courseTitle{
+	height: 32px;
+	position: relative;
+	margin-top: 25px;
+	background-color: orange !important;
+}
 input{
-	border: 1px solid grey;
+	height: 34px;
+	border: 1px solid lightgray;
 }
 .table_center_by_css{
 	margin: 10px;
 	padding: 30px 20px;
 	text-align: initial;
+}
+select, #date{
+	background-color: white;
+	appearance: none;
+	outline: 0;
+	display: block;
+	border: none;
+	flex: 1;
+	padding: 0 1em;
+	border-radius: 1px;
+	height: 100%;
+}
+select::-ms-expand{
+	display: none;
+}
+.select{
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	width: 297px;
+	height: 34px;
+	overflow: hidden;
+}
+.select::after{
+	content: "\25BC";
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: .01em .95em;
+	background-color: rgba(200, 200, 200, .95);
+	transition: all .25s ease;
+	pointer-events: none;
+	border-radius: 1px;
+	color: white;
+}
+.select:hover::after{
+	background-color: orange;
 }
 @media(min-width: 620px){
 	form{
@@ -98,6 +153,8 @@ export default{
 	data(){
 		return{
 			courseId: '',
+			selectedGroup: '',
+			groups: []
 		}
 	},
 	computed:{
@@ -125,6 +182,7 @@ export default{
 					nameTwo: document.querySelector("#nameTwo").value,
 					surnameTwo: document.querySelector("#lastnameTwo").value,
 					patronymicTwo: document.querySelector("#nameTwo").value,
+					group: this.selectedGroup
 				}
 				fetch('http://dnk.ivanvit.ru/php/abobus.php', {
 					method: 'POST',
@@ -142,12 +200,13 @@ export default{
 	mounted(){
 		document.querySelector("#headerVue").classList.add("courseHide");
 		this.courseId = this.$route.params.courseId;
+		this.groups = Object.keys(curData[this.courseId]['groups'])
+		this.selectedGroup = this.groups[0];
 		this.$nextTick(function(){
 			document.querySelector("#courseTitle").innerText = curData[this.courseId]['title'];
 			document.querySelector("#courseImg").src = curData[this.courseId]['img'];
 			document.querySelector("#courseText").innerText = curData[this.courseId]['text'];
 			document.querySelector("#ages").innerText = "Программа обучения предназначена для детей, обучающихся в следующих классах: " + curData[this.courseId]['age'];
-			document.querySelector("#places").innerText = "Максимальное число учащихся курса: " + curData[this.courseId]['place'];
 			document.querySelector("#nameOne").value = localStorage.getItem('name');
 			document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
 		})

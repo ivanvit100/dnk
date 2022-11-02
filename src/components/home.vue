@@ -51,7 +51,6 @@
 	color: white;
 }
 #aboutH{
-	margin-top: 10px;
 	margin-left: 15px;
 }
 #miniCourses{

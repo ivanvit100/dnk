@@ -21,7 +21,6 @@
 	width: 100%;
 	background-color: orange;
 	color: white;
-	margin-top: 30px;
 }
 #courses{
 	text-align: center;

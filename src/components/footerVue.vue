@@ -15,6 +15,10 @@
 </template>
 
 <style>
+a{
+	text-decoration: none !important;
+	color: white !important;
+}
 #footerVue{
 	background-color: orange;
 	display: grid;
@@ -27,9 +31,6 @@
 }
 #contacts{
 	height: 240px;
-}
-a{
-	color: white;
 }
 #footer_logo{
 	height: 140px;

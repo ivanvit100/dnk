@@ -22,6 +22,10 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <link rel="stylesheet" href="/static/metro.min.css">
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-colors.min.css">
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-icons.min.css">
     <style>
 *::selection{
   background: rgba(90, 126, 201, 0.6);
@@ -93,5 +97,6 @@ html{
       });
     </script> 
     <script data-cfasync="false" src="http://dnk.ivanvit.ru/static/coursesData.json"></script>
+    <script src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
   </body>
 </html>
