@@ -2,7 +2,28 @@
 	<div id="courseId">
 		<h2 id="courseTitle"></h2>
 		<div class="table_center_by_css">
-			<center><img src="" alt="course" id="courseImg"></center>
+			<div data-role="splitter" class="h-100" data-split-sizes="75, 25" data-split-mode="vertical" id="titleImg">
+    			<div class="d-flex flex-justify-center flex-align-center"><img src="" alt="course" id="courseImg"></div>
+    			<div class="d-flex flex-justify-center flex-align-center">
+       				<table class="table">
+       					<caption><h2>Расписание</h2></caption>
+						<thead>
+							<tr>
+								<th>Группа</th>
+								<th>Дни недели</th>
+								<th>Время</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in timetable">
+								<td>{{item.group}}</td>
+								<td>{{item.days}}</td>
+								<td>{{item.time}}</td>
+							</tr>
+						</tbody>
+					</table>
+    			</div>
+			</div>
 			<p id="courseText"></p>
 			<b id="ages"></b>
 			<hr>
@@ -19,10 +40,7 @@
 					<input type="text" id="name" placeholder="Имя" minlength="2" required>
 					<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
 					<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
-					<input type="text" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" required>
-					<!--<div class="select">
-						<input type="text" onfocus="(this.type='date')" id="date" placeholder="Дата рождения" minlength="2" required>
-					</div>-->
+					<input type="text" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
 					<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
 					<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
 					<h4>Данные родителей</h4>
@@ -42,6 +60,10 @@
 </template>
 
 <style>
+#titleImg{
+	height: 70vh !important;
+	border: 1px solid lightgray;
+}
 .calendar-content .today{
 	background-color: rgba(230, 96, 46, .7) !important;
 }
@@ -154,6 +176,7 @@ export default{
 		return{
 			courseId: '',
 			selectedGroup: '',
+			timetable: '',
 			groups: []
 		}
 	},
@@ -202,6 +225,7 @@ export default{
 		this.courseId = this.$route.params.courseId;
 		this.groups = Object.keys(curData[this.courseId]['groups'])
 		this.selectedGroup = this.groups[0];
+		this.timetable = curData[this.courseId]['timetable'];
 		this.$nextTick(function(){
 			document.querySelector("#courseTitle").innerText = curData[this.courseId]['title'];
 			document.querySelector("#courseImg").src = curData[this.courseId]['img'];

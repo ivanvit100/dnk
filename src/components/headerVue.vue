@@ -16,9 +16,11 @@
 		</div>
 		<center>
 		<div id="images">
-			<template>
-  				<carousel :data="data"></carousel>
-			</template>
+			<div data-role="carousel" data-bullet-style="rect" data-control-next="<span class='mif-chevron-right'></span>" data-height="16/9" data-cls-bullet-on="bg-orange drop-shadow" data-cls-controls="fg-white" data-control-prev="<span class='mif-chevron-left'></span>" data-controls-on-mouse="true" data-auto-start="true" data-period="10000" data-duration="750">
+				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+			</div>
 		</div>
 		</center>
 		<template>
@@ -153,14 +155,6 @@
 	z-index: 18;
 	box-shadow: 0px 5px 5px 2px rgba(6, 22, 34, 0.35);
 }
-.example-slide{
- 	background-color: #666;
-  	color: #999;
-  	display: flex;
-  	min-height: 250px;
-  	width: 100%;
-  	opacity: 0.8;
-}
 #logo{
 	height: 50px;
 }
@@ -192,6 +186,8 @@
 }
 #images{
 	margin-bottom: 20px;
+	max-height: 600px;
+	max-width: 800px;
 }
 #close{
 	height: 30px;
@@ -223,15 +219,6 @@ input{
 	font-size: 13px;
 	color: red;
 }
-.imgContainer{
-	width: 100%;
-	height: 100%;
-	box-shadow: 0px -10px 8px rgba(0, 0, 0, 1) inset;
-}
-.example-slide, #images{
-	max-height: 600px;
-	max-width: 800px;
-}
 .courseHide{
 	grid-template-rows: 80px !important;
 }
@@ -250,16 +237,12 @@ input{
 
 <script>
 import Vue from 'vue';
-import VueCarousel from '@chenfengyuan/vue-carousel';
-
-Vue.use(VueCarousel);
 
 export default{
 	name: 'headerVue',
 	props: ['mode'],
 	data(){
 		return{
-			data: [],
 			show: false,
 			sign: false,
 			login: localStorage.getItem('login'),
@@ -337,11 +320,6 @@ export default{
 	},
 	mounted(){
 		this.$nextTick(function(){
-			this.data = [
-        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
-        		'<div class="imgContainer"><img src="./static/img/white.jpg" alt="baner" class="example-slide"></div>',
-			];
 			let width = document.querySelector("#app").clientWidth;
        		let slHeight = (width * 9 / 16) <= 450 ? width * 9 / 16 : 450;
         	document.querySelector("#images").style.height = slHeight + "px";
