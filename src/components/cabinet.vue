@@ -29,6 +29,20 @@ export default{
 		document.querySelector("#headerVue").classList.add("courseHide");
 		if(localStorage.getItem('login') == null){
 			this.$router.push({name: 'home'})
+		}else{
+			let user = {
+				ID: localStorage.getItem('id')
+			}
+			fetch('http://dnk.ivanvit.ru/testphp/cab_test.php', {
+				method: 'POST',
+				body: JSON.stringify(user)
+			}).then((response) => {
+				return response.json()
+			}).then((data) => {
+				//document.querySelector("#status").innerHTML = data['reason'];
+			}).catch((error) => {
+				console.warn(error);
+			});
 		}
 	}
 }

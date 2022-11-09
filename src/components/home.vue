@@ -31,6 +31,7 @@
 			<div class="hBackCenter">
 				<h2 id="newsH">Новости</h2>
 			</div>
+			<center><div id="vk_groups"></div></center>
 		</div>
 		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1122.4925365917768!2d52.016251975954!3d55.75876150433705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8fb0d1ea907eedb9!2zNTXCsDQ1JzMxLjUiTiA1MsKwMDEnMDIuNSJF!5e0!3m2!1sru!2sru!4v1666250654230!5m2!1sru!2sru" width="600" height="256" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 	</div>
@@ -90,7 +91,6 @@
 }
 iframe{
 	width: 100% !important;
-	margin-top: 50px;
 }
 #about_container{
 	margin-bottom: 10px;
@@ -115,6 +115,9 @@ hr{
 	padding: 20px 15px 2px 15px;
 	width: 85%;
 	position: relative;
+}
+#news{
+	margin-bottom: 30px;
 }
 @media(max-width: 600px){
 	#about_container{
@@ -155,14 +158,18 @@ export default{
 	},
 	methods:{
 		coursesGo: function(){
-			this.$router.push({name: 'courses'})
+			this.$router.push({name: 'courses'});
+			window.scroll(0, 0);
 		},
 		courseMore: function(id){
-			this.$router.push({name: 'course', params: {courseId: id}})
+			this.$router.push({name: 'course', params: {courseId: id}});
+			window.scroll(0, 0);
 		}
 	},
 	mounted(){
+		let width = document.querySelector("#app").clientWidth;
 		document.querySelector("#headerVue").classList.remove("courseHide");
+		VK.Widgets.Group("vk_groups", {mode: 2, width: width * 0.95, height: "300"}, 198006866);
 	}
 }
 </script>

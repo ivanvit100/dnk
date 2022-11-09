@@ -3,8 +3,8 @@
 		<h2 id="courseTitle"></h2>
 		<div class="table_center_by_css">
 			<div data-role="splitter" class="h-100" data-split-sizes="75, 25" data-split-mode="vertical" id="titleImg">
-    			<div class="d-flex flex-justify-center flex-align-center"><img src="" alt="course" id="courseImg"></div>
-    			<div class="d-flex flex-justify-center flex-align-center">
+    			<div @dblclick="dataShow(true)" class="d-flex flex-justify-center flex-align-center" id="firstDataShow"><img src="" alt="course" id="courseImg"></div>
+    			<div @dblclick="dataShow(false)" class="d-flex flex-justify-center flex-align-center" id="secondDataShow">
        				<table class="table">
        					<caption><h2>Расписание</h2></caption>
 						<thead>
@@ -28,31 +28,31 @@
 			<b id="ages"></b>
 			<hr>
 			<div id="courseWrite" v-if="!write">
-				<h3>Записаться на курс</h3>
-				<h4>Выберите возрастную группу:</h4>
+				<h4>Записаться на курс</h4>
+				<h5>Выберите возрастную группу:</h5>
 				<div class="select">
 					<select v-model="selectedGroup">
 						<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
 					</select>
 				</div>
 				<form>
-					<h4>Данные ребёнка</h4>
+					<h5>Данные ребёнка</h5>
 					<input type="text" id="name" placeholder="Имя" minlength="2" required>
 					<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
 					<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
 					<input type="text" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
 					<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
 					<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
-					<h4>Данные родителей</h4>
+					<h5>Данные родителей</h5>
 					<input type="text" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
 					<input type="text" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
 					<input type="text" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
 					<input type="text" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
 					<input type="text" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
 					<input type="text" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
-					<button @click="courseWrite" id="goReady" formmethod="post"></button>
+					<p id="status"></p>
+					<center id="buttonCenterBlock"><button @click="courseWrite" id="goWrite" class="miniBut" formmethod="post">Отправить</button></center>
 				</form>
-				<p id="status"></p>
 			</div>
 			<p class="noReg" v-else>Зарегистрируйтесь, чтобы записать ребёнка на этот курс.</p>
 		</div>
@@ -60,6 +60,9 @@
 </template>
 
 <style>
+#goWrite{
+	width: 120px;
+}
 #titleImg{
 	height: 70vh !important;
 	border: 1px solid lightgray;
@@ -95,6 +98,9 @@
 </style>
 
 <style scoped>
+.button{
+	margin-right: 4px !important;
+}
 #courseTitle{
 	height: 32px;
 	position: relative;
@@ -153,7 +159,7 @@ select::-ms-expand{
 		display: grid;
 		grid-template-columns: 50% 50%;
 	}
-	h4{
+	h5, #buttonCenterBlock, #status{
 		grid-column: 1/3;
 	}
 }
@@ -162,7 +168,7 @@ select::-ms-expand{
 		display: grid;
 		grid-template-columns: 33% 33% 33%;
 	}
-	h4{
+	h5, #buttonCenterBlock, #status{
 		grid-column: 1/4;
 	}
 }
@@ -177,6 +183,7 @@ export default{
 			courseId: '',
 			selectedGroup: '',
 			timetable: '',
+			wait: false,
 			groups: []
 		}
 	},
@@ -195,7 +202,7 @@ export default{
 					parentID: localStorage.getItem('id'),
 					name: document.querySelector("#name").value,
 					surname: document.querySelector("#lastname").value,
-					patonymic: document.querySelector("#thirdname").value,
+					patronymic: document.querySelector("#thirdname").value,
 					date: document.querySelector("#date").value,
 					placeOne: document.querySelector("#placeOne").value,
 					placeTwo: document.querySelector("#placeTwo").value,
@@ -207,17 +214,26 @@ export default{
 					patronymicTwo: document.querySelector("#nameTwo").value,
 					group: this.selectedGroup
 				}
-				fetch('http://dnk.ivanvit.ru/php/abobus.php', {
-					method: 'POST',
-					body: JSON.stringify(user)
-				}).then((response) => {
-					return response.json()
-				}).then((data) => {
-					document.querySelector("#status").innerHTML = data['reason'];
-				}).catch((error) => {
-					console.warn(error);
-				});
+				if(!this.wait){
+					this.wait = true;
+					fetch('http://dnk.ivanvit.ru/testphp/course.php', {
+						method: 'POST',
+						body: JSON.stringify(user)
+					}).then((response) => {
+						return response.json()
+					}).then((data) => {
+						this.wait = false;
+						document.querySelector("#status").innerHTML = data['reason'];
+					}).catch((error) => {
+						console.warn(error);
+					});
+				}
 			});
+		},
+		dataShow: function(f){
+			event.preventDefault();
+			document.querySelector("#firstDataShow").style.flexBasis = "calc(" + (f ? "90" : "10") + "% - 4px)";
+			document.querySelector("#secondDataShow").style.flexBasis = "calc(" + (f ? "10" : "90") + "% - 4px)";
 		}
 	},
 	mounted(){

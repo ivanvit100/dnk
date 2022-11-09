@@ -84,7 +84,8 @@ export default{
 	},
 	methods:{
 		courseMore: function(id){
-			this.$router.push({name: 'course', params: {courseId: id}})
+			this.$router.push({name: 'course', params: {courseId: id}});
+			window.scroll(0, 0);
 		}
 	},
 	mounted(){
