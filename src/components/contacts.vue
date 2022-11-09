@@ -2,7 +2,7 @@
 	<div id="contactsVue">
 		<table class="table_center_by_css1">
 			<tr>
-				<td class="td_css1" cellspacing="10" width="250">Руководитель</td>
+				<td class="td_css1" cellspacing="10" width="200">Руководитель</td>
 				<td class="td_css1" valign="top">Латипова Лилия Николаевна, директор ДНК имени Камиля Ахметовича Валиева</td>
 			</tr>
 			<tr>
@@ -15,7 +15,7 @@
 			</tr>
 			<hr class="tableHr">
 			<tr>
-				<td class="td_css1" cellspacing="10" width="250">Учебный мастер</td>
+				<td class="td_css1" cellspacing="10" width="200">Учебный мастер</td>
 				<td class="td_css2" valign="top">Хузина Альбина Маратовна</td>
 			</tr>
 			<tr>
@@ -24,27 +24,27 @@
 			</tr>
 			<hr class="tableHr">
 			<tr>
-				<td class="td_css1" cellspacing="10">Разработчики</td>
+				<td class="td_css1" cellspacing="10"><b>Разработчики</b></td>
 			</tr>
 			<hr class="tableHr">
 			<tr>
-				<td class="td_css1" cellspacing="10" width=250>Иванущенко Виталий Александрович</td>
+				<td class="td_css1" cellspacing="10" width=200>Иванущенко Виталий Александрович</td>
 				<td class="td_css1" valign="top"><a href="mailto: develope@ivanvit.ru">develope@ivanvit.ru</a></td>
 			</tr>
 			<tr>
-				<td class="td_css1" cellspacing="10" width=250>Миннахметов Алмаз Ильдарович</td>
+				<td class="td_css1" cellspacing="10" width=200>Миннахметов Алмаз Ильдарович</td>
 				<td class="td_css1" valign="top"><a href="mailto: minnakhmetovalmazdev@gmail.com">minnakhmetovalmazdev@gmail.com</a></td>
 			</tr>
 			<tr>
-				<td class="td_css1" cellspacing="10" width=250>Шипков Александр Владимирович</td>
+				<td class="td_css1" cellspacing="10" width=200>Шипков Александр Владимирович</td>
 				<td class="td_css1" valign="top"><a href="mailto: gipkin9@mail.ru">gipkin9@mail.ru</a></td>
 			</tr>
 			<tr>
-				<td class="td_css1" cellspacing="10" width=250>Ивашкевич Диана Вячеславовна</td>
+				<td class="td_css1" cellspacing="10" width=200>Ивашкевич Диана Вячеславовна</td>
 				<td class="td_css1" valign="top">+7 917 290-84-99</td>
 			</tr>
 			<tr>
-				<td class="td_css1" cellspacing="10" width=250>Шамилова Диана Эльжановна</td>
+				<td class="td_css1" cellspacing="10" width=200>Шамилова Диана Эльжановна</td>
 				<td class="td_css1" valign="top">+7 962 652-82-42</td>
 			</tr>
 		</table>
@@ -75,7 +75,7 @@ table{
 .td_css1, .td_css2{
 	padding:20px;
 	margin: auto;
-	word-break: break-all;
+	word-break: break-word;
 }
 @media(max-width: 700px){
 	table{

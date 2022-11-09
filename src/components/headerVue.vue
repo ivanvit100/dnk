@@ -176,7 +176,7 @@
   padding: 15px;
   margin-left: 15px;
 }
-#avatar, .button{
+#avatar{
 	float: right;
 	margin-right: 25px;
 }

@@ -99,7 +99,9 @@
 
 <style scoped>
 .button{
-	margin-right: 4px !important;
+	position: relative !important;
+	right: -20px !important;
+	margin: 0 !important;
 }
 #courseTitle{
 	height: 32px;
@@ -216,7 +218,7 @@ export default{
 				}
 				if(!this.wait){
 					this.wait = true;
-					fetch('http://dnk.ivanvit.ru/testphp/course.php', {
+					fetch('http://dnk.ivanvit.ru/php/course.php', {
 						method: 'POST',
 						body: JSON.stringify(user)
 					}).then((response) => {
