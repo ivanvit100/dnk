@@ -1,7 +1,10 @@
 <template>
 	<div id="cabinet">
 		<div id="profile" style="padding-bottom: 20px">
-			<h2 id="fullname">{{name}} {{surname}}</h2>
+			<center id="nameCont">
+				<h2 id="fullname">{{name}} {{surname}}</h2>
+				<hr class="orangeUnderline">
+			</center>
 			<p class="email"><b>Email:</b> {{email}}</p>
 			<p class="phone"><b>Телефон:</b> {{phone}}</p>
 			<div class="header_button" id="exit" @click="exit">Выйти</div>
@@ -19,6 +22,11 @@
 </template>
 
 <style scoped>
+.orangeUnderline{
+	width: 200px;
+	background-color: #f77d24;
+	height: 5px;
+}
 #subscribe{
 	border: 1px solid gray;
 	background-color: white;
@@ -48,11 +56,9 @@
 #profile{
 	text-align: left;
 	padding: 1px 10px 20px 10px;
-	background-color: linear-gradient(180deg, #f77d24 0%, #f77d24 50px, rgba(238,238,238,1) 51px, rgba(238,238,238,1) 100%);;
-	background: linear-gradient(180deg, #f77d24 0%, #f77d24 50px, rgba(255,255,255,1) 51px, rgba(255,255,255,1) 100%);;
-	border-bottom: 8px solid #f77d24;
 	margin: 15px 0;
 	position: relative;
+	background-color: white;
 }
 #exit{
 	position: unset;
@@ -74,14 +80,10 @@
 	border-bottom: 3px solid rgb(230, 96, 46);
 }
 #subscribe > h2{
-	border-bottom: 7px solid #f77d24;
+	border-bottom: 5px solid #f77d24;
 	max-width: 200px;
 	position: relative;
 	right: calc(-50% + 100px);
-}
-#fullname{
-	color: white;
-	margin: 10px 5px;
 }
 #misses{
 	background-color: #333;
@@ -92,6 +94,10 @@
 	margin-top: 15px;
 	padding: 15px 0;
 	margin-bottom: 20px;
+}
+#fullname{
+	margin-bottom: 7px;
+	margin-top: 15px;
 }
 @media(min-width: 700px){
 	#cabinet{

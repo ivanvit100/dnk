@@ -31,17 +31,14 @@ $password = htmlspecialchars($password);
 $email = trim($email);
 $password = trim($password);
 include("bd.php");
- 
+
 $result = mysql_query("SELECT * FROM Users WHERE Email='$email'", $db); 
 $myrow = mysql_fetch_array($result);
-if(empty($myrow['Password'])){
-    echo json_encode(array('answer' => false, 'reason' => "Неверный логин или пароль!"));
+if(password_verify($password,$myrow['Password'])){
+    echo json_encode(array('answer' => true, 'name' => $myrow['Name'], 'surname' => $myrow['Surname'], 'email' => $myrow['Email'], 'id' => $myrow['ID']));
     die();
 }else{
-    if($myrow['Password'] == $password){
-        echo json_encode(array('answer' => true, 'name' => $myrow['Name'], 'surname' => $myrow['Surname'], 'email' => $myrow['Email'], 'id' => $myrow['ID']));
-    }else{
-        echo json_encode(array('answer' => false, 'reason' => "Неверный логин или пароль!"));
-    }
+    echo json_encode(array('answer' => false, 'reason' => "Неверный логин или пароль!"));
+    die();
 }
 ?>

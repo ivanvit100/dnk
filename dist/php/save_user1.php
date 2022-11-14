@@ -14,32 +14,35 @@ $name = $array1['name']; //Имя
 $surname = $array1['surname']; //Фамилия
 $phone = $array1['phone']; //Номер телефона
 
-$phoneTest = ltrim($phone, '+');
-
 if(isset($email)){
     if(stristr($email, '@') === FALSE || stristr($email, '.') === FALSE) {
-        echo json_encode(array('answer' => false, 'reason' => 'Неверная почта!')); //Ответ
-        die();
-    }
+        unset($email);
+    } 
 }
 if(isset($password)){
     if($password == ''){ 
-        echo json_encode(array('answer' => false, 'reason' => 'Неверный пароль!')); //Ответ
-        die();
+        unset($password);
     } 
 }
-if(iconv_strlen($name)<2){ 
-    echo json_encode(array('answer' => false, 'reason' => 'Неверное имя!')); //Ответ
+if(isset($name)){ 
+    if($name == ''){ 
+        unset($name);
+    } 
+}
+if(isset($surname)){ 
+    if($surname == ''){ 
+        unset($surname);
+    } 
+}
+if(isset($phone)){ 
+    if($phone == ''){ 
+        unset($phone);
+    } 
+}
+if(empty($email) or empty($password) or empty($name) or empty($surname) or empty($phone)){
+    echo json_encode(array('answer' => false, 'reason' => 'Вы заполнили не все поля!')); //Ответ
     die();
 }
-if(iconv_strlen($surname)<2){  
-    echo json_encode(array('answer' => false, 'reason' => 'Неверная фамилия!')); //Ответ
-    die();
-}
-if(iconv_strlen($phone)<11 or iconv_strlen($phone)>12 or !preg_match("/^([0-9])+$/", $phoneTest)){  
-    echo json_encode(array('answer' => false, 'reason' => 'Неверный номер телефона!')); //Ответ
-    die();
-} 
 $email = stripslashes($email);
 $email = htmlspecialchars($email);
 $password = stripslashes($password);
@@ -56,6 +59,10 @@ $name = trim($name);
 $surname = trim($surname);
 $phone = trim($phone);
 $phoneTest = ltrim($phone, '+');
+if(strlen($phone) < 11 or strlen($phone) > 12 or !preg_match("/^([0-9])+$/", $phoneTest)){
+    echo json_encode(array('answer' => false, 'reason' => 'Неверный номер телефона!')); //Ответ
+    die();
+}
 include("bd.php");
 $result = mysql_query("SELECT ID FROM Users WHERE Email='$email'", $db);
 $myrow = mysql_fetch_array($result);
@@ -63,10 +70,6 @@ if(($myrow['ID'] ?? -1) >= 0){
     echo json_encode(array('answer' => false, 'reason' => 'Такой аккаунт уже существует!')); //Ответ
     die();
 }
-$options = [
-    'cost' => 12,
-];
-$password = password_hash($password, PASSWORD_BCRYPT, $options);
 $result2 = mysql_query("INSERT INTO Users (Email,Password,Name,Surname,Phone) VALUES('$email','$password','$name','$surname','$phone')");
 if($result2=='TRUE'){
     $resultId = mysql_query("SELECT ID FROM Users WHERE Email='$email'", $db);
