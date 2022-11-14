@@ -60,6 +60,9 @@
 </template>
 
 <style>
+.successStatus{
+	color: limegreen !important;
+}
 #goWrite{
 	width: 120px;
 }
@@ -224,11 +227,16 @@ export default{
 					}).then((response) => {
 						return response.json()
 					}).then((data) => {
-						this.wait = false;
+						if(data['answer']){
+							document.querySelector("#status").classList.add("successStatus")
+						}else{
+							document.querySelector("#status").classList.remove("successStatus")
+						}
 						document.querySelector("#status").innerHTML = data['reason'];
 					}).catch((error) => {
 						console.warn(error);
 					});
+					this.wait = false;
 				}
 			});
 		},

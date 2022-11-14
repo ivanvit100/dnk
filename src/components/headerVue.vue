@@ -77,6 +77,7 @@
 	color: #fff;
 	border-radius: 1px;
 	cursor: pointer;
+	font-size: 12px;
 }
 #go:hover, #go:active, #go:focus{
 	background-color: orange;
@@ -228,6 +229,9 @@ input{
 .courseHide > #navbar{
 	z-index: 9998;
 }
+.waitStatus{
+	color: black !important;
+}
 @media(max-width: 600px){
 	.button, .button:before, .button:after{
 		font-size: 10px;
@@ -257,6 +261,18 @@ export default{
 		},
 	},
 	methods:{
+		cyrb53: function(str, seed = 0){
+			let h1 = 0xdeadbeef ^ seed;
+			let h2 = 0x41c6ce57 ^ seed;
+			for(let i = 0, ch; i < str.length; i++){
+				ch = str.charCodeAt(i);
+				h1 = Math.imul(h1 ^ ch, 2654435761);
+				h2 = Math.imul(h2 ^ ch, 1597334677);
+			}
+			h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+			h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+			return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+		},
 		move: function(way){
 			this.$router.push({name: way})
 		},
@@ -271,7 +287,7 @@ export default{
 				if(f){
 					user = {
 						login: document.querySelector("#email").value,
-						password: document.querySelector("#password").value,
+						password: this.cyrb53(document.querySelector("#password").value),
 					}
 				}else{
 					user = {
@@ -279,11 +295,13 @@ export default{
 						surname: document.querySelector("#lastname").value,
 						phone: document.querySelector("#phone").value,
 						login: document.querySelector("#email").value,
-						password: document.querySelector("#password").value,
+						password: this.cyrb53(document.querySelector("#password").value),
 					}
 				}
 				if(!this.wait){
 					this.wait = true;
+					document.querySelector("#status").innerHTML = "Подождите...";
+					document.querySelector("#status").classList.add("waitStatus");
 					fetch('http://dnk.ivanvit.ru/php/' + (f ? 'testreg' : 'save_user') + '.php', {
 						method: 'POST',
 						body: JSON.stringify(user)
@@ -291,12 +309,12 @@ export default{
 						return response.json()
 					}).then((data) => {
 						this.login = data['answer'];
-						this.wait = false;
 						if(!this.login){
 							if(!this.sign){
 								document.querySelector("#email").style.border = "1px dashed red";
 								document.querySelector("#password").style.border = "1px dashed red";
 							}
+							document.querySelector("#status").classList.remove("waitStatus");
 							document.querySelector("#status").innerHTML = data['reason'];
 						}else{
 							localStorage.setItem('login', true);
@@ -309,7 +327,9 @@ export default{
 						}
 					}).catch((error) => {
 						console.warn(error);
+						document.querySelector("#status").innerHTML = "Ошибка!";
 					});
+					this.wait = false;
 				}
 			});
 			document.querySelector("#goReady").click();
