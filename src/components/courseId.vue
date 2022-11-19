@@ -28,6 +28,8 @@
 			<b id="ages"></b>
 			<hr>
 			<div id="courseWrite" v-if="!write">
+				<h4>Ваши дети на курсе</h4>
+				<p id="children">{{children}}</p>
 				<h4>Записаться на курс</h4>
 				<h5>Выберите возрастную группу:</h5>
 				<div class="select">
@@ -189,7 +191,8 @@ export default{
 			selectedGroup: '',
 			timetable: '',
 			wait: false,
-			groups: []
+			groups: [],
+			children: 'Подождите...'
 		}
 	},
 	computed:{
@@ -259,6 +262,22 @@ export default{
 			document.querySelector("#ages").innerText = "Программа обучения предназначена для детей, обучающихся в следующих классах: " + curData[this.courseId]['age'];
 			document.querySelector("#nameOne").value = localStorage.getItem('name');
 			document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
+			if(!this.write){
+				let user = {
+					courseID: this.courseId,
+					parentID: localStorage.getItem('id')
+				}
+				fetch('http://dnk.ivanvit.ru/php/children.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					this.children = data['names'];
+				}).catch((error) => {
+					console.warn(error);
+				});
+			}
 		})
 	}
 }

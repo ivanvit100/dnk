@@ -107,15 +107,14 @@
 	#misses{
 		grid-column: 2;
 		grid-row: 1;
+		margin: 30px 30px 15px 15px !important;
 	}
 	#subscribe{
 		grid-column: 1/3;
+		margin: 15px 30px 30px 30px !important;
 	}
-	#profile, #misses, #subscribe{
-		margin: 15px !important;
-	}
-	#misses{
-		margin-top: 0;
+	#profile{
+		margin: 30px 15px 15px 30px !important;
 	}
 	#exit{
 		position: absolute;
@@ -133,7 +132,8 @@ export default{
 			email: 'Подождите...',
 			phone: 'Подождите...',
 			passes: ['Подождите...', 'Подождите...', 'Подождите...'],
-			courses: [{'name': 'Тестовый курс', 'href': 'robo'}],
+			courses: [{'name': 'Подождите...', 'href': ''}],
+			coursesBeta: [],
 			subscribeStatus: 'Подождите...'
 		}
 	},
@@ -143,7 +143,7 @@ export default{
 			location.reload()
 		},
 		courseMore: function(id){
-			this.$router.push({name: 'course', params: {courseId: id}});
+			id == "empty" ? this.$router.push("courses") : this.$router.push({name: 'course', params: {courseId: id}});
 			window.scroll(0, 0);
 		}
 	},
@@ -164,8 +164,17 @@ export default{
 			}).then((data) => {
 				this.email = data['Email'];
 				this.phone = data['Phone'];
-				this.passes = [data['PassOne'] == "0000-00-00" ? "Пропусков нет!" : data['PassOne'], data['PassTwo'] == "0000-00-00" ? "Больше пропусков нет!" : data['PassTwo'], data['PassThree'] == "0000-00-00" ? "Больше пропусков нет!" : data['PassThree']];
+				this.passes = [data['PassOne'] == null ? "Пропусков нет" : data['PassOne'], data['PassTwo'] == null ? "Пропусков нет" : data['PassTwo'], data['PassThree'] == null ? "Пропусков нет" : data['PassThree']];
 				document.querySelector("#subscribeStatus").remove();
+				try{this.coursesBeta = data['Courses'].split(', ')}
+				catch(e){}
+				this.courses = [];
+				for(var i = 0; i < this.coursesBeta.length; i++){
+					this.courses.push({'name': curData[this.coursesBeta[i]]["title"], 'href': this.coursesBeta[i]});
+				}
+				if(this.courses.length == 0){
+					this.courses = [{'name': 'Выбрать курс', 'href': 'empty'}]
+				}
 			}).catch((error) => {
 				console.warn(error);
 			});

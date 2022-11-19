@@ -177,6 +177,9 @@
   padding: 15px;
   margin-left: 15px;
 }
+.orange-btn:hover{
+	background-color: #ba5800;
+}
 #avatar{
 	float: right;
 	margin-right: 25px;
@@ -184,6 +187,10 @@
 #avatar{
 	height: 40px;
 	margin-top: 5px;
+}
+#avatar:hover{
+	height: 41px;
+	margin-top: 4px;
 }
 #images{
 	margin-bottom: 20px;

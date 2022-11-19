@@ -43,6 +43,12 @@ body, html{
   border-collapse: separate;
   border-spacing: 20px 10px;
 }
+*{
+  cursor: url(http://dnk.ivanvit.ru/static/img/select.png), auto;
+}
+button, p, span, h1, h2, h3, h4, h5, a, b, td, #avatar, .orange-btn, .header_button, .miniText, .wcommunity_wrap, iframe, .td_css, input{
+  cursor: url(http://dnk.ivanvit.ru/static/img/link.png), auto !important;
+}
 </style>
 
 <script>

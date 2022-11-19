@@ -65,8 +65,16 @@ if($myrow1[0] >= $count){
 }
 
 $result2 = mysql_query("INSERT INTO $course (ParentID,ChildName,ChildSurname,ChildPatronymic,Birthday,BirthPlace,Registration,ParentName,ParentSurname,ParentPatronymic,SecondPName,SecondPSurname,SeconPPatronymic,GroupName) VALUES('$pid','$name','$surname','$patronymic','$birthday','$birthplace','$regplace','$namep1','$surnamep1','$patronymicp1','$namep2','$surnamep2','$patronymicp2','$group')");
+$result3 = mysql_query("SELECT Courses FROM Users WHERE ID='$pid'", $db);
+$myrow3 = mysql_fetch_array($result3);
 if($result2=='TRUE' or $result2 == true){
     echo json_encode(array('answer' => true, 'reason' => 'Вы успешно зарегистрированы!')); //Ответ
+    if($myrow3['Courses'] == ''){
+        $result4 = mysql_query("UPDATE Users SET Courses = '$course' WHERE ID = '$pid'");
+    }else{
+        $result5 = $myrow3['Courses'].", ".$course;
+        $result4 = mysql_query("UPDATE Users SET Courses = '$result5' WHERE ID = '$pid'");
+    }
     die();
 }else{
     echo json_encode(array('answer' => false, 'reason' => 'Ошибка! Вы не зарегистрированы.')); //Ответ
