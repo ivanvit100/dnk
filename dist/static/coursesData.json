@@ -12,38 +12,7 @@ var curData = {
 			"1-4": 76,
 			"5-9": 28
 		},
-		"timetable": {
-			"0": {
-				"group": "111",
-				"days": "Понедельник",
-				"time": "9:30-11:00"
-			},
-			"1": {
-				"group": "112",
-				"days": "Среда",
-				"time": "17:30-19:00"
-			},
-			"2": {
-				"group": "113",
-				"days": "Пятница",
-				"time": "14:00-15:30"
-			},
-			"3": {
-				"group": "114",
-				"days": "Суббота",
-				"time": "15:30-17:00"
-			},
-			"4": {
-				"group": "115",
-				"days": "Суббота",
-				"time": "17:00-18:30"
-			},
-			"5": {
-				"group": "116",
-				"days": "Суббота",
-				"time": "14:00-15:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"dmodel": {
 		"title": "3D моделирование и инженерная графика",
@@ -57,18 +26,7 @@ var curData = {
 		"groups": {
 			"6-7": 33
 		},
-		"timetable": {
-			"0": {
-				"group": "611",
-				"days": "Понедельник",
-				"time": "15:20-16:50"
-			},
-			"1": {
-				"group": "612",
-				"days": "Понедельник",
-				"time": "17:00-18:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"promdesign": {
 		"title": "Промдизайн: скетчинг и моделирование",
@@ -82,13 +40,7 @@ var curData = {
 		"groups": {
 			"5-8": 14
 		},
-		"timetable": {
-			"0": {
-				"group": "401",
-				"days": "Понедельник, Четверг",
-				"time": "15:20-16:50"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"photo": {
 		"title": "Искусство фотографии",
@@ -101,13 +53,7 @@ var curData = {
 		"groups": {
 			"5-7": 11
 		},
-		"timetable": {
-			"0": {
-				"group": "811",
-				"days": "Понедельник, Среда",
-				"time": "17:00-18:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"multland": {
 		"title": "МультLand",
@@ -120,18 +66,7 @@ var curData = {
 		"groups": {
 			"6": 31
 		},
-		"timetable": {
-			"0": {
-				"group": "711",
-				"days": "Вторник",
-				"time": "09:00-10:30"
-			},
-			"1": {
-				"group": "712",
-				"days": "Четверг",
-				"time": "16:00-17:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"design": {
 		"title": "Компьютерная графика и дизайн",
@@ -144,13 +79,7 @@ var curData = {
 		"groups": {
 			"5-7": 20
 		},
-		"timetable": {
-			"0": {
-				"group": "311",
-				"days": "Вторник",
-				"time": "15:20-16:50, 17:00-18:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"doll": {
 		"title": "Кукольная мастерская",
@@ -163,13 +92,7 @@ var curData = {
 		"groups": {
 			"4-8": 8
 		},
-		"timetable": {
-			"0": {
-				"group": "912",
-				"days": "Вторник, Пятница",
-				"time": "15:20-16:50"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"tech": {
 		"title": "Урок технолонии",
@@ -182,18 +105,7 @@ var curData = {
 		"groups": {
 			"5-8": 26
 		},
-		"timetable": {
-			"0": {
-				"group": "Исхан-1",
-				"days": "Среда",
-				"time": "10:30-11:30"
-			},
-			"1": {
-				"group": "Исхан-2",
-				"days": "Среда",
-				"time": "13:30-14:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"	
 	},
 	"ict": {
 		"title": "Урок информатики",
@@ -208,23 +120,7 @@ var curData = {
 			"7": 12,
 			"8": 12
 		},
-		"timetable": {
-			"0": {
-				"group": "010",
-				"days": "Нет информации",
-				"time": "Нет информации"
-			},
-			"1": {
-				"group": "011",
-				"days": "Нет информации",
-				"time": "Нет информации"
-			},
-			"2": {
-				"group": "012",
-				"days": "Нет информации",
-				"time": "Нет информации"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"model": {
 		"title": "Векторное моделирование и лазерная резка",
@@ -237,13 +133,7 @@ var curData = {
 		"groups": {
 			"6-8": 15
 		},
-		"timetable": {
-			"0": {
-				"group": "911",
-				"days": "Четверг, Пятница",
-				"time": "16:00-17:30"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"chess": {
 		"title": "Шахматная азбука",
@@ -256,13 +146,7 @@ var curData = {
 		"groups": {
 			"5": 22
 		},
-		"timetable": {
-			"0": {
-				"group": "211",
-				"days": "Пятница",
-				"time": "17:00-18:00"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	},
 	"math": {
 		"title": "Математика и первые шаги в программирование",
@@ -277,22 +161,6 @@ var curData = {
 			"3-4": 26,
 			"5-7": 28
 		},
-		"timetable": {
-			"0": {
-				"group": "511",
-				"days": "Суббота",
-				"time": "13:00-14:00"
-			},
-			"1": {
-				"group": "512",
-				"days": "Суббота",
-				"time": "14:00-15:00"
-			},
-			"2": {
-				"group": "513",
-				"days": "Суббота",
-				"time": "15:00-16:00"
-			}
-		}
+		"timetable": "../static/img/course11.jpg"
 	}
 }

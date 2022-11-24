@@ -2,34 +2,25 @@
 	<div id="courseId">
 		<h2 id="courseTitle"></h2>
 		<div class="table_center_by_css">
-			<div data-role="splitter" class="h-100" data-split-sizes="75, 25" data-split-mode="vertical" id="titleImg">
-    			<div @dblclick="dataShow(true)" class="d-flex flex-justify-center flex-align-center" id="firstDataShow"><img src="" alt="course" id="courseImg"></div>
-    			<div @dblclick="dataShow(false)" class="d-flex flex-justify-center flex-align-center" id="secondDataShow">
-       				<table class="table">
-       					<caption><h2>Расписание</h2></caption>
-						<thead>
-							<tr>
-								<th>Группа</th>
-								<th>Дни недели</th>
-								<th>Время</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="item in timetable">
-								<td>{{item.group}}</td>
-								<td>{{item.days}}</td>
-								<td>{{item.time}}</td>
-							</tr>
-						</tbody>
-					</table>
-    			</div>
-			</div>
+    		<div class="d-flex flex-justify-center flex-align-center" id="titleImg"><img src="" alt="course" id="courseImg"></div>
 			<p id="courseText"></p>
 			<b id="ages"></b>
+			<div id="rasp" @click="time = !time"><img src="@/assets/calendar.png" alt="" id="cal"></div>
+			<div id="fullCalWrap" class="" v-if="time" @click="time
+			 = !time">
+				<div id="fullCal">
+					<h1>Расписание</h1>
+					<img :src="cdt['timetable']" alt="Расписание">
+				</div>
+			</div>
 			<hr>
 			<div id="courseWrite" v-if="!write">
 				<h4>Ваши дети на курсе</h4>
-				<p id="children">{{children}}</p>
+				<ul>
+					<li v-for="item in children"><h6>{{item}} <b class="delete" @click="deleteChild(item)">Отписаться</b></h6></li>
+				</ul>
+				<br>
+				<hr>
 				<h4>Записаться на курс</h4>
 				<h5>Выберите возрастную группу:</h5>
 				<div class="select">
@@ -62,6 +53,52 @@
 </template>
 
 <style>
+#fullCalWrap{
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+#fullCal{
+	width: 80%;
+	padding: 10px 30px;
+	background-color: white;
+	color: black;
+}
+#rasp{
+	background-color: #f77d24;
+	width: 65px;
+	height: 65px;
+	border-radius: 90px;
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	color: white;
+	z-index: 5;
+	-webkit-box-shadow: 4px 4px 6px 0px rgba(1, 7, 11, 0.2); 
+	-moz-box-shadow: 4px 4px 6px 0px rgba(1, 7, 11, 0.2); 
+	box-shadow: 4px 4px 6px 0px rgba(1, 7, 11, 0.2);
+	line-height: 65px;
+	text-align: center;
+}
+#rasp:hover{
+	right: 28px;
+	bottom: 28px;
+	background-color: #ba5800;
+}
+#cal{
+	height: 40%;
+	margin-top: 17px;
+	filter: invert();
+}
+.delete:hover{
+	font-size: 19px;
+}
+.delete{
+	color: #f77d24;
+	float: right;
+	margin-right: 15px;
+}
 .successStatus{
 	color: limegreen !important;
 }
@@ -69,7 +106,6 @@
 	width: 120px;
 }
 #titleImg{
-	height: 70vh !important;
 	border: 1px solid lightgray;
 }
 .calendar-content .today{
@@ -161,6 +197,14 @@ select::-ms-expand{
 .select:hover::after{
 	background-color: orange;
 }
+h6{
+	border: 1px solid gray;
+	border-radius: 3px;
+	height: 35px;
+	line-height: 32px;
+	margin-right: 10%;
+	max-width: 480px;
+}
 @media(min-width: 620px){
 	form{
 		display: grid;
@@ -191,14 +235,18 @@ export default{
 			selectedGroup: '',
 			timetable: '',
 			wait: false,
+			time: false,
 			groups: [],
-			children: 'Подождите...'
+			children: []
 		}
 	},
 	computed:{
 		write: function(){
 			return localStorage.getItem('login') == null
-		}
+		},
+		coursesData: function(){
+    		return curData
+    	}
 	},
 	methods:{
 		courseWrite: function(){
@@ -231,7 +279,21 @@ export default{
 						return response.json()
 					}).then((data) => {
 						if(data['answer']){
-							document.querySelector("#status").classList.add("successStatus")
+							document.querySelector("#status").classList.add("successStatus");
+							let user = {
+								courseID: this.courseId,
+								parentID: localStorage.getItem('id')
+							}
+							fetch('http://dnk.ivanvit.ru/php/children.php', {
+								method: 'POST',
+								body: JSON.stringify(user)
+							}).then((response) => {
+								return response.json()
+							}).then((data) => {
+								this.children = data['names'];
+							}).catch((error) => {
+								console.warn(error);
+							});
 						}else{
 							document.querySelector("#status").classList.remove("successStatus")
 						}
@@ -243,10 +305,28 @@ export default{
 				}
 			});
 		},
-		dataShow: function(f){
-			event.preventDefault();
-			document.querySelector("#firstDataShow").style.flexBasis = "calc(" + (f ? "90" : "10") + "% - 4px)";
-			document.querySelector("#secondDataShow").style.flexBasis = "calc(" + (f ? "10" : "90") + "% - 4px)";
+		deleteChild: function(name){
+			let user = {
+				courseID: this.courseId,
+				parentID: localStorage.getItem('id'),
+				childName: name
+			}
+			if(!this.wait){
+				this.wait = true;
+				fetch('http://dnk.ivanvit.ru/php/coursedelchild.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					if(data['answer']){
+						this.children.splice(name, 1);
+					}
+				}).catch((error) => {
+					console.warn(error);
+				});
+				this.wait = false;
+			}
 		}
 	},
 	mounted(){
@@ -278,6 +358,7 @@ export default{
 					console.warn(error);
 				});
 			}
+			console.log(coursesData[courseId]['timetable']);
 		})
 	}
 }
