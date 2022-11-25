@@ -11,8 +11,7 @@ var curData = {
 		"groups": {
 			"1-4": 76,
 			"5-9": 28
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"dmodel": {
 		"title": "3D моделирование и инженерная графика",
@@ -25,8 +24,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"6-7": 33
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"promdesign": {
 		"title": "Промдизайн: скетчинг и моделирование",
@@ -39,8 +37,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"5-8": 14
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"photo": {
 		"title": "Искусство фотографии",
@@ -52,8 +49,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"5-7": 11
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"multland": {
 		"title": "МультLand",
@@ -65,8 +61,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"6": 31
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"design": {
 		"title": "Компьютерная графика и дизайн",
@@ -78,8 +73,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"5-7": 20
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"doll": {
 		"title": "Кукольная мастерская",
@@ -91,8 +85,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"4-8": 8
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"tech": {
 		"title": "Урок технолонии",
@@ -104,8 +97,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"5-8": 26
-		},
-		"timetable": "../static/img/course11.jpg"	
+		}	
 	},
 	"ict": {
 		"title": "Урок информатики",
@@ -119,8 +111,7 @@ var curData = {
 			"6": 10,
 			"7": 12,
 			"8": 12
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"model": {
 		"title": "Векторное моделирование и лазерная резка",
@@ -132,8 +123,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"6-8": 15
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"chess": {
 		"title": "Шахматная азбука",
@@ -145,8 +135,7 @@ var curData = {
 		"time": 72,
 		"groups": {
 			"5": 22
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	},
 	"math": {
 		"title": "Математика и первые шаги в программирование",
@@ -160,7 +149,6 @@ var curData = {
 			"2": 24,
 			"3-4": 26,
 			"5-7": 28
-		},
-		"timetable": "../static/img/course11.jpg"
+		}
 	}
 }

@@ -5,13 +5,9 @@
     		<div class="d-flex flex-justify-center flex-align-center" id="titleImg"><img src="" alt="course" id="courseImg"></div>
 			<p id="courseText"></p>
 			<b id="ages"></b>
-			<div id="rasp" @click="time = !time"><img src="@/assets/calendar.png" alt="" id="cal"></div>
-			<div id="fullCalWrap" class="" v-if="time" @click="time
-			 = !time">
-				<div id="fullCal">
-					<h1>Расписание</h1>
-					<img :src="cdt['timetable']" alt="Расписание">
-				</div>
+			<div id="rasp" @click="raspClick"><img src="@/assets/calendar.png" alt="" id="cal"></div>
+			<div id="fullCalWrap" v-if="time" @click="raspClick">
+				<img src="/static/img/rasp.svg" alt="Расписание">
 			</div>
 			<hr>
 			<div id="courseWrite" v-if="!write">
@@ -30,19 +26,19 @@
 				</div>
 				<form>
 					<h5>Данные ребёнка</h5>
-					<input type="text" id="name" placeholder="Имя" minlength="2" required>
-					<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
-					<input type="text" id="thirdname" placeholder="Отчество" minlength="2">
-					<input type="text" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
-					<input type="text" id="placeOne" placeholder="Место рождения" minlength="2" required>
-					<input type="text" id="placeTwo" placeholder="Прописка" minlength="2" required>
+					<input type="text" v-on:keyup.enter="enterPress" id="name" placeholder="Имя" minlength="2" required>
+					<input type="text" v-on:keyup.enter="enterPress" id="lastname" placeholder="Фамилия" minlength="2" required>
+					<input type="text" v-on:keyup.enter="enterPress" id="thirdname" placeholder="Отчество" minlength="2">
+					<input type="text" v-on:keyup.enter="enterPress" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
+					<input type="text" v-on:keyup.enter="enterPress" id="placeOne" placeholder="Место рождения" minlength="2" required>
+					<input type="text" v-on:keyup.enter="enterPress" id="placeTwo" placeholder="Прописка" minlength="2" required>
 					<h5>Данные родителей</h5>
-					<input type="text" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
-					<input type="text" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
-					<input type="text" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
-					<input type="text" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
-					<input type="text" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
-					<input type="text" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
+					<input type="text" v-on:keyup.enter="enterPress" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
+					<input type="text" v-on:keyup.enter="enterPress" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
+					<input type="text" v-on:keyup.enter="enterPress" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
+					<input type="text" v-on:keyup.enter="enterPress" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
+					<input type="text" v-on:keyup.enter="enterPress" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
+					<input type="text" v-on:keyup.enter="enterPress" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
 					<p id="status"></p>
 					<center id="buttonCenterBlock"><button @click="courseWrite" id="goWrite" class="miniBut" formmethod="post">Отправить</button></center>
 				</form>
@@ -57,13 +53,22 @@
 	position: fixed;
 	width: 100%;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.6);
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	justify-content: center;
+	text-align: center;
 }
-#fullCal{
-	width: 80%;
-	padding: 10px 30px;
-	background-color: white;
-	color: black;
+
+#fullCalWrap > img{
+	max-width: 80%;
+	max-height: 90%;
+	position: fixed;
+	top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 #rasp{
 	background-color: #f77d24;
@@ -71,7 +76,7 @@
 	height: 65px;
 	border-radius: 90px;
 	position: fixed;
-	bottom: 30px;
+	bottom: calc(0vh + 30px);
 	right: 30px;
 	color: white;
 	z-index: 5;
@@ -305,6 +310,13 @@ export default{
 				}
 			});
 		},
+		enterPress: function(event){
+			document.querySelector("#goWrite").click();
+		},
+		raspClick: function(event){
+			this.time = !this.time;
+			console.log(this.time);
+		},
 		deleteChild: function(name){
 			let user = {
 				courseID: this.courseId,
@@ -358,7 +370,6 @@ export default{
 					console.warn(error);
 				});
 			}
-			console.log(coursesData[courseId]['timetable']);
 		})
 	}
 }
