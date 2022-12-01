@@ -14,15 +14,16 @@
 			<div class="header_button" @click="move('courses')">Курсы</div>
 			<div class="header_button" @click="move('contacts')">Контакты</div>
 		</div>
-		<center>
 		<div id="images">
+			<img src="/static/img/edge.png" alt="" id="edge">
+			<div id="carouselWrap">
 			<div data-role="carousel" data-bullet-style="rect" data-control-next="<span class='mif-chevron-right'></span>" data-height="16/9" data-cls-bullet-on="bg-orange drop-shadow" data-cls-controls="fg-white" data-control-prev="<span class='mif-chevron-left'></span>" data-controls-on-mouse="true" data-auto-start="true" data-period="10000" data-duration="750">
 				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
 				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
 				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
 			</div>
+			</div>
 		</div>
-		</center>
 		<template>
 			<Transition name="modal">
 				<div v-if="show" class="modal-mask">
@@ -62,6 +63,25 @@
 </template>
 
 <style>
+.carousel{
+	position: absolute;
+	right: 0;
+}
+.slide, .carousel{
+	max-width: 800px !important;
+	max-height: 450px;
+}
+#carouselWrap{
+	width: 100%;
+	position: relative;
+}
+#edge{
+	position: absolute;
+	height: 100%;
+	z-index: 3;
+	left: 0;
+	width: calc(100vw - 600px);
+}
 #goReady{
 	opacity: 0;
 	position: absolute;
@@ -118,7 +138,7 @@
 	border-bottom: 5px solid #f77d24;
 }
 .modal-enter-from, .modal-leave-to{
-  opacity: 0;
+	opacity: 0;
 }
 .modal-enter-from .modal-container, .modal-leave-to .modal-container{
 	-webkit-transform: scale(1.1);
@@ -194,8 +214,9 @@
 }
 #images{
 	margin-bottom: 20px;
-	max-height: 600px;
-	max-width: 800px;
+	max-height: 450px;
+	max-width: 100%;
+	position: relative;
 }
 #close{
 	height: 30px;
@@ -242,6 +263,11 @@ input{
 @media(max-width: 600px){
 	.button, .button:before, .button:after{
 		font-size: 10px;
+	}	
+}
+@media(max-width: 800px){
+	#edge{
+		display: none;
 	}	
 }
 </style>

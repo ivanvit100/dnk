@@ -315,7 +315,6 @@ export default{
 		},
 		raspClick: function(event){
 			this.time = !this.time;
-			console.log(this.time);
 		},
 		deleteChild: function(name){
 			let user = {
@@ -332,7 +331,10 @@ export default{
 					return response.json()
 				}).then((data) => {
 					if(data['answer']){
-						this.children.splice(name, 1);
+						let i = this.children.indexOf(name);
+						if(i >= 0){
+							this.children.splice(i,1);
+						}
 					}
 				}).catch((error) => {
 					console.warn(error);
