@@ -1,5 +1,5 @@
-![preview](http://dnk.ivanvit.ru/static/preview.png)
-# Functionally WEB-based calculator
+![preview](https://ivanvit.ru/img/dnkPreview.png)
+# A digital platform for the House of Scientific Collaboration
 
 ---
 
