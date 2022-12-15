@@ -1,19 +1,41 @@
-# ДНК ЕИ КФУ
+![preview](http://dnk.ivanvit.ru/static/preview.png)
+# Functionally WEB-based calculator
+
+---
+
+## Links
+You can see this project on the [site](http://dnk.ivanvit.ru)
+
+## Description
+A digital platform for the House of Scientific Collaboration, organized with the support of the Elabuga Institute of Kazan Federal University. The tasks of the portal are to provide information about activities at home, to simplify the registration of children on courses, to control attendance and to simplify administrative activities.
+
+## Team members
+1. develope@ivanvit.ru
+2. minnakhmetovalmazdev@gmail.com
+3. +7 917 290-84-99
+4. +7 962 652-82-42
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# Install vue-cli 
+npm install --location=global vue-cli
+
+# Create vue-cli project
+vue init pwa name
+
+# Install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# Copy repository
+git clone https://github.com/ivanvit100/dnk
+
+# Serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
+# Build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
+# Build for production and view the bundle analyzer report
 npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+``

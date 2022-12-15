@@ -16,6 +16,15 @@
 		</div>
 		<div id="images">
 			<img src="/static/img/edge.png" alt="" id="edge">
+			<div id="logoSlider">
+				<center>
+					<div id="headText">
+						Дом научной коллаборации имени<br>
+						Камиля Ахметовича Валиева
+					</div>
+					<img src="@/assets/logo3.png" alt="logo">
+				</center>
+			</div>
 			<div id="carouselWrap">
 			<div data-role="carousel" data-bullet-style="rect" data-control-next="<span class='mif-chevron-right'></span>" data-height="16/9" data-cls-bullet-on="bg-orange drop-shadow" data-cls-controls="fg-white" data-control-prev="<span class='mif-chevron-left'></span>" data-controls-on-mouse="true" data-auto-start="true" data-period="10000" data-duration="750">
 				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
@@ -63,6 +72,28 @@
 </template>
 
 <style>
+#headText{
+	position: absolute;
+	z-index: 99;
+	font-size: 30px;
+	text-align: center;
+	color: white;
+	top: 40px;
+	text-shadow: 2px 2px 0 #333, 2px -2px 0 #333, -2px 2px 0 #333, -2px -2px 0 #333, 2px 0px 0 #333, 0px 2px 0 #333, -2px 0px 0 #333, 0px -2px 0 #333;
+}
+#logoSlider{
+	position: absolute;
+	left: calc((100vw - 830px)/2 - 5vw);
+	z-index: 9;
+	top: 280px;
+	width: 25vw;
+	transform: translate(0%, -60%);
+}
+#logoSlider > center > img{
+	width: calc(100vw - 730px);
+	max-width: 250px;
+	opacity: 0.6;
+}
 .carousel{
 	position: absolute;
 	right: 0;
@@ -79,8 +110,8 @@
 	position: absolute;
 	height: 100%;
 	z-index: 3;
-	left: 0;
-	width: calc(100vw - 600px);
+	left: calc(100vw - 850px);
+	width: 150px;
 }
 #goReady{
 	opacity: 0;
@@ -213,6 +244,7 @@
 	margin-top: 4px;
 }
 #images{
+	background-color: white;
 	margin-bottom: 20px;
 	max-height: 450px;
 	max-width: 100%;
@@ -266,9 +298,20 @@ input{
 	}	
 }
 @media(max-width: 800px){
-	#edge{
+	#edge, #logoSlider{
 		display: none;
 	}	
+}
+@media(max-width: 1100px){
+	#headText{
+		display: none;
+	}
+	#logoSlider > center > img{
+		opacity: 1;
+	}
+	#logoSlider{
+		transform: translate(0%, -80%);
+	}
 }
 </style>
 
@@ -355,6 +398,7 @@ export default{
 							localStorage.setItem('surname', f ? data['surname'] : user.surname);
 							localStorage.setItem('email', f ? data['email'] : user.login);
 							localStorage.setItem('id', data['id']);
+							localStorage.setItem('Role', f ? data['role'] : 1);
 							document.querySelector("#close").click();
 							this.login = true;
 						}

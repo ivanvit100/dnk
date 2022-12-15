@@ -11,37 +11,79 @@
 			</div>
 			<hr>
 			<div id="courseWrite" v-if="!write">
-				<h4>Ваши дети на курсе</h4>
-				<ul>
-					<li v-for="item in children"><h6>{{item}} <b class="delete" @click="deleteChild(item)">Отписаться</b></h6></li>
-				</ul>
-				<br>
-				<hr>
-				<h4>Записаться на курс</h4>
-				<h5>Выберите возрастную группу:</h5>
-				<div class="select">
-					<select v-model="selectedGroup">
-						<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
-					</select>
+				<div v-if="vis">
+					<h4 v-if="roleCheck">Ваши дети на курсе</h4>
+					<h4 v-else>Дети на курсе</h4>
+					<ul>
+						<li v-for="item in children"><h6>{{item}} <b class="delete" @click="deleteChild(item)" v-if="!teacher">Отписаться</b><b class="delete" @click="miss(item)" v-else>Отметить</b></h6></li>
+					</ul>
+					<br>
+					<hr>
 				</div>
-				<form>
-					<h5>Данные ребёнка</h5>
-					<input type="text" v-on:keyup.enter="enterPress" id="name" placeholder="Имя" minlength="2" required>
-					<input type="text" v-on:keyup.enter="enterPress" id="lastname" placeholder="Фамилия" minlength="2" required>
-					<input type="text" v-on:keyup.enter="enterPress" id="thirdname" placeholder="Отчество" minlength="2">
-					<input type="text" v-on:keyup.enter="enterPress" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
-					<input type="text" v-on:keyup.enter="enterPress" id="placeOne" placeholder="Место рождения" minlength="2" required>
-					<input type="text" v-on:keyup.enter="enterPress" id="placeTwo" placeholder="Прописка" minlength="2" required>
-					<h5>Данные родителей</h5>
-					<input type="text" v-on:keyup.enter="enterPress" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
-					<input type="text" v-on:keyup.enter="enterPress" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
-					<input type="text" v-on:keyup.enter="enterPress" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
-					<input type="text" v-on:keyup.enter="enterPress" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
-					<input type="text" v-on:keyup.enter="enterPress" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
-					<input type="text" v-on:keyup.enter="enterPress" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
-					<p id="status"></p>
-					<center id="buttonCenterBlock"><button @click="courseWrite" id="goWrite" class="miniBut" formmethod="post">Отправить</button></center>
-				</form>
+				<div v-if="roleCheck">
+					<h4>Записаться на курс</h4>
+					<h5>Выберите возрастную группу:</h5>
+					<div class="select">
+						<select v-model="selectedGroup">
+							<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
+						</select>
+					</div>
+					<form>
+						<h5>Данные ребёнка</h5>
+						<input type="text" v-on:keyup.enter="enterPress" id="name" placeholder="Имя" minlength="2" required>
+						<input type="text" v-on:keyup.enter="enterPress" id="lastname" placeholder="Фамилия" minlength="2" required>
+						<input type="text" v-on:keyup.enter="enterPress" id="thirdname" placeholder="Отчество" minlength="2">
+						<input type="text" v-on:keyup.enter="enterPress" data-role="calendarpicker" data-input-format="%d/%m/%y" data-locale="ru-RU" data-cls-calendar="compact" placeholder="Дата рождения" id="date" data-week-start="1" required>
+						<input type="text" v-on:keyup.enter="enterPress" id="placeOne" placeholder="Место рождения" minlength="2" required>
+						<input type="text" v-on:keyup.enter="enterPress" id="placeTwo" placeholder="Прописка" minlength="2" required>
+						<h5>Данные родителей</h5>
+						<input type="text" v-on:keyup.enter="enterPress" id="nameOne" placeholder="Ваше имя" minlength="2" readonly required="">
+						<input type="text" v-on:keyup.enter="enterPress" id="lastnameOne" placeholder="Ваша фамилия" minlength="2" readonly required="">
+						<input type="text" v-on:keyup.enter="enterPress" id="thirdnameOne" placeholder="Ваше отчество" minlength="2">
+						<input type="text" v-on:keyup.enter="enterPress" id="nameTwo" placeholder="Имя второго родителя" minlength="2">
+						<input type="text" v-on:keyup.enter="enterPress" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
+						<input type="text" v-on:keyup.enter="enterPress" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
+						<p id="status"></p>
+						<center id="buttonCenterBlock"><button @click="courseWrite" id="goWrite" class="miniBut" formmethod="post">Отправить</button></center>
+					</form>
+				</div>
+				<div id="teachList" v-if="admin">
+					<h2>Список преподавателей</h2>
+					<ul>
+						<li v-for="item in teachList"><h6 class="hClass">{{item}}</h6></li>
+					</ul>
+					<hr>
+					<br>
+				</div>
+				<div id="edit" v-if="admin">
+					<h2>Редактирование курса</h2>
+					<div>
+						<div style="grid-column: 1/3">
+							<h5>Выберите возрастную группу:</h5>
+							<div class="select">
+								<select v-model="selectedGroup">
+									<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<h3>Количество детей на курсе</h3>
+							<input type="text" v-model="numChildren"><button>Обновить</button>
+							<br>
+							<h3>Описание курса</h3>
+							<input type="text" v-model="description"><button>Обновить</button>
+							<br>
+						</div>
+						<div class="teachersEdit">
+							<h3>Добавить преподавателя</h3>
+							<input type="text" v-model="addTeach"><button>Обновить</button>
+							<br>
+							<h3>Удалить преподавателя</h3>
+							<input type="text" v-model="removeTeach"><button>Обновить</button>
+							<br>
+						</div>
+					</div>
+				</div>
 			</div>
 			<p class="noReg" v-else>Зарегистрируйтесь, чтобы записать ребёнка на этот курс.</p>
 		</div>
@@ -49,6 +91,28 @@
 </template>
 
 <style>
+.teachersEdit{
+	grid-column: 1;
+}
+#edit > div{
+	display: grid;
+	grid-template-columns: 100%;
+	width: 100%;
+}
+#edit > div > div > button{
+	height: 34px;
+	margin-left: 0;
+	top: -1px;
+	left: -5px;
+	position: relative;
+	background-color: #f77d24;
+	border: 2px solid #f77d24;
+	color: white;
+	width: 100px;
+}
+#edit > div > div > button:hover{
+	background-color: #d47837;
+}
 #fullCalWrap{
 	position: fixed;
 	width: 100%;
@@ -60,7 +124,6 @@
 	justify-content: center;
 	text-align: center;
 }
-
 #fullCalWrap > img{
 	max-width: 80%;
 	max-height: 90%;
@@ -101,8 +164,9 @@
 }
 .delete{
 	color: #f77d24;
-	float: right;
+	left: min(100% - 123px, 365px);	
 	margin-right: 15px;
+	position: absolute;
 }
 .successStatus{
 	color: limegreen !important;
@@ -141,21 +205,34 @@
 	width: 275px !important;
 	margin-bottom: 15px !important;
 }
+.hClass{
+	border: none !important;
+}
 </style>
 
 <style scoped>
+li{
+	list-style-type: none;
+	padding-left: 8px !important;
+	position: relative;
+}
+.select{
+	width: 369px !important;
+}
 .button{
 	position: relative !important;
 	right: -20px !important;
 	margin: 0 !important;
 }
 #courseTitle{
-	height: 32px;
+	line-height: 32px;
+	height: auto;
+	word-break: break-word;
 	position: relative;
 	margin-top: 25px;
 	background-color: orange !important;
 }
-input{
+input, select{
 	height: 34px;
 	border: 1px solid lightgray;
 }
@@ -192,23 +269,34 @@ select::-ms-expand{
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: .01em .95em;
+	padding: .01em 2.75em;
 	background-color: rgba(200, 200, 200, .95);
 	transition: all .25s ease;
 	pointer-events: none;
 	border-radius: 1px;
 	color: white;
+	width: 100px;
 }
 .select:hover::after{
-	background-color: orange;
+	background-color: #f77d24;
 }
 h6{
 	border: 1px solid gray;
 	border-radius: 3px;
-	height: 35px;
-	line-height: 32px;
+	line-height: 35px;
 	margin-right: 10%;
 	max-width: 480px;
+	word-break: break-word;
+	padding-left: 8px;
+}
+@media(max-width: 725px){
+	h6{
+		margin-right: 0;
+	}
+	ul{
+		margin: 0;
+		padding: 0;
+	}
 }
 @media(min-width: 620px){
 	form{
@@ -217,6 +305,14 @@ h6{
 	}
 	h5, #buttonCenterBlock, #status{
 		grid-column: 1/3;
+	}
+}
+@media(min-width: 825px){
+	#edit > div{
+		grid-template-columns: 50% 50%;
+	}
+	.teachersEdit{
+		grid-column: 2;
 	}
 }
 @media(min-width: 880px){
@@ -239,18 +335,33 @@ export default{
 			courseId: '',
 			selectedGroup: '',
 			timetable: '',
+			numChildren: '',
+			description: '',
+			addTeach: '',
+			removeTeach: '',
 			wait: false,
 			time: false,
 			groups: [],
-			children: []
+			children: [],
+			teachList: [],
+			vis: false
 		}
 	},
 	computed:{
 		write: function(){
 			return localStorage.getItem('login') == null
 		},
+		roleCheck: function(){
+			return localStorage.getItem('Role') != "2" && localStorage.getItem('Role') != "3"
+		},
 		coursesData: function(){
     		return curData
+    	},
+    	admin: function(){
+    		return localStorage.getItem("Role") == "3"
+    	},
+    	teacher: function(){
+    		return localStorage.getItem("Role") == "2"
     	}
 	},
 	methods:{
@@ -341,9 +452,36 @@ export default{
 				});
 				this.wait = false;
 			}
+		},
+		miss: function(name){
+			let user = {
+				courseID: this.courseId,
+				teachID: localStorage.getItem('id'),
+				childName: name
+			}
+			if(!this.wait){
+				this.wait = true;
+				fetch('http://dnk.ivanvit.ru/php/childmiss.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					if(data['answer']){
+						let i = this.children.indexOf(name);
+						if(i >= 0){
+							this.children.splice(i,1);
+						}
+					}
+				}).catch((error) => {
+					console.warn(error);
+				});
+				this.wait = false;
+			}
 		}
 	},
 	mounted(){
+		document.querySelector("#images").style.display = "none";
 		document.querySelector("#headerVue").classList.add("courseHide");
 		this.courseId = this.$route.params.courseId;
 		this.groups = Object.keys(curData[this.courseId]['groups'])
@@ -354,8 +492,10 @@ export default{
 			document.querySelector("#courseImg").src = curData[this.courseId]['img'];
 			document.querySelector("#courseText").innerText = curData[this.courseId]['text'];
 			document.querySelector("#ages").innerText = "Программа обучения предназначена для детей, обучающихся в следующих классах: " + curData[this.courseId]['age'];
-			document.querySelector("#nameOne").value = localStorage.getItem('name');
-			document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
+			try{
+				document.querySelector("#nameOne").value = localStorage.getItem('name');
+				document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
+			}catch(e){console.warn("Запись на курс закрыта!")}
 			if(!this.write){
 				let user = {
 					courseID: this.courseId,
@@ -368,11 +508,31 @@ export default{
 					return response.json()
 				}).then((data) => {
 					this.children = data['names'];
+					Object.keys(this.children).length != 0 ? this.vis = true : this.vis = false;
+				}).catch((error) => {
+					console.warn(error);
+				});
+			}
+			if(localStorage.getItem('Role')){
+				let user = {
+					courseID: this.courseId,
+					userID: localStorage.getItem('id')
+				}
+				fetch('http://dnk.ivanvit.ru/php/teachList.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					this.teachList = data['names'];
 				}).catch((error) => {
 					console.warn(error);
 				});
 			}
 		})
+	},
+	destroyed(){
+		document.querySelector("#images").style.display = "initial";
 	}
 }
 </script>

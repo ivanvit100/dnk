@@ -38,6 +38,11 @@ $find = strpos($ourData, '"'.$group.'":', $find);
 $count = trim(substr($ourData, $find + strlen('"'.$group.'":') + 1, 3));
 $count = (int)str_replace(",", "", $count);
 
+if(iconv_strlen($birthday)<2){  
+    echo json_encode(array('answer' => false, 'reason' => 'Неверная дата рождения!')); //Ответ
+    die();
+}
+
 $result = mysql_query("SELECT ID FROM $course WHERE ParentID='$pid' AND ChildName='$name'", $db);
 echo mysql_error($db); //Проверяй ошибки SQL этой строкой. Просто воткни её после ошибочного запроса
 if($result != false){
@@ -72,8 +77,10 @@ if($result2=='TRUE' or $result2 == true){
     if($myrow3['Courses'] == ''){
         $result4 = mysql_query("UPDATE Users SET Courses = '$course' WHERE ID = '$pid'");
     }else{
+        if(strpos($myrow3['Courses'], $course) === false){
         $result5 = $myrow3['Courses'].", ".$course;
         $result4 = mysql_query("UPDATE Users SET Courses = '$result5' WHERE ID = '$pid'");
+        }
     }
     die();
 }else{

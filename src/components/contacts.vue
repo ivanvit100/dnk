@@ -36,10 +36,6 @@
 				<td class="td_css1" valign="top"><a href="mailto: minnakhmetovalmazdev@gmail.com">minnakhmetovalmazdev@gmail.com</a></td>
 			</tr>
 			<tr>
-				<td class="td_css1" cellspacing="10" width=200>Шипков Александр Владимирович</td>
-				<td class="td_css1" valign="top"><a href="mailto: gipkin9@mail.ru">gipkin9@mail.ru</a></td>
-			</tr>
-			<tr>
 				<td class="td_css1" cellspacing="10" width=200>Ивашкевич Диана Вячеславовна</td>
 				<td class="td_css1" valign="top">+7 917 290-84-99</td>
 			</tr>
