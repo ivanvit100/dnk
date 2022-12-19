@@ -111,3 +111,45 @@ ErrorDocument 403 /index.html
 #Правила кэширования
 
 # Header set Cache-Control "max-age=604800, public"
+
+
+
+#Размер запроса
+
+LimitRequestBody 10240000
+
+
+
+#Сжатие картинок
+
+<ifModule mod_deflate.c>
+
+AddOutputFilterByType DEFLATE image/png
+
+AddOutputFilterByType DEFLATE image/jpg
+
+AddOutputFilterByType DEFLATE image/svg
+
+</ifModule>
+
+
+
+#Настройки PHP
+
+CharsetRecodeMultipartForms Off
+
+php_value post_max_size 20M
+
+<ifModule mod_php.c>
+
+php_value upload_max_filesize 125M
+
+php_value post_max_size 20M
+
+</ifModule>
+
+
+
+#Защита кросскриптинга
+
+RewriteRule \.(jpg|jpeg|png|gif|svg|webp)$ - [NC,F,L]

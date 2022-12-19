@@ -13,7 +13,14 @@
 			<div id="courseWrite" v-if="!write">
 				<div v-if="vis">
 					<h4 v-if="roleCheck">Ваши дети на курсе</h4>
-					<h4 v-else>Дети на курсе</h4>
+					<div v-else>
+						<h4>Дети на курсе</h4>
+						<div class="select">
+							<select v-model="selectedGroup">
+								<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
+							</select>
+						</div>
+					</div>
 					<ul>
 						<li v-for="item in children"><h6>{{item}} <b class="delete" @click="deleteChild(item)" v-if="!teacher">Отписаться</b><b class="delete" @click="miss(item)" v-else>Отметить</b></h6></li>
 					</ul>
@@ -60,7 +67,7 @@
 					<div>
 						<div style="grid-column: 1/3">
 							<h5>Выберите возрастную группу:</h5>
-							<div class="select">
+							<div class="select aselect">
 								<select v-model="selectedGroup">
 									<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
 								</select>
@@ -68,18 +75,23 @@
 						</div>
 						<div>
 							<h3>Количество детей на курсе</h3>
-							<input type="text" v-model="numChildren"><button>Обновить</button>
+							<input type="text" v-model="numChildren"><button @click="update(4, numChildren)">Обновить</button>
 							<br>
 							<h3>Описание курса</h3>
-							<input type="text" v-model="description"><button>Обновить</button>
+							<input type="text" v-model="description"><button  @click="update(3, description)">Обновить</button>
 							<br>
 						</div>
 						<div class="teachersEdit">
 							<h3>Добавить преподавателя</h3>
-							<input type="text" v-model="addTeach"><button>Обновить</button>
+							<input type="text" v-model="addTeach"><button @click="update(1, addTeach)">Обновить</button>
 							<br>
 							<h3>Удалить преподавателя</h3>
-							<input type="text" v-model="removeTeach"><button>Обновить</button>
+							<div class="select aselect">
+								<select v-model="deletedTeach">
+									<option v-for="item in emails" v-bind:value="item"  @click="update(2, deletedTeach)">{{item}}</option>
+								</select>
+							</div>
+
 							<br>
 						</div>
 					</div>
@@ -164,7 +176,7 @@
 }
 .delete{
 	color: #f77d24;
-	left: min(100% - 123px, 365px);	
+	left: min(100% - 128px, 365px);	
 	margin-right: 15px;
 	position: absolute;
 }
@@ -216,7 +228,7 @@ li{
 	padding-left: 8px !important;
 	position: relative;
 }
-.select{
+.aselect{
 	width: 369px !important;
 }
 .button{
@@ -344,6 +356,7 @@ export default{
 			groups: [],
 			children: [],
 			teachList: [],
+			emails: [],
 			vis: false
 		}
 	},
@@ -478,6 +491,35 @@ export default{
 				});
 				this.wait = false;
 			}
+		},
+		update: function(mode, text){
+			let user = {
+				Course: this.courseId,
+				ID: localStorage.getItem('id'),
+				Group: this.selectedGroup,
+				Mode: mode,
+				Text: text.replaceAll(',', '`')
+			}
+			if(!this.wait){
+				this.wait = true;
+				fetch('http://dnk.ivanvit.ru/php/adminmenu.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					console.log(data['reason']);
+					if(data['answer']){
+						let i = this.children.indexOf(name);
+						if(i >= 0){
+							this.children.splice(i,1);
+						}
+					}
+				}).catch((error) => {
+					console.warn(error);
+				});
+				this.wait = false;
+			}
 		}
 	},
 	mounted(){
@@ -496,10 +538,28 @@ export default{
 				document.querySelector("#nameOne").value = localStorage.getItem('name');
 				document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
 			}catch(e){console.warn("Запись на курс закрыта!")}
-			if(!this.write){
+			if(!this.write && this.roleCheck){
 				let user = {
 					courseID: this.courseId,
-					parentID: localStorage.getItem('id')
+					parentID: localStorage.getItem('id'),
+				}
+				fetch('http://dnk.ivanvit.ru/php/children.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					this.children = data['names'];
+					Object.keys(this.children).length != 0 ? this.vis = true : this.vis = false;
+				}).catch((error) => {
+					console.warn(error);
+				});
+			}else if(!this.write){
+				console.log(this.selectedGroup);
+				let user = {
+					courseID: this.courseId,
+					parentID: localStorage.getItem('id'),
+					GroupName: this.selectedGroup
 				}
 				fetch('http://dnk.ivanvit.ru/php/children.php', {
 					method: 'POST',
@@ -513,7 +573,7 @@ export default{
 					console.warn(error);
 				});
 			}
-			if(localStorage.getItem('Role')){
+			if(localStorage.getItem('Role') == 3){
 				let user = {
 					courseID: this.courseId,
 					userID: localStorage.getItem('id')
@@ -525,6 +585,7 @@ export default{
 					return response.json()
 				}).then((data) => {
 					this.teachList = data['names'];
+					this.emails = data['emails'];
 				}).catch((error) => {
 					console.warn(error);
 				});

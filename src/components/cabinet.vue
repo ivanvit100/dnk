@@ -29,7 +29,7 @@
 				<button id="addGroup" @click="readyAdd">Повысить</button>
 			</div>
 		</div>
-		<div id="subscribe">
+		<div id="subscribe" v-bind:style="{margin: activeMargin}"> 
 			<h2>Курсы</h2>
 			<span id="subscribeStatus">{{subscribeStatus}}</span>
 			<p class="coursesSubscribe" v-for="item in courses" @click="courseMore(item.href)">{{item.name}}</p>
@@ -188,7 +188,8 @@ export default{
 			findEmail: 'Загрузка...',
 			findPhone: 'Загрузка...',
 			findGroup: 'Загрузка...',
-			findStatus: ''
+			findStatus: '',
+			activeMargin: ''
 		}
 	},
 	methods:{
@@ -261,15 +262,26 @@ export default{
 		if(localStorage.getItem('login') == null){
 			this.$router.push({name: 'home'})
 		}else{
+			if(localStorage.getItem("Role") == 2){
+				document.querySelector("#misses").style.display = "none";
+				document.querySelector("#subscribe").style.border = "none";
+				document.querySelector("#subscribe").style.gridColumn = "2";
+				document.querySelector("#subscribe h2").style.marginBottom = "7px";
+				document.querySelector("#subscribe h2").style.marginTop = "15px";
+				this.activeMargin = "30px 30px 15px 15px !important";
+			}
 			let user = {
 				ID: localStorage.getItem('id')
 			}
-			fetch('http://dnk.ivanvit.ru/testphp/cab_test.php', {
+			fetch('http://dnk.ivanvit.ru/php/cabinet.php', {
 				method: 'POST',
 				body: JSON.stringify(user)
 			}).then((response) => {
 				return response.json()
 			}).then((data) => {
+				if(!data['answer']){
+					this.exit();
+				}
 				this.email = data['Email'];
 				this.phone = data['Phone'];
 				this.courses = [];
@@ -284,6 +296,15 @@ export default{
 					if(this.courses.length == 0){
 						this.courses = [{'name': 'Выбрать курс', 'href': 'empty'}]
 					}
+				}else if(data['Group'] == 2){
+					try{this.coursesBeta = data['Courses'].split(', ')}
+					catch(e){}
+					for(var i = 0; i < this.coursesBeta.length; i++){
+						this.courses.push({'name': curData[this.coursesBeta[i]]["title"], 'href': this.coursesBeta[i]});
+					}
+					if(this.courses.length == 0){
+						document.querySelector("#subscribeStatus").innerHTML = "Вы не преподаёте на курсах";
+					}else{document.querySelector("#subscribeStatus").remove();}
 				}else if(data['Group'] == 3){
 					this.missesTitle = false;
 					let keys = Object.keys(curData);

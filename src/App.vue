@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <headerVue @swap="swap" :mode="mode"></headerVue>
+    <headerVue @swap="swap" :mode="mode" :key="index"></headerVue>
     <main>
       <router-view></router-view>
     </main>
@@ -71,6 +71,14 @@ export default{
       surname: '',
       id: '',
       login: '',
+      index: 0
+    }
+  },
+  watch: {
+    '$route.name'(to, from){
+      if(to == "home" || to == "courses" || to == "contacts"){
+        this.index += 1;
+      }
     }
   },
   methods:{
