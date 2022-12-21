@@ -88,7 +88,7 @@
 							<h3>Удалить преподавателя</h3>
 							<div class="select aselect">
 								<select v-model="deletedTeach">
-									<option v-for="item in emails" v-bind:value="item"  @click="update(2, deletedTeach)">{{item}}</option>
+									<option v-for="item in emails" v-bind:value="item">{{item}}</option>
 								</select>
 							</div>
 
@@ -357,7 +357,8 @@ export default{
 			children: [],
 			teachList: [],
 			emails: [],
-			vis: false
+			vis: false,
+			support: ''
 		}
 	},
 	computed:{
@@ -375,7 +376,16 @@ export default{
     	},
     	teacher: function(){
     		return localStorage.getItem("Role") == "2"
-    	}
+    	},
+    	deletedTeach:{
+    		get: function(){
+				return this.support
+			},
+			set: function(value){
+				this.support = value;
+				this.approveDel();
+			}
+		}
 	},
 	methods:{
 		courseWrite: function(){
@@ -520,6 +530,13 @@ export default{
 				});
 				this.wait = false;
 			}
+		},
+		approveDel: function(){
+			console.log();
+			let result = confirm("Вы уверены, что хотите удалить преподавателя " + this.teachList[this.emails.findIndex(i => i == this.deletedTeach)] + " с курса?");
+			if(result){
+				this.update(2, this.deletedTeach);
+			}
 		}
 	},
 	mounted(){
@@ -555,7 +572,6 @@ export default{
 					console.warn(error);
 				});
 			}else if(!this.write){
-				console.log(this.selectedGroup);
 				let user = {
 					courseID: this.courseId,
 					parentID: localStorage.getItem('id'),

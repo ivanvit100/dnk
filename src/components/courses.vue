@@ -9,7 +9,19 @@
 				<div class="td_css_3"><img class="courseImg" :src="item.img" alt="courseImg"></div>
 				<div class="td_css">{{item.text}}</div>
 				<b>Возраст: {{item.age}} класс</b>
-				<div class="td_css_2"><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
+				<div class="td_css_2"><button v-if="adm" @click="courseMore(item.courseId)" class="button_css" style="right: 125px; background-color: #ba5800;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
+			</div>
+		</div>
+		<div class="table_center_by_css" v-if="adm" style="padding: 20px"> 
+			<input v-model="name" class="th_css" placeholder="Создать курс"></input>
+			<div class="courseCont">
+				<div class="td_css_3"><img class="courseImg" src="/static/img/white.jpg" alt="courseImg"></div>
+				<textarea class="td_css" placeholder="Описание курса" v-model="description"></textarea>
+				<input v-model="age" placeholder="Возрастные группы через запятую"></input>
+				<input v-model="count" placeholder="Количество детей на Возрастные группы, через запятую"></input>
+				<input v-model="short" placeholder="Краткое имя курса"></input>
+				<input v-model="courseId" placeholder="Идентификатор (вида 'robo')"></input>
+				<div class="td_css_2"><button @click="courseMore(item.courseId)" class="button_css">Создать</button></div>
 			</div>
 		</div>
 	</div>
@@ -59,6 +71,9 @@
 	max-width: 400px;
 	width: 100%;
 }
+textarea{
+	width: 90%;
+}
 @media(max-width: 600px){
 	.courseCont{
 		grid-template-columns: 100%;
@@ -68,6 +83,11 @@
 	}
 }
 </style>
+<style scoped>
+input{
+	border: 1px solid #d3d3d3;
+}
+</style>
 
 <script>
 export default{
@@ -75,11 +95,20 @@ export default{
 	props: [],
 	data(){
 		return{
+			name: '',
+			age: '',
+			count: '',
+			description: '',
+			short: '',
+			courseId: ''
 		}
 	},
 	computed:{
 		coursesData: function(){
     		return curData
+    	},
+    	adm: function(){
+    		return localStorage.getItem('Role') == 3
     	}
 	},
 	methods:{

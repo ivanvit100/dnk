@@ -116,40 +116,15 @@ ErrorDocument 403 /index.html
 
 #Размер запроса
 
-LimitRequestBody 10240000
-
-
-
-#Сжатие картинок
-
-<ifModule mod_deflate.c>
-
-AddOutputFilterByType DEFLATE image/png
-
-AddOutputFilterByType DEFLATE image/jpg
-
-AddOutputFilterByType DEFLATE image/svg
-
-</ifModule>
-
-
-
-#Настройки PHP
-
-CharsetRecodeMultipartForms Off
-
-php_value post_max_size 20M
-
-<ifModule mod_php.c>
-
-php_value upload_max_filesize 125M
-
-php_value post_max_size 20M
-
-</ifModule>
-
+#LimitRequestBody 10240000
 
 
 #Защита кросскриптинга
 
-RewriteRule \.(jpg|jpeg|png|gif|svg|webp)$ - [NC,F,L]
+#RewriteRule \.(jpg|jpeg|png|gif|svg|webp)$ - [NC,F,L]
+
+<ifModule mod_headers.c>
+
+Header set X-XSS-Protection "1; mode=block"
+
+</IfModule>

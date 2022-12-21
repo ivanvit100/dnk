@@ -104,6 +104,25 @@ export default{
     //Проверка кэша, включение/выключение окна регистрации
     this.$nextTick(function(){
       window.addEventListener('resize', this.resize);
+      let user = {
+        ID: localStorage.getItem('id')
+      }
+      fetch('http://dnk.ivanvit.ru/php/checkid.php', {
+        method: 'POST',
+        body: JSON.stringify(user)
+      }).then((response) => {
+        return response.json()
+      }).then((data) => {
+        if(data['answer']){
+          console.log(data['Role']);
+          localStorage.setItem('Role', data['Role']);
+        }else{
+          localStorage.clear();
+          window.location.reload();
+        }
+      }).catch((error) => {
+        console.warn(error);
+      });
     });
   }
 }
