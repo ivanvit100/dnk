@@ -114,7 +114,6 @@ export default{
         return response.json()
       }).then((data) => {
         if(data['answer']){
-          console.log(data['Role']);
           localStorage.setItem('Role', data['Role']);
         }else{
           localStorage.clear();

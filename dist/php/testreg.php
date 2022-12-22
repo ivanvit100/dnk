@@ -28,8 +28,8 @@ $email = stripslashes($email);
 $email = htmlspecialchars($email);
 $password = stripslashes($password);
 $password = htmlspecialchars($password);
-$email = trim($email);
-$password = trim($password);
+$email = str_replace(" ", "", $email);
+$password = str_replace(" ", "", $password);
 include("bd.php");
 
 $result = mysql_query("SELECT * FROM Users WHERE Email='$email'", $db); 

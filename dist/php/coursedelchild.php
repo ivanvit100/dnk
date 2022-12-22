@@ -13,7 +13,7 @@ $pid = $array1['parentID']; //Айди родителя/админа
 $childName = $array1['childName']; //Имя ребенка
 $pos = strpos($childName, " ");
 $name = substr($childName, 0, $pos); //Имя ребенка
-$surname =  substr($childName, $pos + 1, iconv_strlen($childName) - 2); //Фамилия ребенка
+$surname =  substr($childName, $pos + 1, iconv_strlen($childName) - 1); //Фамилия ребенка
 
 include ("bd.php");
 $result999 = mysql_query("SELECT Role FROM Users WHERE ID = '$pid'");
@@ -33,7 +33,6 @@ if ($myrow999['Role'] == 1){
     }
     $result9 = mysql_query("SELECT * FROM $course WHERE ParentID='$pid'");
     $myrow9 = mysql_fetch_array($result9);
-    echo(gettype($myrow9));
     if(gettype($myrow9) != "boolean"){
         echo json_encode(array('answer' => true));
         die();
@@ -44,7 +43,15 @@ if ($myrow999['Role'] == 1){
         echo json_encode(array('answer' => true));
         die();
     }else{
-        $newcourse = str_replace($course, "", $pcourse);
+        $array9 = explode(', ', $pcourse);
+        $newcourse = "";
+        foreach($array9 as $arr9){
+            if ($arr9 == $course){
+                $arr9 = "";
+            }
+            $newcourse = $newcourse.$arr9.", ";
+        }
+        $newcourse = substr($newcourse, 0, iconv_strlen($newcourse) - 2);
         $array = explode(', ', $newcourse);
         $array0 = "";
         foreach($array as $arr){
@@ -59,16 +66,17 @@ if ($myrow999['Role'] == 1){
     }
 }
 if ($myrow999['Role'] == 3){
-    $result2 = mysql_query("SELECT ParentID FROM $course WHERE ChildName = '$name' and ChildSurname ='$surname'",$db);
+    $result2 = mysql_query("SELECT ParentID FROM $course WHERE ChildName='$name' and ChildSurname='$surname'",$db);
     $myrow2 = mysql_fetch_array($result2);
     $parentID = $myrow2['ParentID'];
     $result3 = mysql_query("DELETE FROM $course WHERE ChildName = '$name' and ParentID = '$parentID'",$db);
-    if($result3 === false){
+    if($result3 == false){
         echo json_encode(array('answer' => false));
         die();
     }
     $result9 = mysql_query("SELECT * FROM $course WHERE ParentID='$parentID'");
-    if($result9 !== false){
+    $myrow9 = mysql_fetch_array($result9);
+    if(gettype($myrow9) != "boolean"){
         echo json_encode(array('answer' => true));
         die();
     }
@@ -77,11 +85,19 @@ if ($myrow999['Role'] == 3){
     $pcourse = $myrow['Courses'];// Строка с Users с курсами
     if($pcourse === $course){
         $void = "";
-        $result1 = mysql_query("UDPATE Users SET Courses = '$void' WHERE ID = '$parentID'");
+        $result1 = mysql_query("UPDATE Users SET Courses='$void' WHERE ID='$parentID'");
         echo json_encode(array('answer' => true));
         die();
     }else{
-        $newcourse = str_replace($course, "", $pcourse);
+        $array9 = explode(', ', $pcourse);
+        $newcourse = "";
+        foreach($array9 as $arr9){
+            if ($arr9 == $course){
+                $arr9 = "";
+            }
+            $newcourse = $newcourse.$arr9.", ";
+        }
+        $newcourse = substr($newcourse, 0, iconv_strlen($newcourse) - 2);
         $array = explode(', ', $newcourse);
         $array0 = "";
         foreach($array as $arr){

@@ -11,6 +11,7 @@ foreach($array2 as $str){
 $names = array();
 $courseid = $array1['courseID'];
 $id = (int)$array1['parentID'];
+$groupname = $array1['GroupName'];
 include("bd.php");
 $result1 = mysql_query("SELECT Role FROM Users WHERE ID='$id'",$db);
 echo mysql_error($db); //Проверяй ошибки SQL этой строкой. Просто воткни её после ошибочного запроса
@@ -29,7 +30,7 @@ if($myrow1['Role'] == 2){
     $array = explode(', ', $myrow2['Courses']);
     foreach($array as $arr){
         if($courseid = $arr){
-            $result3 = mysql_query("SELECT * FROM $courseid",$db);
+            $result3 = mysql_query("SELECT * FROM $courseid WHERE GroupName = '$groupname'",$db);
             while($myrow = mysql_fetch_array($result3)){
                 array_push($names, $myrow['ChildName'].' '.$myrow['ChildSurname']);
             }
@@ -37,7 +38,7 @@ if($myrow1['Role'] == 2){
     }
 }
 if($myrow1['Role'] == 3){
-    $result = mysql_query("SELECT * FROM $courseid", $db);
+    $result = mysql_query("SELECT * FROM $courseid WHERE GroupName = '$groupname'", $db);
     echo mysql_error($db); //Проверяй ошибки SQL этой строкой. Просто воткни её после ошибочного запроса
     while($myrow = mysql_fetch_array($result)){
 	    array_push($names, $myrow['ChildName'].' '.$myrow['ChildSurname']);

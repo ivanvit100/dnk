@@ -17,7 +17,7 @@ $phone = $array1['phone']; //Номер телефона
 $phoneTest = ltrim($phone, '+');
 
 if(isset($email)){
-    if(stristr($email, '@') === FALSE || stristr($email, '.') === FALSE) {
+    if(stristr($email, '@') === false || stristr($email, '.') === false) {
         echo json_encode(array('answer' => false, 'reason' => 'Неверная почта!')); //Ответ
         die();
     }
@@ -36,7 +36,7 @@ if(iconv_strlen($surname)<2){
     echo json_encode(array('answer' => false, 'reason' => 'Неверная фамилия!')); //Ответ
     die();
 }
-if(iconv_strlen($phone)<11 or iconv_strlen($phone)>12 or !preg_match("/^([0-9])+$/", $phoneTest)){  
+if(iconv_strlen($phone)<11 or iconv_strlen(str_replace(" ", "", $phone))<11 or iconv_strlen($phone)>12 or !preg_match("/^([0-9])+$/", $phoneTest)){  
     echo json_encode(array('answer' => false, 'reason' => 'Неверный номер телефона!')); //Ответ
     die();
 } 
@@ -50,12 +50,11 @@ $surname = stripslashes($surname);
 $surname = htmlspecialchars($surname);
 $phone = stripslashes($phone);
 $phone = htmlspecialchars($phone);
-$email = trim($email);
-$password = trim($password);
-$name = trim($name);
-$surname = trim($surname);
-$phone = trim($phone);
-$phoneTest = ltrim($phone, '+');
+$email = str_replace(" ", "", $email);
+$password = str_replace(" ", "", $password);
+$name = str_replace(" ", "", $name);
+$surname = str_replace(" ", "", $surname);
+$phone = str_replace(" ", "", $phone);
 include("bd.php");
 $result = mysql_query("SELECT ID FROM Users WHERE Email='$email'", $db);
 $myrow = mysql_fetch_array($result);
