@@ -15,8 +15,8 @@
 					<h4 v-if="roleCheck">Ваши дети на курсе</h4>
 					<div v-else>
 						<h4>Дети на курсе</h4>
-						<div class="select">
-							<select v-model="selectedGroup">
+						<div class="select writerS">
+							<select v-model="selectedGroup" @change="listUpdate">
 								<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
 							</select>
 						</div>
@@ -30,7 +30,7 @@
 				<div v-if="roleCheck">
 					<h4>Записаться на курс</h4>
 					<h5>Выберите возрастную группу:</h5>
-					<div class="select">
+					<div class="select writerS">
 						<select v-model="selectedGroup">
 							<option v-for="item in groups" v-bind:value="item">{{item}} классы</option>
 						</select>
@@ -103,6 +103,10 @@
 </template>
 
 <style>
+.writerS::after{
+	width: auto !important;
+	padding: .01em 1.25em !important;
+}
 .teachersEdit{
 	grid-column: 1;
 }
@@ -388,6 +392,24 @@ export default{
 		}
 	},
 	methods:{
+		listUpdate: function(){
+			let user = {
+				courseID: this.courseId,
+				parentID: localStorage.getItem('id'),
+				GroupName: this.selectedGroup
+			}
+			fetch('http://dnk.ivanvit.ru/php/children.php', {
+				method: 'POST',
+				body: JSON.stringify(user)
+			}).then((response) => {
+				return response.json()
+			}).then((data) => {
+				this.children = data['names'];
+				this.vis = true;
+			}).catch((error) => {
+				console.warn(error);
+			});
+		},
 		courseWrite: function(){
 			const form = document.querySelector('form');
 			form.addEventListener('submit', evt => {
@@ -572,22 +594,7 @@ export default{
 					console.warn(error);
 				});
 			}else if(!this.write){
-				let user = {
-					courseID: this.courseId,
-					parentID: localStorage.getItem('id'),
-					GroupName: this.selectedGroup
-				}
-				fetch('http://dnk.ivanvit.ru/php/children.php', {
-					method: 'POST',
-					body: JSON.stringify(user)
-				}).then((response) => {
-					return response.json()
-				}).then((data) => {
-					this.children = data['names'];
-					Object.keys(this.children).length != 0 ? this.vis = true : this.vis = false;
-				}).catch((error) => {
-					console.warn(error);
-				});
+				this.listUpdate();
 			}
 			if(localStorage.getItem('Role') == 3){
 				let user = {

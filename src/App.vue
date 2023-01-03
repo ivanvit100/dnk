@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <headerVue @swap="swap" :mode="mode" :key="index"></headerVue>
+    <headerVue @updateIndex="updateIndex" :mode="mode" :key="index"></headerVue>
     <main>
-      <router-view></router-view>
+      <router-view :key="index2"></router-view>
     </main>
     <footerVue></footerVue>
   </div>
@@ -64,14 +64,14 @@ export default{
   components: {headerVue, registration, footerVue, home, courses, contacts, cabinet},
   data(){
     return{
-      mode: 'home', //Открытая страница
       width: 800, //
       slHeight: 250, //
       name: '',
       surname: '',
       id: '',
       login: '',
-      index: 0
+      index: 0,
+      index2: 0
     }
   },
   watch: {
@@ -82,10 +82,6 @@ export default{
     }
   },
   methods:{
-    swap: function(data){
-      //Переключение отображения страниц
-      this.mode = data.mode;
-    },
     coursesGo: function(){
       this.mode = "courses";
     },
@@ -99,29 +95,34 @@ export default{
         console.warn("[resize]: Ошибка!")
       }  
     },
+    updateIndex: function(){
+      this.index2 += 1;
+    }
   },
   mounted(){
     //Проверка кэша, включение/выключение окна регистрации
     this.$nextTick(function(){
       window.addEventListener('resize', this.resize);
-      let user = {
-        ID: localStorage.getItem('id')
-      }
-      fetch('http://dnk.ivanvit.ru/php/checkid.php', {
-        method: 'POST',
-        body: JSON.stringify(user)
-      }).then((response) => {
-        return response.json()
-      }).then((data) => {
-        if(data['answer']){
-          localStorage.setItem('Role', data['Role']);
-        }else{
-          localStorage.clear();
-          window.location.reload();
+      if(localStorage.getItem('id') !== null){
+        let user = {
+          ID: localStorage.getItem('id')
         }
-      }).catch((error) => {
-        console.warn(error);
-      });
+        fetch('http://dnk.ivanvit.ru/php/checkid.php', {
+          method: 'POST',
+          body: JSON.stringify(user)
+        }).then((response) => {
+          return response.json()
+        }).then((data) => {
+          if(data['answer']){
+            localStorage.setItem('Role', data['Role']);
+          }else{
+            localStorage.clear();
+            window.location.reload();
+          }
+        }).catch((error) => {
+          console.warn(error);
+        });
+      }
     });
   }
 }

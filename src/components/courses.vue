@@ -9,7 +9,7 @@
 				<div class="td_css_3"><img class="courseImg" :src="item.img" alt="courseImg"></div>
 				<div class="td_css">{{item.text}}</div>
 				<b>Возраст: {{item.age}} класс</b>
-				<div class="td_css_2"><button v-if="adm" @click="courseMore(item.courseId)" class="button_css" style="right: 125px; background-color: #c46917;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
+				<div class="td_css_2"><button v-if="adm" @click="deleteCourse(item.courseId)" class="button_css" style="right: 125px; background-color: #c46917;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
 			</div>
 		</div>
 		<div class="table_center_by_css" v-if="adm" style="padding: 20px"> 
@@ -21,7 +21,7 @@
 				<input v-model="count" placeholder="Количество детей на Возрастные группы, через запятую"></input>
 				<input v-model="short" placeholder="Краткое имя курса"></input>
 				<input v-model="courseId" id="courseId" placeholder="Идентификатор (вида 'robo')" style="text-align: initial;"></input>
-				<input type="file" accept="image/png, image/jpg, image/jpeg" name="img" id="file" name="file"/>
+				<input type="file" accept="image/png, image/jpg, image/jpeg" id="file" name="file"/>
 				<input type="button" id="btn" value="Загрузить"/>
 				<div class="td_css_2"><button @click="create" class="button_css">Создать</button></div>
 			</div>
@@ -147,6 +147,23 @@ export default{
 			}).then((response) => {
 				return response.json()
 			}).then((data) => {
+				console.log(data);
+			}).catch((error) => {
+				console.warn(error);
+			});
+		},
+		deleteCourse: function(id){
+			let user = {
+				courseID: id,
+				userID: localStorage.getItem('id')
+			}
+			fetch('http://dnk.ivanvit.ru/php/deletecourse.php', {
+				method: 'POST',
+				body: JSON.stringify(user)
+			}).then((response) => {
+				return response.json()
+			}).then((data) => {
+				console.log(data);
 			}).catch((error) => {
 				console.warn(error);
 			});

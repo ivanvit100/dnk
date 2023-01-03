@@ -136,9 +136,6 @@ hr{
 		height: 50px;
 	}
 	.about_image{
-		/*position: absolute !important;
-		width: 300% !important;
-		right: -90vw !important;*/
 		display: none;
 	}
 	#about{

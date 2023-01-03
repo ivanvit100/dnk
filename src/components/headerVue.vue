@@ -26,12 +26,13 @@
 				</center>
 			</div>
 			<div id="carouselWrap">
-			<div data-role="carousel" data-bullet-style="rect" data-control-next="<span class='mif-chevron-right'></span>" data-height="16/9" data-cls-bullet-on="bg-orange drop-shadow" data-cls-controls="fg-white" data-control-prev="<span class='mif-chevron-left'></span>" data-controls-on-mouse="true" data-auto-start="true" data-period="10000" data-duration="750">
-				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
-				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
-				<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+				<div data-role="carousel" data-bullet-style="rect" data-control-next="<span class='mif-chevron-right'></span>" data-height="16/9" data-cls-bullet-on="bg-orange drop-shadow" data-cls-controls="fg-white" data-control-prev="<span class='mif-chevron-left'></span>" data-controls-on-mouse="true" data-auto-start="true" data-period="10000" data-duration="750">
+					<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+					<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+					<div class="slide" data-cover="http://dnk.ivanvit.ru/static/img/white.jpg"></div>
+				</div>
 			</div>
-			</div>
+			<div id="shadow"></div>
 		</div>
 		<template>
 			<Transition name="modal">
@@ -72,6 +73,14 @@
 </template>
 
 <style>
+#shadow{
+	position: absolute;
+	width: 100vw;
+	height: 20px;
+	bottom: 0;
+	box-shadow: 0px -7px 5px -5px rgba(0, 0, 0, 0.6) inset;
+	z-index: 3;
+}
 #headText{
 	position: absolute;
 	z-index: 99;
@@ -401,6 +410,7 @@ export default{
 							localStorage.setItem('Role', f ? data['role'] : 1);
 							document.querySelector("#close").click();
 							this.login = true;
+							this.$emit('updateIndex');
 						}
 					}).catch((error) => {
 						console.warn(error);
