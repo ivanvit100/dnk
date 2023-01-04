@@ -51,7 +51,7 @@
 						<input type="text" v-on:keyup.enter="enterPress" id="lastnameTwo" placeholder="Фамилия второго родителя" minlength="2">
 						<input type="text" v-on:keyup.enter="enterPress" id="thirdnameTwo" placeholder="Отчество второго родителя" minlength="2">
 						<p id="status"></p>
-						<center id="buttonCenterBlock"><button @click="courseWrite" id="goWrite" class="miniBut" formmethod="post">Отправить</button></center>
+						<center id="buttonCenterBlock"><button @click.once="courseWrite" id="goWrite" class="miniBut" formmethod="post" :key="key">Отправить</button></center>
 					</form>
 				</div>
 				<div id="teachList" v-if="admin">
@@ -91,7 +91,6 @@
 									<option v-for="item in emails" v-bind:value="item">{{item}}</option>
 								</select>
 							</div>
-
 							<br>
 						</div>
 					</div>
@@ -362,7 +361,8 @@ export default{
 			teachList: [],
 			emails: [],
 			vis: false,
-			support: ''
+			support: '',
+			key: 0
 		}
 	},
 	computed:{

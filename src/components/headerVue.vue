@@ -48,7 +48,7 @@
 							</form>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
-							<button @click="goClick(true)" id="go">Войти</button>
+							<button @click="goClick(true)" id="go" :key="key">Войти</button>
 						</div>
 						<div class="modal-container" v-else>
 							<button @click="show=!show" id="close">x</button>
@@ -63,7 +63,7 @@
 							</form>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
-							<button @click="goClick(false)" id="go">Зарегистрироваться</button>
+							<button @click="goClick(false)" id="go" :key="key">Зарегистрироваться</button>
 						</div>
 					</div>
 				</div>
@@ -336,6 +336,7 @@ export default{
 			sign: false,
 			login: localStorage.getItem('login'),
 			wait: false,
+			key: 0
 		}
 	},
 	watch:{

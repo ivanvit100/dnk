@@ -44,7 +44,6 @@
 #find > button, #addFind > button{
 	height: 44px;
 	margin-left: 0;
-	top: -1px;
 	left: -5px;
 	position: relative;
 	background-color: #f77d24;
@@ -83,8 +82,12 @@
 	position: relative;
 	padding-left: 20px;
 	text-align: initial;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-right: 50px;
 }
-.coursesSubscribe::after{
+.coursesSubscribe::before{
 	content: "❯";
 	font-size: 20px;
 	position: absolute;
@@ -93,7 +96,7 @@
 .coursesSubscribe:hover{
 	font-size: 17px;
 }
-.coursesSubscribe:hover::after{
+.coursesSubscribe:hover::before{
 	font-size: 22px;
 }
 #profile{
@@ -102,6 +105,7 @@
 	margin: 15px 0;
 	position: relative;
 	background-color: white;
+	min-height: 200px;
 }
 #exit{
 	position: unset;
@@ -306,6 +310,12 @@ export default{
 						document.querySelector("#subscribeStatus").innerHTML = "Вы не преподаёте на курсах";
 					}else{document.querySelector("#subscribeStatus").remove();}
 				}else if(data['Group'] == 3){
+					if(window.navigator.userAgent.includes("Safari") && !(window.navigator.userAgent.includes("Chrome") || window.navigator.userAgent.includes("Firefox"))){
+						this.$nextTick(function(){
+							document.querySelector("#find > button").style.top = "-1px";
+							document.querySelector("#addFind > button").style.top = "-1px";
+						});
+					}
 					this.missesTitle = false;
 					let keys = Object.keys(curData);
 					document.querySelector("#subscribeStatus").remove();

@@ -9,6 +9,12 @@
 </template>
 
 <style>
+*::selection{
+  background: rgba(237, 119, 60, 0.3);
+}
+*::-moz-selection{
+  background: rgba(237, 119, 60, 0.3);
+}
 h2{
   background-color: rgba(0,0,0,0) !important;
   margin-top: 3px;

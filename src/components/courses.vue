@@ -12,7 +12,8 @@
 				<div class="td_css_2"><button v-if="adm" @click="deleteCourse(item.courseId)" class="button_css" style="right: 125px; background-color: #c46917;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
 			</div>
 		</div>
-		<div class="table_center_by_css" v-if="adm" style="padding: 20px"> 
+		<div class="table_center_by_css" v-if="adm" style="padding: 20px;">
+		<center> 
 			<input v-model="name" class="th_css" placeholder="Создать курс"></input>
 			<div class="courseCont">
 				<div class="td_css_3"><img class="courseImg" id="newImage" src="/static/img/white.jpg" alt="courseImg"></div>
@@ -25,6 +26,7 @@
 				<input type="button" id="btn" value="Загрузить"/>
 				<div class="td_css_2"><button @click="create" class="button_css">Создать</button></div>
 			</div>
+		</center>
 		</div>
 	</div>
 </template>
@@ -98,6 +100,10 @@ textarea{
 }
 </style>
 <style scoped>
+textarea{
+	white-space: nowrap;
+	padding-right: 50px;
+}
 input{
 	border: 1px solid #d3d3d3;
 }
