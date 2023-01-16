@@ -1,19 +1,29 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="courseId">
+		<!--A template for the individual course page-->
 		<h2 id="courseTitle"></h2>
 		<div class="table_center_by_css">
+			<!--Modal timetable block-->
     		<div class="d-flex flex-justify-center flex-align-center" id="titleImg"><img src="" alt="course" id="courseImg"></div>
 			<p id="courseText"></p>
 			<b id="ages"></b>
-			<div id="rasp" @click="raspClick"><img src="@/assets/calendar.png" alt="" id="cal"></div>
+			<div id="rasp" @click="raspClick">
+				<picture>
+					<source srcset="/static/img/calendar.webp" type="image/webp">
+					<img src="/static/img/calendar.png" alt="" id="cal">
+				</picture>
+			</div>
 			<div id="fullCalWrap" v-if="time" @click="raspClick">
 				<img src="/static/img/rasp.svg" alt="Расписание">
 			</div>
 			<hr>
+			<!--A children list block-->
 			<div id="courseWrite" v-if="!write">
 				<div v-if="vis">
 					<h4 v-if="roleCheck">Ваши дети на курсе</h4>
 					<div v-else>
+						<!--Full list for teacher-->
 						<h4>Дети на курсе</h4>
 						<div class="select writerS">
 							<select v-model="selectedGroup" @change="listUpdate">
@@ -27,6 +37,7 @@
 					<br>
 					<hr>
 				</div>
+				<!--Enrollment block for the course (parents only)-->
 				<div v-if="roleCheck">
 					<h4>Записаться на курс</h4>
 					<h5>Выберите возрастную группу:</h5>
@@ -54,6 +65,7 @@
 						<center id="buttonCenterBlock"><button @click.once="courseWrite" id="goWrite" class="miniBut" formmethod="post" :key="key">Отправить</button></center>
 					</form>
 				</div>
+				<!--A teachers list block (admin only)-->
 				<div id="teachList" v-if="admin">
 					<h2>Список преподавателей</h2>
 					<ul>
@@ -62,6 +74,7 @@
 					<hr>
 					<br>
 				</div>
+				<!--A course edit block (admin only)-->
 				<div id="edit" v-if="admin">
 					<h2>Редактирование курса</h2>
 					<div>
@@ -96,6 +109,7 @@
 					</div>
 				</div>
 			</div>
+			<!--Output for unauthorized users-->
 			<p class="noReg" v-else>Зарегистрируйтесь, чтобы записать ребёнка на этот курс.</p>
 		</div>
 	</div>
@@ -347,41 +361,41 @@ export default{
 	props: [],
 	data(){
 		return{
-			courseId: '',
-			selectedGroup: '',
-			timetable: '',
-			numChildren: '',
-			description: '',
-			addTeach: '',
-			removeTeach: '',
-			wait: false,
-			time: false,
-			groups: [],
-			children: [],
-			teachList: [],
-			emails: [],
-			vis: false,
-			support: '',
+			courseId: '', //ID of selected course
+			selectedGroup: '', //Selected age group (to enroll in a course or display a list of children by group (teacher))
+			numChildren: '', //Number of places on the course (for update)
+			description: '', //Course description (for update)
+			addTeach: '', //Email of new teacher on this course (for update)
+			removeTeach: '', //Email of teacher which need to be deleted from this course (for update)
+			wait: false, //For blocking double request
+			time: false, //Condition for show timetable
+			groups: [], //Enumeration of age groups
+			children: [], //List of children on this course
+			teachList: [], //List of teachers on this course
+			emails: [], //List of teacher's emails on this course
+			data: [],
+			vis: false, //Whether to show a list of children
+			support: '', //Support variable for setter and getter of deletedTeach variable
 			key: 0
 		}
 	},
 	computed:{
-		write: function(){
+		write: function(){ //On/off actions
 			return localStorage.getItem('login') == null
 		},
-		roleCheck: function(){
+		roleCheck: function(){ //Check base role
 			return localStorage.getItem('Role') != "2" && localStorage.getItem('Role') != "3"
 		},
-		coursesData: function(){
+		coursesData: function(){ //List of a course data (JSON)
     		return curData
     	},
-    	admin: function(){
+    	admin: function(){ //Check admin role
     		return localStorage.getItem("Role") == "3"
     	},
-    	teacher: function(){
+    	teacher: function(){ //Check teacher role
     		return localStorage.getItem("Role") == "2"
     	},
-    	deletedTeach:{
+    	deletedTeach:{ //Container for teacher which will be deleted
     		get: function(){
 				return this.support
 			},
@@ -393,6 +407,7 @@ export default{
 	},
 	methods:{
 		listUpdate: function(){
+			//Update list of a children after adding new child or selecting new group
 			let user = {
 				courseID: this.courseId,
 				parentID: localStorage.getItem('id'),
@@ -411,9 +426,11 @@ export default{
 			});
 		},
 		courseWrite: function(){
+			//Registering a child for a course
 			const form = document.querySelector('form');
 			form.addEventListener('submit', evt => {
 				evt.preventDefault();
+				//Get data from inputs
 				let user = {
 					courseID: this.courseId,
 					parentID: localStorage.getItem('id'),
@@ -431,6 +448,7 @@ export default{
 					patronymicTwo: document.querySelector("#nameTwo").value,
 					group: this.selectedGroup
 				}
+				//If any function isn't go now
 				if(!this.wait){
 					this.wait = true;
 					fetch('http://dnk.ivanvit.ru/php/course.php', {
@@ -467,17 +485,21 @@ export default{
 			});
 		},
 		enterPress: function(event){
+			//Action on press Enter key
 			document.querySelector("#goWrite").click();
 		},
 		raspClick: function(event){
+			//Timetable show/hide
 			this.time = !this.time;
 		},
 		deleteChild: function(name){
+			//Delete child from course
 			let user = {
 				courseID: this.courseId,
 				parentID: localStorage.getItem('id'),
 				childName: name
 			}
+			//If any function isn't go now
 			if(!this.wait){
 				this.wait = true;
 				fetch('http://dnk.ivanvit.ru/php/coursedelchild.php', {
@@ -499,14 +521,16 @@ export default{
 			}
 		},
 		miss: function(name){
+			//Marking by the teacher of the child's absence from the lesson
 			let user = {
 				courseID: this.courseId,
 				teachID: localStorage.getItem('id'),
 				childName: name
 			}
+			//If any function isn't go now
 			if(!this.wait){
 				this.wait = true;
-				fetch('http://dnk.ivanvit.ru/php/childmiss.php', {
+				fetch('http://dnk.ivanvit.ru/php/passes.php', {
 					method: 'POST',
 					body: JSON.stringify(user)
 				}).then((response) => {
@@ -525,6 +549,7 @@ export default{
 			}
 		},
 		update: function(mode, text){
+			//Function that sends course data changes to the server
 			let user = {
 				Course: this.courseId,
 				ID: localStorage.getItem('id'),
@@ -554,29 +579,34 @@ export default{
 			}
 		},
 		approveDel: function(){
-			console.log();
+			//Confirming the removal of the selected instructor from the course
 			let result = confirm("Вы уверены, что хотите удалить преподавателя " + this.teachList[this.emails.findIndex(i => i == this.deletedTeach)] + " с курса?");
 			if(result){
 				this.update(2, this.deletedTeach);
+			}else{
+				this.deletedTeach = "";
 			}
 		}
 	},
 	mounted(){
+		//Apply additional dynamic page styles
 		document.querySelector("#images").style.display = "none";
 		document.querySelector("#headerVue").classList.add("courseHide");
 		this.courseId = this.$route.params.courseId;
 		this.groups = Object.keys(curData[this.courseId]['groups'])
 		this.selectedGroup = this.groups[0];
-		this.timetable = curData[this.courseId]['timetable'];
 		this.$nextTick(function(){
+			//Injecting course data into a page
 			document.querySelector("#courseTitle").innerText = curData[this.courseId]['title'];
-			document.querySelector("#courseImg").src = curData[this.courseId]['img'];
+			document.querySelector("#courseImg").src = "../php/img/" + this.courseId + ".png";
 			document.querySelector("#courseText").innerText = curData[this.courseId]['text'];
 			document.querySelector("#ages").innerText = "Программа обучения предназначена для детей, обучающихся в следующих классах: " + curData[this.courseId]['age'];
+			//Inserting values ​​into fields or closing the record window for supervisors
 			try{
 				document.querySelector("#nameOne").value = localStorage.getItem('name');
 				document.querySelector("#lastnameOne").value = localStorage.getItem('surname');
 			}catch(e){console.warn("Запись на курс закрыта!")}
+			//Output children list
 			if(!this.write && this.roleCheck){
 				let user = {
 					courseID: this.courseId,
@@ -596,6 +626,7 @@ export default{
 			}else if(!this.write){
 				this.listUpdate();
 			}
+			//Output teacher's list for administration role
 			if(localStorage.getItem('Role') == 3){
 				let user = {
 					courseID: this.courseId,
@@ -616,6 +647,7 @@ export default{
 		})
 	},
 	destroyed(){
+		//Delete custom styles
 		document.querySelector("#images").style.display = "initial";
 	}
 }

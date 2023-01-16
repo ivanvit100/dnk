@@ -1,7 +1,11 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="footerVue">
 		<div id="img_container">
-			<img src="@/assets/logo.png" alt="logo" id="footer_logo">
+			<picture>
+				<source srcset="/static/img/logo.webp" type="image/webp">
+				<img src="/static/img/logo.png" alt="logo" id="footer_logo">
+			</picture>
 		</div>
 		<div id="contacts">
 			<h2>Наши контакты</h2>

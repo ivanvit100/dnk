@@ -1,5 +1,8 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="home">
+		<!--Main page
+			TODO: new design is need-->
 		<div id="about_container">
 			<div class="hLeft" id="homeH"><h2 id="aboutH">О нас</h2></div>			
 			<div id="about">
@@ -13,11 +16,12 @@
 			<div class="hBackCenter">
 				<h2>Курсы</h2>
 			</div>
+			<!--Block of courses preview-->
 			<div id="miniCourses">
 				<div class="miniCourse" v-for="item in items"> 
 					<h3 class="miniTitle">{{item.shortTitle}}</h3>
 					<div class="miniCourseCont">
-						<div class="miniImgCont"><img class="miniImg" :src="item.img" alt="courseImg"></div>
+						<div class="miniImgCont"><img class="miniImg" alt="courseImg"></div>
 						<div class="miniText">{{item.shortText}}</div>
 					</div>
 					<div class="miniButCont"><button @click="courseMore(item.courseId)" class="miniBut">Перейти</button></div>
@@ -27,12 +31,14 @@
 		</div>
 		<br>
 		<hr>
+		<!--Widget of VK news-->
 		<div id="news">
 			<div class="hBackCenter">
 				<h2 id="newsH">Новости</h2>
 			</div>
 			<center><div id="vk_groups"></div></center>
 		</div>
+		<!--Google Maps-->
 		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1122.4925365917768!2d52.016251975954!3d55.75876150433705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8fb0d1ea907eedb9!2zNTXCsDQ1JzMxLjUiTiA1MsKwMDEnMDIuNSJF!5e0!3m2!1sru!2sru!4v1666250654230!5m2!1sru!2sru" width="600" height="256" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 	</div>
 </template>
@@ -150,9 +156,16 @@ export default{
 	props: [],
 	data(){
 		return{
+			//Data to courses preview
 			items: [curData["robo"], curData["dmodel"], curData["promdesign"]],
 		}
 	},
+	computed:{
+		coursesData: function(){
+			//Courses data JSON
+    		return curData
+    	},
+    },
 	methods:{
 		coursesGo: function(){
 			this.$router.push({name: 'courses'});
@@ -167,6 +180,12 @@ export default{
 		let width = document.querySelector("#app").clientWidth;
 		document.querySelector("#headerVue").classList.remove("courseHide");
 		VK.Widgets.Group("vk_groups", {mode: 2, width: width * 0.95, height: "300"}, 198006866);
+		this.$nextTick(function(){
+			//Insert src to images in courses preview
+			for(var i = 0; i < Object.keys(this.coursesData).length; i++){
+				document.querySelectorAll(".miniImg")[i].src = "../php/img/" + Object.keys(this.coursesData)[i] + ".png";
+			}
+		});
 	}
 }
 </script>

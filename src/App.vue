@@ -1,9 +1,13 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
   <div id="app">
+    <!--Header component (headerVue.vue)-->
     <headerVue @updateIndex="updateIndex" :mode="mode" :key="index"></headerVue>
     <main>
+      <!--Main component-->
       <router-view :key="index2"></router-view>
     </main>
+    <!--Footer component (footerVue.vue)-->
     <footerVue></footerVue>
   </div>
 </template>
@@ -59,7 +63,6 @@ button, p, span, h1, h2, h3, h4, h5, a, b, td, #avatar, .orange-btn, .header_but
 
 <script>
 import headerVue from './components/headerVue';
-import registration from './components/registration';
 import footerVue from './components/footerVue';
 import home from './components/home';
 import courses from './components/courses';
@@ -67,31 +70,30 @@ import contacts from './components/contacts';
 import cabinet from './components/cabinet';
 export default{
   name: 'app',
-  components: {headerVue, registration, footerVue, home, courses, contacts, cabinet},
+  components: {headerVue, footerVue, home, courses, contacts, cabinet},
   data(){
     return{
-      width: 800, //
-      slHeight: 250, //
+      width: 800, //For a header
+      slHeight: 250, //For a header
       name: '',
       surname: '',
       id: '',
       login: '',
-      index: 0,
-      index2: 0
+      index: 0, //For re-render
+      index2: 0 //For re-render
     }
   },
   watch: {
     '$route.name'(to, from){
+      //Re-render header when a slider is visible
       if(to == "home" || to == "courses" || to == "contacts"){
         this.index += 1;
       }
     }
   },
   methods:{
-    coursesGo: function(){
-      this.mode = "courses";
-    },
     resize: function(){
+      //A function for set a header's parametrs when page sizes is change
       try{
         this.width = document.querySelector("#app").clientWidth;
         this.slHeight = (this.width * 9 / 16) <= 450 ? this.width * 9 / 16 : 450;
@@ -102,14 +104,16 @@ export default{
       }  
     },
     updateIndex: function(){
+      //A function for re-render main content when user login
       this.index2 += 1;
     }
   },
   mounted(){
-    //Проверка кэша, включение/выключение окна регистрации
+    //Authorisation check
     this.$nextTick(function(){
       window.addEventListener('resize', this.resize);
       if(localStorage.getItem('id') !== null){
+        //Check user's role
         let user = {
           ID: localStorage.getItem('id')
         }

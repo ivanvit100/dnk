@@ -1,28 +1,45 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="headerVue">
+		<!--Header component-->
 		<div id="main_header">
-			<img src="@/assets/logo2.png" alt="logo" id="logo">
+			<!--Login-->
+			<picture>
+				<source srcset="/static/img/logo2.webp" type="image/webp">
+				<img src="/static/img/logo2.png" alt="logo" id="logo">
+			</picture>
 			<div id="login" v-if="!login">
 				<a @click="loginClick" class="orange-btn">Войти<i class="fa fa-arrow-right"></i></a>
 			</div>
 			<div id="cabinet" v-else @click="cabinetMenu">
-				<img src="/static/img/account.png" alt="avatar" id="avatar">
+				<picture>
+					<source srcset="/static/img/account.webp" type="image/webp">
+					<img src="/static/img/account.png" alt="avatar" id="avatar">
+				</picture>
 			</div>
 		</div>
+		<!--Navbar-->
 		<div id="navbar">
 			<div class="header_button" @click="move('home')">Главная</div>
 			<div class="header_button" @click="move('courses')">Курсы</div>
 			<div class="header_button" @click="move('contacts')">Контакты</div>
 		</div>
+		<!--Slider -->
 		<div id="images">
-			<img src="/static/img/edge.png" alt="" id="edge">
+			<picture>
+				<source srcset="/static/img/edge.webp" type="image/webp">
+				<img src="/static/img/edge.png" alt="" id="edge">
+			</picture>
 			<div id="logoSlider">
 				<center>
 					<div id="headText">
 						Дом научной коллаборации имени<br>
 						Камиля Ахметовича Валиева
 					</div>
-					<img src="@/assets/logo3.png" alt="logo">
+					<picture>
+						<source srcset="/static/img/logo3.webp" type="image/webp">
+						<img src="/static/img/logo3.png" alt="logo">
+					</picture>
 				</center>
 			</div>
 			<div id="carouselWrap">
@@ -34,6 +51,7 @@
 			</div>
 			<div id="shadow"></div>
 		</div>
+		<!--Authorisation modal-->
 		<template>
 			<Transition name="modal">
 				<div v-if="show" class="modal-mask">
@@ -98,7 +116,7 @@
 	width: 25vw;
 	transform: translate(0%, -60%);
 }
-#logoSlider > center > img{
+#logoSlider > center > picture > source, #logoSlider > center > picture > img{
 	width: calc(100vw - 730px);
 	max-width: 250px;
 	opacity: 0.6;
@@ -315,7 +333,7 @@ input{
 	#headText{
 		display: none;
 	}
-	#logoSlider > center > img{
+	#logoSlider > center > picture > source, #logoSlider > center > picture > img{
 		opacity: 1;
 	}
 	#logoSlider{
@@ -332,10 +350,10 @@ export default{
 	props: ['mode'],
 	data(){
 		return{
-			show: false,
-			sign: false,
-			login: localStorage.getItem('login'),
-			wait: false,
+			show: false, //For authorisation modal
+			sign: false, //Login or sign in
+			login: localStorage.getItem('login'), //User's login
+			wait: false, //For blocking double request
 			key: 0
 		}
 	},
@@ -348,6 +366,7 @@ export default{
 	},
 	methods:{
 		cyrb53: function(str, seed = 0){
+			//A function that encrypts password before sending on server
 			let h1 = 0xdeadbeef ^ seed;
 			let h2 = 0x41c6ce57 ^ seed;
 			for(let i = 0, ch; i < str.length; i++){
@@ -360,22 +379,27 @@ export default{
 			return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 		},
 		move: function(way){
+			//Push user to other page
 			this.$router.push({name: way})
 		},
 		loginClick: function(){
+			//Show a login modal window
 			this.show = true;
 		},
 		goClick: function(f){
+			//A function that authorizes the user when the a button is clicked
 			const form = document.querySelector('form');
 			form.addEventListener('submit', evt => {
 				evt.preventDefault();
 				let user;
 				if(f){
+					//Data for login
 					user = {
 						login: document.querySelector("#email").value,
 						password: this.cyrb53(document.querySelector("#password").value),
 					}
 				}else{
+					//Data for sig in
 					user = {
 						name: document.querySelector("#name").value,
 						surname: document.querySelector("#lastname").value,
@@ -384,6 +408,7 @@ export default{
 						password: this.cyrb53(document.querySelector("#password").value),
 					}
 				}
+				//If any function isn't go now
 				if(!this.wait){
 					this.wait = true;
 					document.querySelector("#status").innerHTML = "Подождите...";
@@ -395,7 +420,7 @@ export default{
 						return response.json()
 					}).then((data) => {
 						this.login = data['answer'];
-						if(!this.login){
+						if(!this.login){//Check server's answer
 							if(!this.sign){
 								document.querySelector("#email").style.border = "1px dashed red";
 								document.querySelector("#password").style.border = "1px dashed red";
@@ -403,14 +428,17 @@ export default{
 							document.querySelector("#status").classList.remove("waitStatus");
 							document.querySelector("#status").innerHTML = data['reason'];
 						}else{
+							//If success - set data in localStorage
 							localStorage.setItem('login', true);
 							localStorage.setItem('name', f ? data['name'] : user.name);
 							localStorage.setItem('surname', f ? data['surname'] : user.surname);
 							localStorage.setItem('email', f ? data['email'] : user.login);
 							localStorage.setItem('id', data['id']);
 							localStorage.setItem('Role', f ? data['role'] : 1);
+							//Close modal
 							document.querySelector("#close").click();
 							this.login = true;
+							//Update and re-render page for synchronization
 							this.$emit('updateIndex');
 						}
 					}).catch((error) => {
@@ -423,11 +451,13 @@ export default{
 			document.querySelector("#goReady").click();
 		},
 		cabinetMenu: function(){
+			//Push the user to personal cabinet
 			this.$router.push({name: 'cabinet'})
 		}
 	},
 	mounted(){
 		this.$nextTick(function(){
+			//Set params for header block
 			let width = document.querySelector("#app").clientWidth;
        		let slHeight = (width * 9 / 16) <= 450 ? width * 9 / 16 : 450;
         	document.querySelector("#images").style.height = slHeight + "px";

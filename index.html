@@ -1,3 +1,4 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -23,12 +24,12 @@
     <title>Дом Научной Коллаборации | ЕИ КФУ</title>
     <link rel="shortcut icon" href="http://dnk.ivanvit.ru/static/img/icons/logo.png">
     <!-- Add to home screen for Android and modern mobile browsers -->
-    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
+    <link rel="manifest" href="http://dnk.ivanvit.ru/static/manifest.json">
     <meta name="theme-color" content="#4DBA87">
     <link rel="preconnect" href="https://fonts.googleapis.com"> <!--Шрифты-->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link media="none" onload="if(media != 'all') media = 'all'" type="text/css" href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link media="none" onload="if(media != 'all') media = 'all'" type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -39,11 +40,14 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-    <link rel="stylesheet" href="/static/metro.min.css">
-    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-colors.min.css">
-    <link rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-icons.min.css">
+    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="/static/metro.min.css">
+    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-colors.min.css">
+    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-icons.min.css">
     <link rel="prefetch" href="http://dnk.ivanvit.ru/static/img/rasp.svg" as="image" />
     <style>
+    @font-face{
+      font-display: swap;
+    }
     *::selection{
       background: rgba(90, 126, 201, 0.6);
     }
@@ -117,8 +121,8 @@
       });
     </script> 
     <script data-cfasync="false" src="http://dnk.ivanvit.ru/static/coursesData.json"></script>
-    <script src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script data-cfasync="true" src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
+    <script data-cfasync="true" type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
+    <script data-cfasync="false" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   </body>
 </html>

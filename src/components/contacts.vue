@@ -1,3 +1,4 @@
+<!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="contactsVue">
 		<table class="table_center_by_css1">
