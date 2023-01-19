@@ -2,7 +2,7 @@
 <template>
 	<div id="cabinet">
 		<!--User information block-->
-		<div id="profile" style="padding-bottom: 20px">
+		<div id="profile" style="padding-bottom: 20px" class="wow fadeInLeft">
 			<center id="nameCont">
 				<h2 id="fullname">{{name}} {{surname}}</h2>
 				<hr class="orangeUnderline">
@@ -11,12 +11,12 @@
 			<p class="phone"><b>Телефон:</b> {{phone}}</p>
 			<div class="header_button" id="exit" @click="exit">Выйти</div>
 		</div>
-		<div id="misses" v-if="missesTitle">
+		<div id="misses" v-if="missesTitle" class="wow fadeInRight">
 			<!--Block of information about passes for children (if user is parent)-->
 			<h2>Пропуски</h2>
 			<p class="passes" v-for="item in passes">{{item}}</p>
 		</div>
-		<div id="func" v-else>
+		<div id="func" v-else class="wow fadeInRight">
 			<!--User search block, displaying information about him, 
 			the possibility of increasing the selected user to the role of a teacher
 			(if user is admin)-->
@@ -35,7 +35,7 @@
 				<button id="addGroup" @click="readyAdd">Повысить</button>
 			</div>
 		</div>
-		<div id="subscribe" v-bind:style="{margin: activeMargin}"> 
+		<div id="subscribe" v-bind:style="{margin: activeMargin}" class="wow fadeInUp"> 
 			<!--Course subscription block (for parents), 
 			List of courses to monitor (for admins),
 			List of courses taught (for teachers)-->

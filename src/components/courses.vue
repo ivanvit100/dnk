@@ -1,11 +1,8 @@
 <!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
 	<div id="courses">
-		<div class="hBackCenter">
-			<h2 id="courseTitle">Курсы</h2>
-		</div>
 		<!--Generating course blocks by iterating over JSON-->
-		<div class="table_center_by_css" v-for="item in coursesData"> 
+		<div class="table_center_by_css wow zoomIn animate__faster" v-for="item in coursesData"> 
 			<h3 class="th_css">{{item.title}}</h3>
 			<div class="courseCont">
 				<div class="td_css_3"><img class="courseImg" alt="courseImg"></div>
@@ -15,7 +12,7 @@
 			</div>
 		</div>
 		<!--Course create block for administrators-->
-		<div class="table_center_by_css" v-if="adm" style="padding: 20px;">
+		<div class="table_center_by_css wow zoomIn animate__faster" v-if="adm" style="padding: 20px;">
 		<center> 
 			<input v-model="name" class="th_css" placeholder="Создать курс"></input>
 			<div class="courseCont">
@@ -58,6 +55,7 @@
 .table_center_by_css{
 	text-align: center;
 	margin: 30px 0;
+	--animate-duration: 0.3s;
 }
 .courseCont{
 	display: grid; 
@@ -139,7 +137,7 @@ export default{
 	methods:{
 		courseMore: function(id){
 			//Push the user to a course page
-			this.$router.push({name: 'course', params: {courseId: id}});
+			this.$router.push({name: 'course', params: {courseId: id}}).catch(()=>{});
 			window.scroll(0, 0);
 		},
 		create: function(){

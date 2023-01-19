@@ -41,9 +41,9 @@
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
     <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="/static/metro.min.css">
-    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-colors.min.css">
-    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="https://cdn.korzh.com/metroui/v4/css/metro-icons.min.css">
+    <link data-cfasync="true" media="none" onload="if(media != 'all') media = 'all'" type="text/css" rel="stylesheet" href="/static/metro-colors.min.css">
     <link rel="prefetch" href="http://dnk.ivanvit.ru/static/img/rasp.svg" as="image" />
+    <link rel="preload" href="/static/animate.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <style>
     @font-face{
       font-display: swap;
@@ -124,5 +124,6 @@
     <script data-cfasync="true" src="https://cdn.korzh.com/metroui/v4.5.1/js/metro.min.js"></script>
     <script data-cfasync="true" type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
     <script data-cfasync="false" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script data-cfasync="true" src="/static/wow.js"></script>
   </body>
 </html>

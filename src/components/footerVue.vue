@@ -24,7 +24,7 @@ a{
 	color: white !important;
 }
 #footerVue{
-	background-color: #d47837;
+	background-color: #f77d24;
 	display: grid;
 	grid-template-columns: 35% 50%;
 	grid-template-rows: 40px 200px 40px;

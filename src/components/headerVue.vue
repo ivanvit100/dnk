@@ -11,10 +11,10 @@
 			<div id="login" v-if="!login">
 				<a @click="loginClick" class="orange-btn">Войти<i class="fa fa-arrow-right"></i></a>
 			</div>
-			<div id="cabinet" v-else @click="cabinetMenu">
+			<div id="cabinet" v-else>
 				<picture>
-					<source srcset="/static/img/account.webp" type="image/webp">
-					<img src="/static/img/account.png" alt="avatar" id="avatar">
+					<source @click="cabinetMenu" srcset="/static/img/account.webp" type="image/webp">
+					<img @click="cabinetMenu" src="/static/img/account.png" alt="avatar" id="avatar">
 				</picture>
 			</div>
 		</div>
@@ -93,7 +93,7 @@
 <style>
 #shadow{
 	position: absolute;
-	width: 100vw;
+	width: 100%;
 	height: 20px;
 	bottom: 0;
 	box-shadow: 0px -7px 5px -5px rgba(0, 0, 0, 0.6) inset;

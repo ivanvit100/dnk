@@ -15,7 +15,7 @@
 				</picture>
 			</div>
 			<div id="fullCalWrap" v-if="time" @click="raspClick">
-				<img src="/static/img/rasp.svg" alt="Расписание">
+				<img src="/static/img/rasp.svg" alt="Расписание" class="wow zoomIn">
 			</div>
 			<hr>
 			<!--A children list block-->

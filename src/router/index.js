@@ -5,6 +5,7 @@ import home from '../components/home'
 import courses from '../components/courses'
 import contacts from '../components/contacts'
 import cabinet from '../components/cabinet'
+import teachers from '../components/teachers'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
         path: '/cabinet',
         name: 'cabinet',
         component: cabinet
+    },
+    {
+        path: '/teachers',
+        name: 'teachers',
+        component: teachers
     },
     {
 		path: '*',

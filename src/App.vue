@@ -56,12 +56,28 @@ body, html{
 *{
   cursor: url(http://dnk.ivanvit.ru/static/img/select.png), auto;
 }
-button, p, span, h1, h2, h3, h4, h5, a, b, td, #avatar, .orange-btn, .header_button, .miniText, .wcommunity_wrap, iframe, .td_css, input, #rasp, #rasp > img, #fullCalWrap{ 
+button, p, span, h1, h2, h3, h4, h5, a, b, td, #avatar, .orange-btn, .header_button, .miniText, .wcommunity_wrap, iframe, .td_css, input, #rasp, #rasp > img, #fullCalWrap, li, .pre, .next, select, option{ 
   cursor: url(http://dnk.ivanvit.ru/static/img/link.png), auto !important;
 }
 </style>
 
 <script>
+//Service-worker
+if ('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js', {
+    scope: '/'
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function(event){ 
+  //Preferens check
+  let isReduced = window.matchMedia(`prefers-reduced-motion: reduce`) === true || window.matchMedia(`(prefers-reduced-motion: reduce`) === true || window.matchMedia(`prefers-reduced-motion`).matches === true;
+  if(!isReduced){
+    //Animation
+    new WOW().init();
+  } 
+});
+
 import headerVue from './components/headerVue';
 import footerVue from './components/footerVue';
 import home from './components/home';
