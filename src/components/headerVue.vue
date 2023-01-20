@@ -66,7 +66,7 @@
 							</form>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
-							<button @click="goClick(true)" id="go" :key="key">Войти</button>
+							<button @click="goClick(true)" id="go" :key="key" type="button">Войти</button>
 						</div>
 						<div class="modal-container" v-else>
 							<button @click="show=!show" id="close">x</button>
@@ -81,7 +81,7 @@
 							</form>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
-							<button @click="goClick(false)" id="go" :key="key">Зарегистрироваться</button>
+							<button @click="goClick(false)" id="go" :key="key" type="button">Зарегистрироваться</button>
 						</div>
 					</div>
 				</div>

@@ -79,6 +79,7 @@
 	background-size: cover;
 	position: relative;
 	color: white;
+	background-position-y: -30px;
 }
 #info2{
 	width: 100%;
@@ -274,6 +275,10 @@ p{
 	#comments, #map{
 		grid-column: 1/4;
 	}
+	#info{
+		grid-row: 2;
+		background-position-y: -120px;
+	}
 }
 @media(max-width: 745px){
 	#home{
@@ -305,6 +310,7 @@ p{
 	}
 	#info > img{
 		width: 90px;
+		background-position-y: 0px;
 	}
 	.hide{
 		display: none;
