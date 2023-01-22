@@ -10,8 +10,8 @@ You can see this project on the [site](http://dnk.ivanvit.ru)
 A digital platform for the House of Scientific Collaboration, organized with the support of the Elabuga Institute of Kazan Federal University. The tasks of the portal are to provide information about activities at home, to simplify the registration of children on courses, to control attendance and to simplify administrative activities.
 
 ## Team members
-1. develope@ivanvit.ru
-2. minnakhmetovalmazdev@gmail.com
+1. ivanvit100@gmail.com (develope@ivanvit.ru)
+2. mastera4ek2017@gmail.com (minnakhmetovalmazdev@gmail.com)
 3. +7 917 290-84-99
 4. +7 962 652-82-42
 
