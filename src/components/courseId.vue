@@ -111,6 +111,23 @@
 			</div>
 			<!--Output for unauthorized users-->
 			<p class="noReg" v-else>Зарегистрируйтесь, чтобы записать ребёнка на этот курс.</p>
+			<!--Approve modal-->
+			<template>
+				<Transition name="modal">
+					<div v-if="show" class="modal-mask">
+						<div class="modal-wrapper">
+							<div class="modal-container">
+								<h3 id="popupTitle">Подтвердите действие</h3>
+								<p style="font-size: 15px">Вы уверены, что хотите удалить реподавателя {{teachName}} с курса {{courseTitle}}?</p>
+								<p style="font-size: 15px">Внимание! Отменить это действие будет невозможно!</p>
+								<p style="font-size: 15px">Внесённые Вами изменения отобразятся после обновления страницы.</p>
+								<span @click="cancelDel" id="reg">Отмена</span>
+								<button @click="successDel" id="go" type="button">Подтвердить</button>
+							</div>
+						</div>
+					</div>
+				</Transition>
+			</template>
 		</div>
 	</div>
 </template>
@@ -376,6 +393,9 @@ export default{
 			data: [],
 			vis: false, //Whether to show a list of children
 			support: '', //Support variable for setter and getter of deletedTeach variable
+			show: false, //Condition for show approve modal
+			teachName: '', //Name of deleted teacher
+			courseTitle: '', //Course title for approve modal
 			key: 0
 		}
 	},
@@ -580,13 +600,19 @@ export default{
 		},
 		approveDel: function(){
 			//Confirming the removal of the selected instructor from the course
-			let result = confirm("Вы уверены, что хотите удалить преподавателя " + this.teachList[this.emails.findIndex(i => i == this.deletedTeach)] + " с курса?");
-			if(result){
-				this.update(2, this.deletedTeach);
-			}else{
-				this.deletedTeach = "";
+			if(this.deletedTeach != undefined && this.deletedTeach.trim() != "" && this.deletedTeach != null){
+				this.teachName = this.teachList[this.emails.findIndex(i => i == this.deletedTeach)];
+				this.show = true;
 			}
-		}
+		},
+		successDel: function(){
+			this.update(2, this.deletedTeach);
+			this.show = false;
+		},
+		cancelDel: function(){
+			this.deletedTeach = "";
+			this.show = false;
+		},
 	},
 	mounted(){
 		//Apply additional dynamic page styles
@@ -597,6 +623,7 @@ export default{
 		this.selectedGroup = this.groups[0];
 		this.$nextTick(function(){
 			//Injecting course data into a page
+			this.courseTitle = curData[this.courseId]['title'];
 			document.querySelector("#courseTitle").innerText = curData[this.courseId]['title'];
 			document.querySelector("#courseImg").src = "../php/img/" + this.courseId + ".png";
 			document.querySelector("#courseText").innerText = curData[this.courseId]['text'];

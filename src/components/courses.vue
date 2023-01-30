@@ -1,6 +1,6 @@
 <!--File written by develope@ivanvit.ru (ivanvit100@gmail.com)-->
 <template>
-	<div id="courses">
+	<div id="courses" :key="key">
 		<!--Generating course blocks by iterating over JSON-->
 		<div class="table_center_by_css wow zoomIn animate__faster" v-for="item in coursesData"> 
 			<h3 class="th_css">{{item.title}}</h3>
@@ -8,7 +8,7 @@
 				<div class="td_css_3"><img class="courseImg" alt="courseImg"></div>
 				<div class="td_css">{{item.text}}</div>
 				<b>Возраст: {{item.age}} класс</b>
-				<div class="td_css_2"><button v-if="adm" @click="deleteCourse(item.courseId)" class="button_css" style="right: 125px; background-color: #c46917;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
+				<div class="td_css_2"><button v-if="adm" @click="approveDel(item.courseId)" class="button_css" style="right: 125px; background-color: #c46917;">Удалить</button><button @click="courseMore(item.courseId)" class="button_css">Перейти</button></div>
 			</div>
 		</div>
 		<!--Course create block for administrators-->
@@ -28,6 +28,23 @@
 			</div>
 		</center>
 		</div>
+		<!--Approve modal-->
+		<template>
+			<Transition name="modal">
+				<div v-if="show" class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-container" style="text-align: initial;">
+							<h3 id="popupTitle">Подтвердите действие</h3>
+							<p style="font-size: 15px">Вы уверены, что хотите удалить курс '{{courseName}}' вместе со всеми его данными?</p>
+							<p style="font-size: 15px">Внимание! Отменить это действие будет невозможно!</p>
+							<p style="font-size: 15px">Внесённые Вами изменения отобразятся после обновления страницы.</p>
+							<span @click="cancelDel" id="reg">Отмена</span>
+							<button @click="successDel" id="go" type="button">Подтвердить</button>
+						</div>
+					</div>
+				</div>
+			</Transition>
+		</template>
 	</div>
 </template>
 
@@ -122,6 +139,10 @@ export default{
 			description: '',
 			short: '',
 			courseId: '',
+			id: '',
+			show: false,
+			courseName: '',
+			key: 1
 		}
 	},
 	computed:{
@@ -162,29 +183,36 @@ export default{
 				console.warn(error);
 			});
 		},
-		deleteCourse: function(id){
+		approveDel: function(id){
+			//Confirming the removal of the course
+			this.id = id;
+			this.courseName = this.coursesData[id]["title"];
+			this.show = true;
+		},
+		successDel: function(){
 			//A function to delete a course (admin only)
 			let user = {
-				courseID: id,
+				courseID: this.id,
 				userID: localStorage.getItem('id')
 			}
-			//Confirmation of the decision in order to avoid missclick
-			let result = confirm("Вы уверены, что хотите удалить курс '" + this.coursesData[id]["title"] + "'?");
-			if(result){
-				fetch('http://dnk.ivanvit.ru/php/delcourse.php', {
-					method: 'POST',
-					body: JSON.stringify(user)
-				}).then((response) => {
-					return response.json()
-				}).then((data) => {
-					alert(data['reason']);
-				}).catch((error) => {
-					console.warn(error);
-				});
-			}else{
-				console.log("Операция отменена!")
-			}
-		}
+			fetch('http://dnk.ivanvit.ru/php/delcourse.php', {
+				method: 'POST',
+				body: JSON.stringify(user)
+			}).then((response) => {
+				return response.json()
+			}).then((data) => {
+				if(data['answer']){
+					delete(this.coursesData[this.id]);
+				}
+			}).catch((error) => {
+				console.warn(error);
+			});
+			this.show = false;
+		},
+		cancelDel: function(){
+			this.id = "";
+			this.show = false;
+		},
 	},
 	mounted(){
 		document.querySelector("#headerVue").classList.remove("courseHide");
