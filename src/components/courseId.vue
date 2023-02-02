@@ -447,62 +447,57 @@ export default{
 		},
 		courseWrite: function(){
 			//Registering a child for a course
-			const form = document.querySelector('form');
-			form.addEventListener('submit', evt => {
-				evt.preventDefault();
-				//Get data from inputs
-				let user = {
-					courseID: this.courseId,
-					parentID: localStorage.getItem('id'),
-					name: document.querySelector("#name").value,
-					surname: document.querySelector("#lastname").value,
-					patronymic: document.querySelector("#thirdname").value,
-					date: document.querySelector("#date").value,
-					placeOne: document.querySelector("#placeOne").value,
-					placeTwo: document.querySelector("#placeTwo").value,
-					nameOne: document.querySelector("#nameOne").value,
-					surnameOne: document.querySelector("#lastnameOne").value,
-					patronymicOne: document.querySelector("#thirdnameOne").value,
-					nameTwo: document.querySelector("#nameTwo").value,
-					surnameTwo: document.querySelector("#lastnameTwo").value,
-					patronymicTwo: document.querySelector("#nameTwo").value,
-					group: this.selectedGroup
-				}
-				//If any function isn't go now
-				if(!this.wait){
-					this.wait = true;
-					fetch('http://dnk.ivanvit.ru/php/course.php', {
-						method: 'POST',
-						body: JSON.stringify(user)
-					}).then((response) => {
-						return response.json()
-					}).then((data) => {
-						if(data['answer']){
-							document.querySelector("#status").classList.add("successStatus");
-							let user = {
-								courseID: this.courseId,
-								parentID: localStorage.getItem('id')
-							}
-							fetch('http://dnk.ivanvit.ru/php/children.php', {
-								method: 'POST',
-								body: JSON.stringify(user)
-							}).then((response) => {
-								return response.json()
-							}).then((data) => {
-								this.children = data['names'];
-							}).catch((error) => {
-								console.warn(error);
-							});
-						}else{
-							document.querySelector("#status").classList.remove("successStatus")
+			let user = {
+				courseID: this.courseId,
+				parentID: localStorage.getItem('id'),
+				name: document.querySelector("#name").value,
+				surname: document.querySelector("#lastname").value,
+				patronymic: document.querySelector("#thirdname").value,
+				date: document.querySelector("#date").value,
+				placeOne: document.querySelector("#placeOne").value,
+				placeTwo: document.querySelector("#placeTwo").value,
+				nameOne: document.querySelector("#nameOne").value,
+				surnameOne: document.querySelector("#lastnameOne").value,
+				patronymicOne: document.querySelector("#thirdnameOne").value,
+				nameTwo: document.querySelector("#nameTwo").value,
+				surnameTwo: document.querySelector("#lastnameTwo").value,
+				patronymicTwo: document.querySelector("#nameTwo").value,
+				group: this.selectedGroup
+			}
+			//If any function isn't go now
+			if(!this.wait){
+				this.wait = true;
+				fetch('http://dnk.ivanvit.ru/php/course.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					if(data['answer']){
+						document.querySelector("#status").classList.add("successStatus");
+						let user = {
+							courseID: this.courseId,
+							parentID: localStorage.getItem('id')
 						}
-						document.querySelector("#status").innerHTML = data['reason'];
-					}).catch((error) => {
-						console.warn(error);
-					});
-					this.wait = false;
-				}
-			});
+						fetch('http://dnk.ivanvit.ru/php/children.php', {
+							method: 'POST',
+							body: JSON.stringify(user)
+						}).then((response) => {
+							return response.json()
+						}).then((data) => {
+							this.children = data['names'];
+						}).catch((error) => {
+							console.warn(error);
+						});
+					}else{
+						document.querySelector("#status").classList.remove("successStatus")
+					}
+					document.querySelector("#status").innerHTML = data['reason'];
+				}).catch((error) => {
+					console.warn(error);
+				});
+				this.wait = false;
+			}
 		},
 		enterPress: function(event){
 			//Action on press Enter key

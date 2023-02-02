@@ -388,66 +388,62 @@ export default{
 		},
 		goClick: function(f){
 			//A function that authorizes the user when the a button is clicked
-			const form = document.querySelector('form');
-			form.addEventListener('submit', evt => {
-				evt.preventDefault();
-				let user;
-				if(f){
-					//Data for login
-					user = {
-						login: document.querySelector("#email").value,
-						password: this.cyrb53(document.querySelector("#password").value),
-					}
-				}else{
-					//Data for sig in
-					user = {
-						name: document.querySelector("#name").value,
-						surname: document.querySelector("#lastname").value,
-						phone: document.querySelector("#phone").value,
-						login: document.querySelector("#email").value,
-						password: this.cyrb53(document.querySelector("#password").value),
-					}
+			let user;
+			if(f){
+				//Data for login
+				user = {
+					login: document.querySelector("#email").value,
+					password: this.cyrb53(document.querySelector("#password").value),
 				}
-				//If any function isn't go now
-				if(!this.wait){
-					this.wait = true;
-					document.querySelector("#status").innerHTML = "Подождите...";
-					document.querySelector("#status").classList.add("waitStatus");
-					fetch('http://dnk.ivanvit.ru/php/' + (f ? 'testreg' : 'save_user') + '.php', {
-						method: 'POST',
-						body: JSON.stringify(user)
-					}).then((response) => {
-						return response.json()
-					}).then((data) => {
-						this.login = data['answer'];
-						if(!this.login){//Check server's answer
-							if(!this.sign){
-								document.querySelector("#email").style.border = "1px dashed red";
-								document.querySelector("#password").style.border = "1px dashed red";
-							}
-							document.querySelector("#status").classList.remove("waitStatus");
-							document.querySelector("#status").innerHTML = data['reason'];
-						}else{
-							//If success - set data in localStorage
-							localStorage.setItem('login', true);
-							localStorage.setItem('name', f ? data['name'] : user.name);
-							localStorage.setItem('surname', f ? data['surname'] : user.surname);
-							localStorage.setItem('email', f ? data['email'] : user.login);
-							localStorage.setItem('id', data['id']);
-							localStorage.setItem('Role', f ? data['role'] : 1);
-							//Close modal
-							document.querySelector("#close").click();
-							this.login = true;
-							//Update and re-render page for synchronization
-							this.$emit('updateIndex');
+			}else{
+				//Data for sig in
+				user = {
+					name: document.querySelector("#name").value,
+					surname: document.querySelector("#lastname").value,
+					phone: document.querySelector("#phone").value,
+					login: document.querySelector("#email").value,
+					password: this.cyrb53(document.querySelector("#password").value),
+				}
+			}
+			//If any function isn't go now
+			if(!this.wait && this.login == null && ((document.querySelector("#name").value.length > 1 && document.querySelector("#lastname").value.length > 1 && document.querySelector("#phone").value.length > 9 && document.querySelector("#email").value.length > 5 && document.querySelector("#password").value.length > 7) || (this.show && document.querySelector("#email").value.length > 5 && document.querySelector("#password").value.length > 7))){
+				this.wait = true;
+				document.querySelector("#status").innerHTML = "Подождите...";
+				document.querySelector("#status").classList.add("waitStatus");
+				fetch('http://dnk.ivanvit.ru/php/' + (f ? 'testreg' : 'save_user') + '.php', {
+					method: 'POST',
+					body: JSON.stringify(user)
+				}).then((response) => {
+					return response.json()
+				}).then((data) => {
+					this.login = data['answer'];
+					if(!this.login){//Check server's answer
+						if(!this.sign){
+							document.querySelector("#email").style.border = "1px dashed red";
+							document.querySelector("#password").style.border = "1px dashed red";
 						}
-					}).catch((error) => {
-						console.warn(error);
-						document.querySelector("#status").innerHTML = "Ошибка!";
-					});
-					this.wait = false;
-				}
-			});
+						document.querySelector("#status").classList.remove("waitStatus");
+						document.querySelector("#status").innerHTML = data['reason'];
+					}else{
+						//If success - set data in localStorage
+						localStorage.setItem('login', true);
+						localStorage.setItem('name', f ? data['name'] : user.name);
+						localStorage.setItem('surname', f ? data['surname'] : user.surname);
+						localStorage.setItem('email', f ? data['email'] : user.login);
+						localStorage.setItem('id', data['id']);
+						localStorage.setItem('Role', f ? data['role'] : 1);
+						//Close modal
+						document.querySelector("#close").click();
+						this.login = true;
+						//Update and re-render page for synchronization
+						this.$emit('updateIndex');
+					}
+				}).catch((error) => {
+					console.warn(error);
+					document.querySelector("#status").innerHTML = "Ошибка!";
+				});
+				this.wait = false;
+			}
 			document.querySelector("#goReady").click();
 		},
 		cabinetMenu: function(){
