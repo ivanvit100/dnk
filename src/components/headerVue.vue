@@ -59,11 +59,9 @@
 						<div class="modal-container" v-if="!sign">
 							<button @click="show=!show" id="close">x</button>
 							<h2 id="popupTitle">Авторизация</h2>
-							<form>
-								<input type="email" id="email" placeholder="Почта" required>
-								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
-								<button id="goReady" formmethod="post"></button>
-							</form>
+							<input type="email" id="email" placeholder="Почта" required>
+							<input type="password" id="password" placeholder="Пароль" minlength="8" required>
+							<button id="goReady" formmethod="post"></button>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Зарегистрироваться</span>
 							<button @click="goClick(true)" id="go" :key="key" type="button">Войти</button>
@@ -71,14 +69,12 @@
 						<div class="modal-container" v-else>
 							<button @click="show=!show" id="close">x</button>
 							<h2 id="popupTitle">Регистрация</h2>
-							<form>
-								<input type="text" id="name" placeholder="Имя" minlength="2" required>
-								<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
-								<input type="tel" id="phone" placeholder="Телефон" minlength="11" maxlength="12" required>
-								<input type="email" id="email" placeholder="Почта" required>
-								<input type="password" id="password" placeholder="Пароль" minlength="8" required>
-								<button id="goReady" formmethod="post"></button>
-							</form>
+							<input type="text" id="name" placeholder="Имя" minlength="2" required>
+							<input type="text" id="lastname" placeholder="Фамилия" minlength="2" required>
+							<input type="tel" id="phone" placeholder="Телефон" minlength="11" maxlength="12" required>
+							<input type="email" id="email" placeholder="Почта" required>
+							<input type="password" id="password" placeholder="Пароль" minlength="8" required>
+							<button id="goReady" formmethod="post"></button>
 							<p id="status"></p>
 							<span @click="sign=!sign" id="reg">Уже есть аккаунт?</span>
 							<button @click="goClick(false)" id="go" :key="key" type="button">Зарегистрироваться</button>
@@ -406,7 +402,7 @@ export default{
 				}
 			}
 			//If any function isn't go now
-			if(!this.wait && this.login == null && ((document.querySelector("#name").value.length > 1 && document.querySelector("#lastname").value.length > 1 && document.querySelector("#phone").value.length > 9 && document.querySelector("#email").value.length > 5 && document.querySelector("#password").value.length > 7) || (this.show && document.querySelector("#email").value.length > 5 && document.querySelector("#password").value.length > 7))){
+			if(!this.wait && this.login == null){
 				this.wait = true;
 				document.querySelector("#status").innerHTML = "Подождите...";
 				document.querySelector("#status").classList.add("waitStatus");

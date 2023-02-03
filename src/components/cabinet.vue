@@ -320,12 +320,11 @@ export default{
 					document.querySelector("#subscribeStatus").remove();
 					try{this.coursesBeta = data['Courses'].split(', ')}
 					catch(e){}
-					for(var i = 0; i < this.coursesBeta.length; i++){
-						this.courses.push({'name': curData[this.coursesBeta[i]]["title"], 'href': this.coursesBeta[i]});
-					}
-					if(this.courses.length == 0){
-						this.courses = [{'name': 'Выбрать курс', 'href': 'empty'}]
-					}
+					try{
+						for(var i = 0; i < this.coursesBeta.length; i++){
+							this.courses.push({'name': curData[this.coursesBeta[i]]["title"], 'href': this.coursesBeta[i]});
+						}
+					}catch(e){this.courses = [{'name': 'Выбрать курс', 'href': 'empty'}]}
 				}else if(data['Group'] == 2){
 					//Distribution of data for teachers
 					try{this.coursesBeta = data['Courses'].split(', ')}
