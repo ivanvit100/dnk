@@ -325,7 +325,7 @@ input{
 		display: none;
 	}	
 }
-@media(max-width: 1100px){
+@media(max-width: 880px){
 	#headText{
 		display: none;
 	}
@@ -334,6 +334,29 @@ input{
 	}
 	#logoSlider{
 		transform: translate(0%, -80%);
+	}
+}
+@media(min-width: 925px) and (max-width: 965px){
+	#headText{
+		font-size: 20px !important;
+	}
+}
+@media(min-width: 965px) and (max-width: 1040px){
+	#headText{
+		font-size: 23px !important;
+	}
+}
+@media(min-width: 1040px) and (max-width: 1100px){
+	#headText{
+		font-size: 27px !important;
+	}
+}
+@media(max-width: 1100px){
+	#headText{
+		font-size: 18px;
+	}
+	#logoSlider{
+		transform: translate(0%, -70%);
 	}
 }
 </style>
