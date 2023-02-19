@@ -26,6 +26,22 @@ if(gettype($json_Data["$courseid"]) != "array"){
 $result1 = mysql_query("DROP TABLE $courseid");
 unset($json_Data["$courseid"]);
 
+$result2 = mysql_query("SELECT * FROM Users", $db);
+while($myrow2 = mysql_fetch_array($result2)){
+    $newcourse = "";
+    $pid = $myrow2['ID'];
+    $courseslist = explode(', ', $myrow2['Courses']);
+    foreach($courseslist as $arr){
+        if($arr == $courseid){
+            $arr = "";
+        }
+        $newcourse = $newcourse.$arr.", ";
+    }
+    $newcourse = str_replace(", , ",", ", $newcourse);
+    $newcourse = substr($newcourse, 0, iconv_strlen($newcourse) - 2);
+    $result3 = mysql_query("UPDATE Users SET Courses = '$newcourse' WHERE ID = '$pid'");
+}
+
 file_put_contents("/home/vol9_1/byethost11.com/b11_32810043/htdocs/static/coursesData.json","var curData = ".json_encode($json_Data, JSON_UNESCAPED_UNICODE));
 echo json_encode(array('answer' => true, 'reason' => 'Курс успешно удалён!'),JSON_UNESCAPED_UNICODE);
 die();
