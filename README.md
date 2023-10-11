@@ -1,4 +1,4 @@
-![preview](https://ivanvit.ru/img/dnkPreview.png)
+![preview](https://ivanvit.ru/static/moredu.jpg)
 # A digital platform for the House of Scientific Collaboration
 
 ---
